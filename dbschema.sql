@@ -32,4 +32,5 @@ id INTEGER PRIMARY KEY,
 game INTEGER,
 round INTEGER,
 scorer INTEGER,
+pallino_tosser INTEGER,
 amount INTEGER);

@@ -65,7 +65,12 @@ function chooseBallColor() {
   require("header.php");
   require("side.php");
 
-  $player = "player" . $_SESSION["acting_player"];
+  if ($_SESSION["acting_player"] == $_SESSION["player1"]) {
+    $player = "player1";
+  } else {
+    $player = "player2";
+  }
+
   $_SESSION[$player."_ball1"]=$_POST['ball1'];
   $_SESSION[$player."_ball2"]=$_POST['ball2'];
 

@@ -60,18 +60,22 @@ if (isset($_POST["action"])) {
     $_SESSION["history1"][$round] = 1;
     $_SESSION["history2"][$round] = 0;
     $_SESSION['round']++;
+    $_SESSION['pallino_toss'][$round + 1] = $_SESSION['player1'];
   } elseif ($_POST["action"] == "Player1Score2") {
     $_SESSION["history1"][$round] = 2;
     $_SESSION["history2"][$round] = 0;
     $_SESSION['round']++;
+    $_SESSION['pallino_toss'][$round + 1] = $_SESSION['player1'];
   } elseif ($_POST["action"] == "Player2Score1") {
     $_SESSION["history2"][$round] = 1;
     $_SESSION["history1"][$round] = 0;
     $_SESSION['round']++;
+    $_SESSION['pallino_toss'][$round + 1] = $_SESSION['player2'];
   } elseif ($_POST["action"] == "Player2Score2") {
     $_SESSION["history2"][$round] = 2;
     $_SESSION["history1"][$round] = 0;
     $_SESSION['round']++;
+    $_SESSION['pallino_toss'][$round + 1] = $_SESSION['player2'];
   } elseif ($_POST["action"] == "Player1GoodBruise") {
     $_SESSION['bruises'][] = array($_SESSION['player1'],$round,1);
   } elseif ($_POST["action"] == "Player1BadBruise") {
@@ -289,8 +293,9 @@ if (!$confirmed) {
 	$amount = $loser_history[$round];
 	$scorer = $loser;
       }
+      $pallino_tosser = $_SESSION['pallino_toss'][$round];
       $roundnumber = $round + 1;
-      $query = "insert into point values(null, $game_id, $roundnumber, $scorer, $amount)";
+      $query = "insert into point values(null, $game_id, $roundnumber, $scorer, $pallino_tosser, $amount)";
       $result = db_query($query);
     }
     

@@ -1,3 +1,15 @@
+2005-03-22 Mark Drago   <markdrago@mail.com>
+	* flipcoin.php
+	Fixed bug where the coin flipping bit didn't work if the ID of the
+	player was greater than 2.
+
+	* dbschema.sql
+	Added the 'pallino_tosser' field to the 'point' table
+
+	* addscore.php
+	Track the pallino tosser for every round and record it into the
+	database at the end of the game.
+	
 2005-02-12 Mark Drago	<markdrago@mail.com>
 	* *.php
 	Applied patch from Jeff Sipek which converts all of the code to use
