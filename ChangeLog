@@ -1,0 +1,15 @@
+2005-1-2   Mark Drago   <markdrago@mail.com>
+	* personal.php:
+	Added 'Balls' table which contains stats for use percentage,
+	win percentage and deuces per game for each ball in the system as
+	used by each individual player
+	* statistics.php:
+	Added 'Balls' table which contains stats for use percentage,
+	win percentage and deuces per game for each ball in the system overall
+	* statslib.php:
+	Added functions for ball color stats
+	Added functions for ball color stats w/ respect to an individual player
+	* main.css:
+	Changed the overall font to be Arial
+	* ChangeLog:
+	Created ChangeLog file  :o)

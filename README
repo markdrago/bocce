@@ -1,0 +1,17 @@
+About
+=====
+This is the Office Bocce Score Tracking System.  It is used to power
+officebocce.com.  This project started as a simple way to track the bocce
+games that we played at work.  It is now the foremost recognized office bocce
+score tracking system in what has turned into an international, multi-million
+dollar industry.  It generates a rediculous number of statistics from a few
+simple facts about any given game.  It aims to be everything to everybody.
+
+Installation
+============
+See the 'INSTALL' file for installation instructions.
+
+How to report bugs
+==================
+There is a bug tracking system running at http://bugs.officebocce.com that all
+bugs should be entered into.  Feel free to put feature requests there as well.
