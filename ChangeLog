@@ -16,12 +16,15 @@
 	* statistics.php
 	Rearranged the page to add a third table and just make more sense
 	Added all new global stats to this page
-
+	Fixed some errors with the rounding of some fields
+	
 	* personal.php
 	Added a link back to the main statistics page
 	Added all new personal stats to this page
-	
 	Rearranged the page to add a third table and just make more sense
+
+	* onegame.php
+	Fixed a bug where the bruise's round was shown as one too few
 	
 2005-03-23 Mark Drago   <markdrago@mail.com>
 	* statslib.php

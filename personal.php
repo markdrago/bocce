@@ -120,7 +120,7 @@ foreach (all_players() as $player) {
 							$player))."</td>\n";
 
   print "<td>".
-  format_percent(player_overall_rounds_per_game_versus($id, $player)).
+  format_average(player_overall_rounds_per_game_versus($id, $player)).
   "</td>\n";
 
   print "<td>".
@@ -144,10 +144,10 @@ foreach (all_players() as $player) {
 <th>Points Scored</th>
 <th>Points Scored Against</th>
 <th>Bruises</th>
-<th>Percent Games Played</th>
 <th>Turkeys</th>
 <th>Shutouts</th>
 <th>Been Shutout</th>
+<th>Percent Games Played</th>
 </tr>
 
 <?
@@ -169,15 +169,15 @@ foreach (all_players() as $player) {
   print "<td>".player_total_bruises_attempted_versus($id, $player).
   "</td>\n";
 
-  print "<td>".
-  format_percent(player_total_games_played_percent_versus($id, $player)).
-  "</td>\n";
-
   print "<td>".player_total_turkeys_versus($id, $player)."</td>\n";
 
   print "<td>".player_total_shutouts_versus($id, $player)."</td>\n";
 
   print "<td>".player_total_been_shutouts_versus($id, $player)."</td>\n";
+
+  print "<td>".
+  format_percent(player_total_games_played_percent_versus($id, $player)).
+  "</td>\n";
 
   print "</tr>\n";
 }

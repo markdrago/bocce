@@ -95,7 +95,7 @@ if (db_num_rows($result) > 0) {
 
     print "<tr><td>$name</td>";
 
-    print "<td>" . $row['round'] . "</td";
+    print "<td>" . ($row['round'] + 1) . "</td";
 
     print "<td>";
     if ($row['success'] == 1) {

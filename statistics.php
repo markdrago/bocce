@@ -107,10 +107,10 @@ foreach (all_players() as $player) {
   print "<td>".format_percent(
     player_overall_bruise_percentage($player))."</td>\n";
 
-  print "<td>".format_percent(
+  print "<td>".format_average(
     player_overall_bruise_attempts_per_game($player))."</td>\n";
 
-  print "<td>".format_percent(
+  print "<td>".format_average(
     player_overall_rounds_per_game($player))."</td>\n";
 
   print "<td>".format_percent(
