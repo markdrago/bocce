@@ -31,6 +31,8 @@ if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
   $uname = "";
 }
 elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
+  $db = sqlite_open($database_file);
+
   //try and login player
   $player = "player1";
   if (isset($_SESSION["player1"])) {
@@ -58,8 +60,21 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
     $notice = checklength($lengtharray);
   }
 
+  if (isset($_SESSION["player1"]) and ($notice == "")) {
+    $firstID = $_SESSION["player1"];
+
+    $query = "select username from player where id=$firstID";
+    $result = sqlite_query($db, $query);
+    $row = sqlite_fetch_array($result, SQLITE_ASSOC);
+
+    //make sure the user names are different
+    $notice = checkdifferent($row["username"], $uname, "This user '$uname' has already logged in.");
+    if ($notice != "") {
+      $uname = "";
+    }
+  }
+
   if ($notice == "") {
-    $db = sqlite_open($database_file);
     $md5pass = md5($pass);
     $query = "select id from player where username='$uname' and password='$md5pass'";
     $result = sqlite_query($db,$query);
@@ -73,11 +88,12 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
     } else {
       $notice = "The user name and password that you entered are not correct.<br />Either the user name doesn't exist or you mistyped the password.";
     }
-    sqlite_close($db);
   }
 
+  sqlite_close($db);
+
   if (isset($_SESSION["player1"]) and isset($_SESSION["player2"])) {
-    redirect("flipcoin.php");
+    redirect("flipping.php");
     return 0;
   }
 }

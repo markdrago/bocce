@@ -1,3 +1,13 @@
+2005-02-12 Mark Drago	<markdrago@mail.com>
+	* flipping.php:
+	Added this file that just displays 'flipping the coin...' and then
+	redirects to flipcoin.php.  This adds a nice feeling of suspense.
+	* boccelib.php:
+	Added the 'checkdifferent' function to assert that two things are
+	different.
+	* startgame.php:
+	Added a check so that the same person can't login twice.
+	
 2005-2-6   Mark Drago   <markdrago@mail.com>
 	* flipcoin.php:
 	Added this file which implements most of the functionality of

@@ -1,6 +1,6 @@
 <?
 /*
- * Copyright (C) 2004, 2005 Mark Drago
+ * Copyright (C) 2005 Mark Drago
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,20 +17,20 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require_once("boccelib.php");
-
-checkForDB();
-
-print "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-print "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
+require("header.php");
+require("side.php");
 ?>
-<html>
-<head>
-<title>OfficeBocce.com</title>
-<link rel="stylesheet" type="text/css" href="main.css" />
-</head>
-<body>
-<div id="header">
-<a href="index.php"><img src="images/bocceball.png" alt="Bocce Ball" /></a>
-<span id="maintitle" class="title">Office Bocce Score Tracker</span>
+
+<div class="body">
+<h1>Flipping the Coin ...</h1>
 </div>
+
+<script>
+function gotoFlipCoin() {
+  window.location="flipcoin.php";
+}
+setTimeout("gotoFlipCoin()", 2500);
+</script>
+</div>
+</body>
+</html>

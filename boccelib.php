@@ -53,6 +53,14 @@ function checkmatching($var1, $var2, $message) {
   return "";
 }
 
+function checkdifferent($var1, $var2, $message) {
+  if ($var1 == $var2) {
+    return $message;
+  }
+
+  return "";
+}
+
 function check_is_defined($args=null) {
   $numargs = count($args);
   $i = 0;
