@@ -12,6 +12,7 @@ CREATE TABLE game(
 id INTEGER PRIMARY KEY,
 loser INTEGER,
 winner INTEGER,
+coinflip_winner INTEGER,
 loser_points INTEGER,
 winner_points INTEGER,
 winner_ball1 CHAR(100),

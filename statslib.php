@@ -38,13 +38,6 @@ function all_players(&$db) {
   return $players;
 }
 
-#get player's name
-function player_name(&$db, $id) {
-  $result = sqlite_query($db,"select firstname from player where id=$id");
-  $row = sqlite_fetch_array($result,SQLITE_ASSOC);
-  return clean_value($row["firstname"]);
-}
-
 #get player's total number of wins
 function player_total_wins(&$db, $id) {
   $result = sqlite_query($db,"select count(*) from game ".
@@ -230,6 +223,13 @@ function player_overall_current_streak(&$db, $id) {
   #clean up count and return the number with a tag (W or L)
   $count = clean_value($count);
   return "$count $tag";
+}
+
+function player_total_coinflips_won(&$db, $id) {
+  $result = sqlite_query($db,"select count(*) from game where ".
+			 "game.coinflip_winner=$id");
+  $row = sqlite_fetch_array($result,SQLITE_NUM);
+  return clean_value($row[0]);  
 }
 
 /******************************
@@ -511,6 +511,17 @@ function player_overall_double_deuce_to_turkey_conversion_percentage(&$db,
   return clean_value($total_turkeys / $total_turkey_territories);
 }
 
+function player_overall_coinflip_win_percentage(&$db, $id) {
+  $total_games_played = player_total_games_played($db, $id);
+  
+  if ($total_games_played == 0) {
+    return 0;
+  }
+
+  $total_coinflips_won = player_total_coinflips_won($db, $id);
+  return clean_value($total_coinflips_won / $total_games_played);
+}
+
 /***************************************************************
  * Stats that reference another player and require calculation *
  ***************************************************************/
@@ -646,13 +657,6 @@ function all_small_balls(&$db) {
   return $balls;
 }
 
-#get the string representation of the ball color
-function ball_color(&$db, $ball) {
-  $result = sqlite_query($db, "select color from ball where id=$ball");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
-  return clean_value($row[0]);
-}
-
 #get the type of the ball as an integer
 function ball_type(&$db, $ball) {
   $result = sqlite_query($db, "select num from ball where id=$ball");
@@ -660,21 +664,6 @@ function ball_type(&$db, $ball) {
   return clean_value($row[0]);
 }
   
-#return the name for the ball type given its integer representation
-function ball_type_name($type) {
-  switch($type) {
-  case 1:
-    return "Bruiser";
-    break;
-  case 2:
-    return "Scout";
-    break;
-  default:
-    return "Ball";
-    break;
-  }
-}
-
 #return the total number of games that have been played with this ball
 function ball_total_games_played(&$db, $ball) {
   $type = ball_type($db, $ball);

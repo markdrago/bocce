@@ -66,8 +66,6 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
 
     if ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
       $_SESSION[$player] = $row['id'];
-      $_SESSION[$player."_ball1"]=$_POST['ball1'];
-      $_SESSION[$player."_ball2"]=$_POST['ball2'];
       $titlehint = "($uname's opponent)";
 
       //clear out username so it doesn't show up in login box
@@ -79,7 +77,7 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
   }
 
   if (isset($_SESSION["player1"]) and isset($_SESSION["player2"])) {
-    redirect("addscore.php");
+    redirect("flipcoin.php");
     return 0;
   }
 }
@@ -115,42 +113,6 @@ if ($notice != "") {
       <div>Password:</div>
       <input type="password" maxlength="25" size="25" name="pass" />
     </div>
-    <div class="label">
-      <div>Ball Color:</div>
-<?
-$db = sqlite_open($database_file);
-
-$query = "select id,num, color from ball order by color";
-$result = sqlite_query($db,$query);
-
-$balls1 = array();
-$balls2 = array();
-
-while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
-  if ($row['num'] == 1) {
-    $balls1[$row['id']] = $row['color'];
-  } else {
-    $balls2[$row['id']] = $row['color'];
-  }
-}
-
-print "<select name=\"ball1\" />";
-foreach ($balls1 as $id => $ball) {
-  if ($id != $_SESSION['player1_ball1']) {
-    print "<option value=\"$id\">$ball</option>\n";
-  }
-}
-print "</select>";
-
-print "<select name=\"ball2\" />";
-foreach ($balls2 as $id => $ball) {
-  if ($id != $_SESSION['player1_ball2']) {
-    print "<option value=\"$id\">$ball</option>\n";
-  }
-}
-print "</select>";
-?>
-    </div>	
     <div class="submit">
       <input name="submit" type="submit" value="Login" />
       <input name="submit" type="submit" value="Cancel" />
@@ -158,11 +120,13 @@ print "</select>";
   </div>
 </form>
 </div>
+
 <script type="text/javascript">
 function setfocus() {
   document.forms[0].uname.focus();
 }
 window.onload=setfocus;
 </script>
+
 </body>
 </html>

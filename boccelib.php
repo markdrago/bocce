@@ -21,6 +21,9 @@
 
 require("vardefs.php");
 
+$GLOBALS['BRUISER_TYPE'] = "1";
+$GLOBALS['LITTLE_BALL_TYPE'] = "2";
+
 /* checkrequired($checkarray) takes an array of the form:
  * array("error string 1"=>$field1, "error string 2"=>$field2, ... )
  * and returns the error string that corresponds to the first
@@ -131,6 +134,35 @@ function getNames($id1, $id2) {
   sqlite_close($db);
 
   return array($name1, $name2);
+}
+
+#get player's name
+function player_name(&$db, $id) {
+  $result = sqlite_query($db,"select firstname from player where id=$id");
+  $row = sqlite_fetch_array($result,SQLITE_ASSOC);
+  return clean_value($row["firstname"]);
+}
+
+#return the name for the ball type given its integer representation
+function ball_type_name($type) {
+  switch($type) {
+  case 1:
+    return "Bruiser";
+    break;
+  case 2:
+    return "Little Ball";
+    break;
+  default:
+    return "Ball";
+    break;
+  }
+}
+
+#get the string representation of the ball color
+function ball_color(&$db, $ball) {
+  $result = sqlite_query($db, "select color from ball where id=$ball");
+  $row = sqlite_fetch_array($result, SQLITE_NUM);
+  return clean_value($row[0]);
 }
 
 function checkForDB() {

@@ -245,6 +245,7 @@ if (!$confirmed) {
 
     $db = sqlite_open($database_file);
     $winner_score = 7;
+    $coinflip_winner = $_SESSION["coinflip_winner"];
   
     if ($score1 >= 7) {
       $winner = $_SESSION['player1'];
@@ -273,7 +274,7 @@ if (!$confirmed) {
     }
 
 #    $query = "insert into game values(null, $loser,$winner,$loser_score,$winner_score,datetime('now'))";
-    $query = "insert into game values(null, $loser,$winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', datetime('now'))";
+    $query = "insert into game values(null, $loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', datetime('now'))";
     $result = sqlite_query($db,$query);
     $game_id = sqlite_last_insert_rowid($db);
     

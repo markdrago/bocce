@@ -81,6 +81,7 @@ foreach (all_players($db) as $player) {
 <th>Been Shutout</th>
 <th>Current Streak</th>
 <th>2x Deuce -> Turkey Percentage</th>
+<th>Coinflip Win Percentage</th>
 </tr>
 
 <?
@@ -102,6 +103,8 @@ foreach (all_players($db) as $player) {
   print "<td>".player_overall_current_streak($db, $player)."</td>\n";
   print "<td>".
   format_percent(player_overall_double_deuce_to_turkey_conversion_percentage($db, $player))."</td>";
+  print "<td>".
+  format_percent(player_overall_coinflip_win_percentage($db, $player))."</td>";
   print "</tr>\n";
 }
 
