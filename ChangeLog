@@ -1,3 +1,24 @@
+2005-2-6   Mark Drago   <markdrago@mail.com>
+	* flipcoin.php:
+	Added this file which implements most of the functionality of
+	coinflipping support.
+	* boccelib.php:
+	Moved some functions from statslib.php into here.  The functions didn't
+	have much to do with statistics and they were needed on pages that
+	didn't have anything to do with statistics.  This seems like a better
+	fit for them.
+	* statslib.php:
+	Moved some functions into boccelib.php.
+	Added statistics for tracking coinflip win percentage and total number
+	of coinflips won.
+	* addscore.php:
+	Added the coinflip_winner to the query that writes to the game table.
+	* statistics.php:
+	Exposed the coinflip_winner statistics.
+	* startgame.php:
+	Moved the responsibility of picking the ball color from here to the
+	flipcoin.php page.
+	
 2005-1-2   Mark Drago   <markdrago@mail.com>
 	* personal.php:
 	Added 'Balls' table which contains stats for use percentage,
