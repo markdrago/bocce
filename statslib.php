@@ -118,7 +118,7 @@ function player_total_deuces_against($id) {
 		     "((game.winner!=$id and game.loser=$id and ".
 		     "game.winner=point.scorer) or (game.loser!=$id and ".
 		     "game.winner=$id and game.loser=point.scorer)) and ".
-		     "point.amount=2");
+		     "point.amount=2 and point.game=game.id");
   $row = db_fetch_array($result);
   return clean_value($row[0]);
 }

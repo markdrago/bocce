@@ -1,3 +1,8 @@
+2005-03-31 Mark Drago   <markdrago@mail.com>
+	* statslib.php
+	Fix bug in player_overall_deuces_against_per_game that game the
+	wrong number
+	
 2005-03-30 Mark Drago   <markdrago@mail.com>
 	* statslib.php
 	Added player_overall_coinflip_win_percentage_versus
