@@ -127,8 +127,8 @@ function coinFlipResults() {
   $coinflip_winner = (flip_coin() + 1);
 
   //the acting_player is the player that is making the current decision
-  $_SESSION["acting_player"] = $coinflip_winner;
   $coinflip_winner = "player" . $coinflip_winner;
+  $_SESSION["acting_player"] = $_SESSION[$coinflip_winner];
   $_SESSION["coinflip_winner"] = $_SESSION[$coinflip_winner];
   $coinflip_winner_name = player_name($_SESSION["coinflip_winner"]);
   
