@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 35
-/svn/!svn/ver/7/bocce/trunk/patches
+V 36
+/svn/!svn/ver/12/bocce/trunk/patches
 END
 abstract-db.patch
 K 25
@@ -12,6 +12,6 @@ END
 README
 K 25
 svn:wc:ra_dav:version-url
-V 42
-/svn/!svn/ver/7/bocce/trunk/patches/README
+V 43
+/svn/!svn/ver/12/bocce/trunk/patches/README
 END

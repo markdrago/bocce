@@ -113,6 +113,16 @@ function player_total_deuces($id) {
   return clean_value($row[0]);
 }
 
+function player_total_deuces_against($id) {
+  $result = db_query("select count(*) from game, point where ".
+		     "((game.winner!=$id and game.loser=$id and ".
+		     "game.winner=point.scorer) or (game.loser!=$id and ".
+		     "game.winner=$id and game.loser=point.scorer)) and ".
+		     "point.amount=2");
+  $row = db_fetch_array($result);
+  return clean_value($row[0]);
+}
+
 #get player's number of points scored against as a winner
 function player_points_scored_against_as_winner($id) {
   $result = db_query("select sum(game.loser_points) from game where ".
@@ -224,8 +234,12 @@ function player_overall_current_streak($id) {
   }
 
   #clean up count and return the number with a tag (W or L)
-  $count = clean_value($count);
-  return "$count $tag";
+  if ($count > 0) {
+    $count = clean_value($count);
+    return "$count $tag";
+  } else {
+    return "None";
+  }
 }
 
 function player_total_coinflips_won($id) {
@@ -233,6 +247,14 @@ function player_total_coinflips_won($id) {
 		     "game.coinflip_winner=$id");
   $row = db_fetch_array($result);
   return clean_value($row[0]);  
+}
+
+function player_total_rounds_played($id) {
+  $result = db_query("select count(*) from point, game where ".
+		     "(game.winner=$id or game.loser=$id) and ".
+		     "point.game=game.id");
+  $row = db_fetch_array($result);
+  return clean_value($row[0]);
 }
 
 /******************************
@@ -407,6 +429,60 @@ function player_total_turkeys_versus($id, $player) {
   return clean_value($row[0] - (player_total_tetrises($id) * 2));
 }
 
+function player_total_coinflips_won_versus($id, $player) {
+  $result = db_query("select count(*) from game where (game.winner=$player ".
+		     "or game.loser=$player) and ".
+		     "game.coinflip_winner=$id");
+  $row = db_fetch_array($result);
+  return clean_value($row[0]);
+}
+
+function player_total_rounds_played_versus($id, $player) {
+  $result = db_query("select count(*) from point, game where ".
+		     "((game.winner=$player and game.loser=$id) ".
+		     "or (game.winner=$id and game.loser=$player)) ".
+		     "and point.game=game.id");
+  $row = db_fetch_array($result);
+  return clean_value($row[0]);
+}
+
+#get player's overall current streak
+function player_overall_current_streak_versus($id, $player) {
+  $result = db_query("select winner, loser from game where (winner=$id and loser=$player) or (loser=$id and winner=$player) order by date desc");
+  
+  $count = 0;
+
+  #figure out what happened in the last game
+  $row1 = db_fetch_array($result);
+  if ($row1['winner'] == $id) {
+    $tag = "W";
+    $key = "winner";
+    $count = 1;
+  } elseif ($row1['loser'] == $id) {
+    $tag = "L";
+    $key = "loser";
+    $count = 1;
+  }
+
+  #count how many times whatever happend last game happened before that
+  #without anything else happening
+  while($row = db_fetch_array($result)) {
+    if ($row[$key] == $id) {
+      $count++;
+    } else {
+      break;
+    }
+  }
+
+  #clean up count and return the number with a tag (W or L)
+  if ($count > 0) {
+    $count = clean_value($count);
+    return "$count $tag";
+  } else {
+    return "None";
+  }
+}
+
 /******************************************
  * Overall Stats that require calculation *
  ******************************************/
@@ -453,6 +529,17 @@ function player_overall_deuces_per_game($id) {
 
   $total_deuces = player_total_deuces($id);
   return clean_value($total_deuces / $games_played);
+}
+
+function player_overall_deuces_against_per_game($id) {
+  $games_played = player_total_games_played($id);
+
+  if ($games_played == 0) {
+    return 0;
+  }
+
+  $total_deuces_against = player_total_deuces_against($id);
+  return clean_value($total_deuces_against / $games_played);
 }
 
 function player_overall_points_per_game_as_loser($id) {
@@ -522,6 +609,28 @@ function player_overall_coinflip_win_percentage($id) {
 
   $total_coinflips_won = player_total_coinflips_won($id);
   return clean_value($total_coinflips_won / $total_games_played);
+}
+
+function player_overall_rounds_per_game($id) {
+  $total_games_played = player_total_games_played($id);
+  
+  if ($total_games_played == 0) {
+    return 0;
+  }
+
+  $total_rounds_played = player_total_rounds_played($id);
+  return clean_value($total_rounds_played / $total_games_played);
+}
+
+function player_overall_deuces_per_round($id) {
+  $total_rounds_played = player_total_rounds_played($id);
+  
+  if ($total_rounds_played == 0) {
+    return 0;
+  }
+
+  $total_deuces = player_total_deuces($id);
+  return clean_value($total_deuces / $total_rounds_played);
 }
 
 /***************************************************************
@@ -615,6 +724,43 @@ function player_total_games_played_percent_versus($id, $player) {
 
   $total_games_played = player_total_games_played($id);
   return clean_value($total_games_played_versus / $total_games_played);
+}
+
+function player_overall_coinflip_win_percentage_versus($id, $player) {
+  $total_games_played_versus =
+    player_total_games_played_versus($id, $player);
+
+  if ($total_games_played_versus == 0) {
+    return 0;
+  }
+
+  $total_coinflips_won_against=player_total_coinflips_won_versus($id, $player);
+
+  return clean_value($total_coinflips_won_against/$total_games_played_versus);
+}
+
+
+function player_overall_rounds_per_game_versus($id, $player) {
+  $total_games_played_versus =
+    player_total_games_played_versus($id, $player);
+
+  if ($total_games_played_versus == 0) {
+    return 0;
+  }
+
+  $total_rounds_played_versus = player_total_rounds_played_versus($id,$player);
+  return clean_value($total_rounds_played_versus / $total_games_played_versus);
+}
+
+function player_overall_deuces_per_round_versus($id, $player) {
+  $total_rounds_played_versus = player_total_rounds_played_versus($id,$player);
+  
+  if ($total_rounds_played_versus == 0) {
+    return 0;
+  }
+
+  $total_deuces_versus = player_total_deuces_versus($id, $player);
+  return clean_value($total_deuces_versus / $total_rounds_played_versus);
 }
 
 /***************************************

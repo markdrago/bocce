@@ -32,17 +32,19 @@ $mainname = player_name($id);
 ?>
 <div class="body">
 <h1><?=$mainname?>&apos;s Statistics</h1>
-<br />
+<div style="padding-top: 5px; padding-bottom: 15px; font-size: small;">
+<a href="statistics.php">Main Statistics</a>
+</div>
 <table width="100%" class="stats">
 <tr>
 <th>Name</th>
-<th>Record Against</th>
-<th>Win Percentage Against</th>
+<th>Record</th>
+<th>Win Percentage</th>
 <th>Deuces Per Game</th>
 <th>Deuces Against Per Game</th>
 <th>Points Per Game</th>
 <th>Points Against Per Game</th>
-<th>Bruise Percentage</th>
+<th>Current Streak</th>
 </tr>
 <?
 
@@ -79,9 +81,7 @@ foreach (all_players() as $player) {
   format_average(player_overall_points_scored_against_per_game_versus($id,
 						       $player))."</td>\n";
 
-  print "<td>".
-  format_percent(player_overall_bruise_percentage_versus($id, $player)).
-  "</td>\n";
+  print "<td>".player_overall_current_streak_versus($id, $player)."</td>\n";
 
   print "</tr>\n";
 }
@@ -94,15 +94,62 @@ foreach (all_players() as $player) {
 <table width="100%" class="stats">
 <tr>
 <th>Name</th>
+<th>Bruise Percentage</th>
+<th>Bruises Per Game</th>
+<th>Rounds per Game</th>
+<th>Deuces per Round</th>
+<th>Coin Flip Win Percentage</th>
+</tr>
+<?
+foreach (all_players() as $player) {
+  if ($player == $id) {
+    continue;
+  }
+
+  print "<tr>";
+
+  print "<th><a href=\"personal.php?id=$player\">";
+  print player_name($player)."</a></th>\n";
+
+  print "<td>".
+  format_percent(player_overall_bruise_percentage_versus($id, $player)).
+  "</td>\n";
+
+  print "<td>".
+  format_average(player_overall_bruises_attempted_per_game_versus($id,
+							$player))."</td>\n";
+
+  print "<td>".
+  format_percent(player_overall_rounds_per_game_versus($id, $player)).
+  "</td>\n";
+
+  print "<td>".
+  format_percent(player_overall_deuces_per_round_versus($id, $player)).
+  "</td>\n";
+
+  print "<td>".
+  format_percent(player_overall_coinflip_win_percentage_versus($id, $player)).
+  "</td>\n";
+
+  print "</tr>\n";
+}
+
+?>
+</table>
+<br />
+
+<table width="100%" class="stats">
+<tr>
+<th>Name</th>
 <th>Points Scored</th>
 <th>Points Scored Against</th>
-<th>Bruises Per Game</th>
 <th>Bruises</th>
-<th>Percent Games Played Against</th>
+<th>Percent Games Played</th>
 <th>Turkeys</th>
 <th>Shutouts</th>
 <th>Been Shutout</th>
 </tr>
+
 <?
 foreach (all_players() as $player) {
   if ($player == $id) {
@@ -118,10 +165,6 @@ foreach (all_players() as $player) {
 
   print "<td>".player_total_points_scored_against_versus($id,$player).
   "</td>\n";
-
-  print "<td>".
-  format_average(player_overall_bruises_attempted_per_game_versus($id,
-							$player))."</td>\n";
 
   print "<td>".player_total_bruises_attempted_versus($id, $player).
   "</td>\n";
@@ -140,6 +183,7 @@ foreach (all_players() as $player) {
 }
 
 ?>
+
 </table>
 
 <br />

@@ -1,3 +1,28 @@
+2005-03-30 Mark Drago   <markdrago@mail.com>
+	* statslib.php
+	Added player_overall_coinflip_win_percentage_versus
+	Added player_total_deuces_against
+	Added player_overall_deuces_against_per_game
+	Added player_total_coinflips_won_versus
+	Added player_overall_rounds_per_game
+	Added player_overall_deuces_per_round
+	Added player_overall_current_streak_versus
+	Added plyaer_overall_rounds_per_game_versus
+	Added player_overall_deuces_per_round_versus
+	
+	* main.css
+	Committed css-validation.patch provided by Jeff Sipek
+
+	* statistics.php
+	Rearranged the page to add a third table and just make more sense
+	Added all new global stats to this page
+
+	* personal.php
+	Added a link back to the main statistics page
+	Added all new personal stats to this page
+	
+	Rearranged the page to add a third table and just make more sense
+	
 2005-03-23 Mark Drago   <markdrago@mail.com>
 	* statslib.php
 	Fix bug in get_current_streak that had it return 1L even if no
