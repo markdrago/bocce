@@ -199,17 +199,19 @@ function player_overall_current_streak($id) {
   #get list of every game this player played in, sorted backwards by date
   $result = db_query("select winner, loser from game where winner=$id or loser=$id order by date desc");
   
+  $count = 0;
+
   #figure out what happened in the last game
   $row1 = db_fetch_array($result);
   if ($row1['winner'] == $id) {
     $tag = "W";
     $key = "winner";
-  } else {
+    $count = 1;
+  } elseif ($row1['loser'] == $id) {
     $tag = "L";
     $key = "loser";
+    $count = 1;
   }
-
-  $count = 1;
 
   #count how many times whatever happend last game happened before that
   #without anything else happening

@@ -1,3 +1,8 @@
+2005-03-23 Mark Drago   <markdrago@mail.com>
+	* statslib.php
+	Fix bug in get_current_streak that had it return 1L even if no
+	game had ever been played by that user.
+	
 2005-03-22 Mark Drago   <markdrago@mail.com>
 	* flipcoin.php
 	Fixed bug where the coin flipping bit didn't work if the ID of the
