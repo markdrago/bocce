@@ -1,6 +1,7 @@
 <?
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -20,6 +21,7 @@
 //this file contains general functions that are used throughout officebocce
 
 require("vardefs.php");
+require("db.php");
 
 $GLOBALS['BRUISER_TYPE'] = "1";
 $GLOBALS['LITTLE_BALL_TYPE'] = "2";
@@ -109,18 +111,17 @@ function redirect($page) {
 }
 
 function getNames($id1, $id2) {
-  global $database_file;
-  $db = sqlite_open($database_file);
-  
+  db_open();
+
   $query = "select firstname, lastname from player where id=$id1";
-  $result = sqlite_query($db,$query);
-  $row = sqlite_fetch_array($result,SQLITE_ASSOC);
+  $result = db_query($query);
+  $row = db_fetch_array($result);
   $firstname1 = $row["firstname"];
   $lastname1 = $row["lastname"];
   
   $query = "select firstname, lastname from player where id=$id2";
-  $result = sqlite_query($db,$query);
-  $row = sqlite_fetch_array($result,SQLITE_ASSOC);
+  $result = db_query($query);
+  $row = db_fetch_array($result);
   $firstname2 = $row["firstname"];
   $lastname2 = $row["lastname"];
 
@@ -138,16 +139,16 @@ function getNames($id1, $id2) {
       $name2 = $firstname2 . " " . $lastname2;
     }
   }
-
-  sqlite_close($db);
-
+  
+  db_close();
+  
   return array($name1, $name2);
 }
 
 #get player's name
-function player_name(&$db, $id) {
-  $result = sqlite_query($db,"select firstname from player where id=$id");
-  $row = sqlite_fetch_array($result,SQLITE_ASSOC);
+function player_name($id) {
+  $result = db_query("select firstname from player where id=$id");
+  $row = db_fetch_array($result);
   return clean_value($row["firstname"]);
 }
 
@@ -167,9 +168,9 @@ function ball_type_name($type) {
 }
 
 #get the string representation of the ball color
-function ball_color(&$db, $ball) {
-  $result = sqlite_query($db, "select color from ball where id=$ball");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
+function ball_color($ball) {
+  $result = db_query("select color from ball where id=$ball");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 

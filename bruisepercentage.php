@@ -1,6 +1,7 @@
 <?php
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,19 +18,20 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+require("db.php");
 require("boccelib.php");
 require("statslib.php");
 include ($jpgraph_dir . '/src/jpgraph.php');
 include ($jpgraph_dir . '/src/jpgraph_bar.php');
 
-$db = sqlite_open($database_file);
+db_open();
 
 $dataY = array();
 $names = array();
 
-foreach (all_players($db) as $player) {
-  $names[] = player_name($db, $player);
-  $dataY[] = player_overall_bruise_percentage($db, $player);
+foreach (all_players() as $player) {
+  $names[] = player_name($player);
+  $dataY[] = player_overall_bruise_percentage($player);
 }
 
 #actually create the picture

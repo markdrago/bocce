@@ -19,29 +19,29 @@
 
 session_start();
 require('boccelib.php');
-$db = sqlite_open($database_file);
+  db_open();
 
 if (!isset($_POST["submit"])) {
-  coinFlipResults($db);
+  coinFlipResults();
 
 } elseif ($_POST["submit"] == "Go First") {
-  chooseGoFirst($db);
+  chooseGoFirst();
 
 } elseif ($_POST["submit"] == "Choose Balls") {
-  chooseBallColor($db);
+  chooseBallColor();
 }
 
-function chooseGoFirst($db) {
+function chooseGoFirst() {
   require("header.php");
   require("side.php");
 
   //if the winner of the coin toss selected to 'go first'
   $_SESSION["pallino_toss"] = array();
   $_SESSION["pallino_toss"][0] = $_SESSION["acting_player"];
-  $chose_first_name = player_name($db, $_SESSION["acting_player"]);
+  $chose_first_name = player_name($_SESSION["acting_player"]);
 
   $_SESSION["acting_player"] = nonActingPlayer();
-  $acting_player_name = player_name($db, $_SESSION["acting_player"]);
+  $acting_player_name = player_name($_SESSION["acting_player"]);
 
   ?>
   <div class="body">
@@ -52,16 +52,16 @@ function chooseGoFirst($db) {
     </div>
     <form action="" method="post">
     <div class="labels">
-      <? select_balls($db, "Choose your balls:"); ?>
+      <? select_balls("Choose your balls:"); ?>
     </div>
   </form>
   </div>
   <?
 
-  sqlite_close($db);
+  db_close();
 }
 
-function chooseBallColor($db) {
+function chooseBallColor() {
   require("header.php");
   require("side.php");
 
@@ -83,20 +83,20 @@ function chooseBallColor($db) {
     unset($_SESSION["acting_player"]);
 
     redirect("addscore.php");
-    sqlite_close($db);
+    db_close();
     return 0;
   }
 
-  $chose_balls_name = player_name($db, $_SESSION["acting_player"]);
+  $chose_balls_name = player_name($_SESSION["acting_player"]);
 
   $_SESSION["acting_player"] = nonActingPlayer();
-  $acting_player_name = player_name($db, $_SESSION["acting_player"]);
+  $acting_player_name = player_name($_SESSION["acting_player"]);
 
   $big_ball_name = ball_type_name($GLOBALS["BRUISER_TYPE"]);
   $small_ball_name = ball_type_name($GLOBALS["LITTLE_BALL_TYPE"]);
 
-  $big_ball_color = ball_color($db, $_POST['ball1']);
-  $small_ball_color = ball_color($db, $_POST['ball2']);
+  $big_ball_color = ball_color($_POST['ball1']);
+  $small_ball_color = ball_color($_POST['ball2']);
 
   ?>
   <div class="body">
@@ -111,16 +111,16 @@ function chooseBallColor($db) {
     </div>
     <form action="" method="post">
     <div class="labels">
-      <? select_balls($db, "Choose your balls:"); ?>
+      <? select_balls("Choose your balls:"); ?>
     </div>
   </form>
   </div>
   <?
 
-  sqlite_close($db);
+  db_close();
 }
 
-function coinFlipResults($db) {
+function coinFlipResults() {
   require("header.php");
   require("side.php");
 
@@ -130,7 +130,7 @@ function coinFlipResults($db) {
   $_SESSION["acting_player"] = $coinflip_winner;
   $coinflip_winner = "player" . $coinflip_winner;
   $_SESSION["coinflip_winner"] = $_SESSION[$coinflip_winner];
-  $coinflip_winner_name = player_name($db, $_SESSION["coinflip_winner"]);
+  $coinflip_winner_name = player_name($_SESSION["coinflip_winner"]);
   
   ?>
   <div class="body">
@@ -143,18 +143,18 @@ function coinFlipResults($db) {
         <div style="width: 12em;">I want to go first:</div>
         <input name="submit" type="submit" value="Go First" />
       </div>
-     <? select_balls($db, "I want to choose my balls:"); ?>
+     <? select_balls("I want to choose my balls:"); ?>
     </div>
   </form>
   </div>
   <?
 
-  sqlite_close($db);
+  db_close();
 }
   
-function select_balls($db, $message) {
-  $bruiserselect = get_ball_select($db, $GLOBALS['BRUISER_TYPE']);
-  $littleballselect = get_ball_select($db, $GLOBALS['LITTLE_BALL_TYPE']);
+function select_balls($message) {
+  $bruiserselect = get_ball_select($GLOBALS['BRUISER_TYPE']);
+  $littleballselect = get_ball_select($GLOBALS['LITTLE_BALL_TYPE']);
 
 ?>
   <div class="label">
@@ -183,13 +183,13 @@ function nonActingPlayer() {
   }
 }
 
-function get_ball_select($db, $type) {
+function get_ball_select($type) {
   $query = "select id, color from ball where num=$type order by color";
-  $result = sqlite_query($db, $query);
+  $result = db_query($query);
 
   $balls = array();
 
-  while($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+  while($row = db_fetch_array($result)) {
     $balls[$row['id']] = $row['color'];
   }
 

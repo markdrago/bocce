@@ -2,6 +2,7 @@
 /*
  * Copyright (C) 2004, 2005 Mark Drago
  *           (C) 2004 Tom Melendez
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -19,6 +20,7 @@
  */
 
 session_start();
+require('db.php');
 require('boccelib.php');
 
 /* CurrentScore returns the total score of a player at any given time.
@@ -243,7 +245,7 @@ if (!$confirmed) {
     $name1 = $names[0];
     $name2 = $names[1];
 
-    $db = sqlite_open($database_file);
+    db_open();
     $winner_score = 7;
     $coinflip_winner = $_SESSION["coinflip_winner"];
   
@@ -275,8 +277,8 @@ if (!$confirmed) {
 
 #    $query = "insert into game values(null, $loser,$winner,$loser_score,$winner_score,datetime('now'))";
     $query = "insert into game values(null, $loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', datetime('now'))";
-    $result = sqlite_query($db,$query);
-    $game_id = sqlite_last_insert_rowid($db);
+    $result = db_query($query);
+    $game_id = db_last_insert_rowid();
     
     //maybe cut this down to one long transaction
     for ($round = 0; $round < count($winner_history); $round++) {
@@ -289,7 +291,7 @@ if (!$confirmed) {
       }
       $roundnumber = $round + 1;
       $query = "insert into point values(null, $game_id, $roundnumber, $scorer, $amount)";
-      $result = sqlite_query($db, $query);
+      $result = db_query($query);
     }
     
     //store bruises in database
@@ -299,10 +301,10 @@ if (!$confirmed) {
       $success = $bruise[2];
 
       $query = "insert into bruise values(null, $game_id, $roundnum, $player, $success)";
-      $result = sqlite_query($db, $query);
+      $result = db_query($query);
     }
 
-    sqlite_close($db);
+    db_close();
     
 require("header.php");
 require("side.php");

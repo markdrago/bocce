@@ -1,6 +1,7 @@
 <?php
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,15 +18,16 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+require("db.php");
 require("boccelib.php");
 require("statslib.php");
 require("header.php");
 require("side.php");
 
 $id = $_GET["id"];
-$db = sqlite_open($database_file);
+db_open();
 
-$mainname = player_name($db, $id);
+$mainname = player_name($id);
 
 ?>
 <div class="body">
@@ -44,7 +46,7 @@ $mainname = player_name($db, $id);
 </tr>
 <?
 
-foreach (all_players($db) as $player) {
+foreach (all_players() as $player) {
   if ($player == $id) {
     continue;
   }
@@ -52,33 +54,33 @@ foreach (all_players($db) as $player) {
   print "<tr>";
 
   print "<th><a href=\"personal.php?id=$player\">";
-  print player_name($db, $player)."</a></th>\n";
+  print player_name($player)."</a></th>\n";
   
-  print "<td>".player_total_wins_versus($db, $id, $player)."&nbsp;-&nbsp;";
-  print player_total_losses_versus($db, $id, $player)."</td>\n";
+  print "<td>".player_total_wins_versus($id, $player)."&nbsp;-&nbsp;";
+  print player_total_losses_versus($id, $player)."</td>\n";
   
   print "<td>".
-  format_percent(player_overall_win_percentage_versus($db, $id, $player)).
+  format_percent(player_overall_win_percentage_versus($id, $player)).
   "</td>\n";
   
   print "<td>".
-  format_average(player_overall_deuces_per_game_versus($db, $id, $player)).
+  format_average(player_overall_deuces_per_game_versus($id, $player)).
   "</td>\n";
 
   print "<td>".
-  format_average(player_overall_deuces_against_per_game_versus($db, $id,
+  format_average(player_overall_deuces_against_per_game_versus($id,
 						       $player))."</td>\n";
 
   print "<td>".
-  format_average(player_overall_points_scored_per_game_versus($db, $id,
+  format_average(player_overall_points_scored_per_game_versus($id,
 						       $player))."</td>\n";
 
   print "<td>".
-  format_average(player_overall_points_scored_against_per_game_versus($db, $id,
+  format_average(player_overall_points_scored_against_per_game_versus($id,
 						       $player))."</td>\n";
 
   print "<td>".
-  format_percent(player_overall_bruise_percentage_versus($db, $id, $player)).
+  format_percent(player_overall_bruise_percentage_versus($id, $player)).
   "</td>\n";
 
   print "</tr>\n";
@@ -102,7 +104,7 @@ foreach (all_players($db) as $player) {
 <th>Been Shutout</th>
 </tr>
 <?
-foreach (all_players($db) as $player) {
+foreach (all_players() as $player) {
   if ($player == $id) {
     continue;
   }
@@ -110,29 +112,29 @@ foreach (all_players($db) as $player) {
   print "<tr>";
 
   print "<th><a href=\"personal.php?id=$player\">";
-  print player_name($db, $player)."</a></th>\n";
+  print player_name($player)."</a></th>\n";
 
-  print "<td>".player_total_points_scored_versus($db, $id, $player)."</td>\n";
+  print "<td>".player_total_points_scored_versus($id, $player)."</td>\n";
 
-  print "<td>".player_total_points_scored_against_versus($db,$id,$player).
+  print "<td>".player_total_points_scored_against_versus($id,$player).
   "</td>\n";
 
   print "<td>".
-  format_average(player_overall_bruises_attempted_per_game_versus($db, $id,
+  format_average(player_overall_bruises_attempted_per_game_versus($id,
 							$player))."</td>\n";
 
-  print "<td>".player_total_bruises_attempted_versus($db, $id, $player).
+  print "<td>".player_total_bruises_attempted_versus($id, $player).
   "</td>\n";
 
   print "<td>".
-  format_percent(player_total_games_played_percent_versus($db, $id, $player)).
+  format_percent(player_total_games_played_percent_versus($id, $player)).
   "</td>\n";
 
-  print "<td>".player_total_turkeys_versus($db, $id, $player)."</td>\n";
+  print "<td>".player_total_turkeys_versus($id, $player)."</td>\n";
 
-  print "<td>".player_total_shutouts_versus($db, $id, $player)."</td>\n";
+  print "<td>".player_total_shutouts_versus($id, $player)."</td>\n";
 
-  print "<td>".player_total_been_shutouts_versus($db, $id, $player)."</td>\n";
+  print "<td>".player_total_been_shutouts_versus($id, $player)."</td>\n";
 
   print "</tr>\n";
 }
@@ -152,28 +154,28 @@ foreach (all_players($db) as $player) {
 <th>Deuces Per Game</th>
 </tr>
 <?
-foreach (all_balls($db) as $ball) {
+foreach (all_balls() as $ball) {
   print "<tr>";
 
-  print "<th>".ball_color($db, $ball)."</th>\n";
-  print "<td>".ball_type_name(ball_type($db, $ball))."</td>\n";
+  print "<th>".ball_color($ball)."</th>\n";
+  print "<td>".ball_type_name(ball_type($ball))."</td>\n";
 
   print "<td>".
-  format_percent(player_overall_ball_use_percentage($db, $id, $ball)).
+  format_percent(player_overall_ball_use_percentage($id, $ball)).
   "</td>\n";
 
-  print "<td>".format_percent(player_overall_win_percentage_with_ball($db,$id,
+  print "<td>".format_percent(player_overall_win_percentage_with_ball($id,
 								      $ball)).
   "</td>\n";
 
   print "<td>".
-  format_percent(player_overall_deuces_per_game_with_ball($db, $id, $ball)).
+  format_percent(player_overall_deuces_per_game_with_ball($id, $ball)).
   "</td>\n";
 
   print "</tr>\n";
 }
 
-sqlite_close($db);
+db_close();
 
 ?>
 </table>

@@ -1,6 +1,7 @@
 <?php
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,6 +18,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+require("db.php");
 require("boccelib.php");
 require ($jpgraph_dir . '/src/jpgraph.php');
 require ($jpgraph_dir . '/src/jpgraph_line.php');
@@ -25,12 +27,12 @@ require ($jpgraph_dir . '/src/jpgraph_line.php');
 $num_games_in_average = 5;
 
 #get all data for creating the picture
-$db = sqlite_open($database_file);
+db_open();
 $player = array();
 
 #get names of all players
-$result = sqlite_query($db,"select * from player");
-while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+$result = db_query("select * from player");
+while ($row = db_fetch_array($result)) {
   $player[$row["id"]] = array();
   $player[$row["id"]]["name"] = $row["firstname"];
   $player[$row["id"]]["id"] = $row["id"];
@@ -42,10 +44,10 @@ foreach ($player as $key => $value) {
 }
 
 #get record of all players
-$result = sqlite_query($db,"select winner, loser from game order by date");
-while ($row = sqlite_fetch_array($result,SQLITE_NUM)) {
-  array_push($player[$row[0]]["record"], 1);
-  array_push($player[$row[1]]["record"], 0);
+$result = db_query("select winner, loser from game order by date");
+while ($row = db_fetch_array($result)) {
+  array_push($player[$row["winner"]]["record"], 1);
+  array_push($player[$row["loser"]]["record"], 0);
 }
 
 $colors = array("", "blue", "red", "green", "yellow");

@@ -1,6 +1,7 @@
 <?
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,6 +18,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+require ('db.php');
 require ('boccelib.php');
 
 $notice = "";
@@ -64,28 +66,28 @@ if (isset($_POST["submit"])) {
   }
 
   if ($notice == "") {
-    $db = sqlite_open($database_file);    
-
+    db_open();
+    
     $query = "select count(*) from player where username='$uname'";
-    $result = sqlite_query($db,$query);
-    $row = sqlite_fetch_array($result,SQLITE_NUM);
+    $result = db_query($query);
+    $row = db_fetch_array($result);
     $count = $row[0];
     if ($count > 0) {
       $notice = "The username '$uname' is already taken.  " .
 	"Please choose another username.";
+      $uname = "";
     }
-    $uname = "";
-    sqlite_close($db);
+    db_close();
 
   }
 
   if ($notice == "") {
-    $db = sqlite_open($database_file);
+    db_open();
     $md5pass = md5($pass);
     $query = "insert into player values " .
       "(null,'$uname','$fname','$lname','$email','$md5pass')";
-    sqlite_query($db,$query);
-    sqlite_close($db);
+    db_query($query);
+    db_close();
 
     $notice = "The user '$uname' has been created";
   }

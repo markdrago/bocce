@@ -2,6 +2,7 @@
 /*
  * Copyright (C) 2004, 2005 Mark Drago
  *           (C) 2004 Tom Melendez
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -19,6 +20,7 @@
  */
 
 session_start();
+require('db.php');
 require('boccelib.php');
 
 $uname = "";
@@ -31,7 +33,7 @@ if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
   $uname = "";
 }
 elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
-  $db = sqlite_open($database_file);
+  db_open();
 
   //try and login player
   $player = "player1";
@@ -64,8 +66,8 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
     $firstID = $_SESSION["player1"];
 
     $query = "select username from player where id=$firstID";
-    $result = sqlite_query($db, $query);
-    $row = sqlite_fetch_array($result, SQLITE_ASSOC);
+    $result = db_query($query);
+    $row = db_fetch_array($result);
 
     //make sure the user names are different
     $notice = checkdifferent($row["username"], $uname, "This user '$uname' has already logged in.");
@@ -77,9 +79,9 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
   if ($notice == "") {
     $md5pass = md5($pass);
     $query = "select id from player where username='$uname' and password='$md5pass'";
-    $result = sqlite_query($db,$query);
+    $result = db_query($query);
 
-    if ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+    if ($row = db_fetch_array($result)) {
       $_SESSION[$player] = $row['id'];
       $titlehint = "($uname's opponent)";
 
@@ -90,7 +92,7 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
     }
   }
 
-  sqlite_close($db);
+  db_close();
 
   if (isset($_SESSION["player1"]) and isset($_SESSION["player2"])) {
     redirect("flipping.php");

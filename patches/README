@@ -1,0 +1,18 @@
+This directory just contains all of the patches that have been sent into
+officebocce.  This way we can keep track of where all of the code came from.
+This file contains information about each patch.  This file should only be
+updated by those who actually commit these patches to Subversion.
+
+Each patch is described in the follow manner:
+filename
+- author's name
+- author's email
+- date of submission
+- date of application
+
+abstract-db.patch
+- Jeff Sipek
+- jeffpc@optonline.net
+- sub: 2005-02-02
+- app: 2005-02-12
+

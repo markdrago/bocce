@@ -1,4 +1,9 @@
 2005-02-12 Mark Drago	<markdrago@mail.com>
+	* *.php
+	Applied patch from Jeff Sipek which converts all of the code to use
+	the DB wrapper system.
+	
+2005-02-12 Mark Drago	<markdrago@mail.com>
 	* flipping.php:
 	Added this file that just displays 'flipping the coin...' and then
 	redirects to flipcoin.php.  This adds a nice feeling of suspense.

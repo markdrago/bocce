@@ -1,7 +1,6 @@
 <?
 /*
- * Copyright (C) 2004, 2005 Mark Drago
- *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
+ * Copyright (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -18,17 +17,8 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-print "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-print "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">";
-require("boccelib.php");
-require("header.php");
-require("side.php");
+require "vardefs.php";
+
+require_once "db_$dbengine.php";
 
 ?>
-<div id="mainbody">
-<p>This is meant to be an exercise in web development with php and sqlite.  This is also a great excuse to go extrememly overboard with statistics for bocce, but it should be trivial adding support for other database engines.</p>
-<img src="images/pope.gif" alt="The pope playing bocce" />
-</div>
-<div class="cleaner" />
-</body>
-</html>

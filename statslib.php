@@ -1,6 +1,7 @@
 <?
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -27,11 +28,11 @@
 
 
 #return an array of all players' ids
-function all_players(&$db) {
+function all_players() {
   $players = array();
 
-  $result = sqlite_query($db,"select id from player");
-  while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+  $result = db_query("select id from player");
+  while ($row = db_fetch_array($result)) {
     $players[] = $row["id"];
   }
 
@@ -39,167 +40,167 @@ function all_players(&$db) {
 }
 
 #get player's total number of wins
-function player_total_wins(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from game ".
-			 "where game.winner=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_wins($id) {
+  $result = db_query("select count(*) from game ".
+		     "where game.winner=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of losses
-function player_total_losses(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from game ".
+function player_total_losses($id) {
+  $result = db_query("select count(*) from game ".
 			 "where game.loser=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of games played
-function player_total_games_played(&$db, $id) {
-  return clean_value(player_total_wins($db, $id) +
-		     player_total_losses($db, $id));
+function player_total_games_played($id) {
+  return clean_value(player_total_wins($id) +
+		     player_total_losses($id));
 }
 
 #get player's total points scored
-function player_total_points_scored(&$db, $id) {
-  return clean_value(player_total_points_scored_as_winner($db, $id) +
-		     player_total_points_scored_as_loser($db, $id));
+function player_total_points_scored($id) {
+  return clean_value(player_total_points_scored_as_winner($id) +
+		     player_total_points_scored_as_loser($id));
 }
 
 #get player's total points scored against
-function player_total_points_scored_against(&$db, $id) {
-  return clean_value(player_total_points_scored_against_as_winner($db, $id) +
-		     player_total_points_scored_against_as_loser($db, $id));
+function player_total_points_scored_against($id) {
+  return clean_value(player_total_points_scored_against_as_winner($id) +
+		     player_total_points_scored_against_as_loser($id));
 }
 
 #get player's total number of points scored as a loser
-function player_total_points_scored_as_loser(&$db, $id) {
-  $result = sqlite_query($db,"select sum(game.loser_points) from game where ".
-			 "game.loser=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_points_scored_as_loser($id) {
+  $result = db_query("select sum(game.loser_points) from game where ".
+		     "game.loser=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of points scored as a winner
-function player_total_points_scored_as_winner(&$db, $id) {
-  $result = sqlite_query($db,"select sum(game.winner_points) from game where ".
-			 "game.winner=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_points_scored_as_winner($id) {
+  $result = db_query("select sum(game.winner_points) from game where ".
+		     "game.winner=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of points scored against as winner
-function player_total_points_scored_against_as_winner(&$db, $id) {
-  $result = sqlite_query($db,"select sum(game.loser_points) from game where ".
-			 "game.winner=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_points_scored_against_as_winner($id) {
+  $result = db_query("select sum(game.loser_points) from game where ".
+		     "game.winner=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of points scored against as loser
-function player_total_points_scored_against_as_loser(&$db, $id) {
-  $result = sqlite_query($db,"select sum(game.winner_points) from game where ".
-			 "game.loser=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_points_scored_against_as_loser($id) {
+  $result = db_query("select sum(game.winner_points) from game where ".
+		     "game.loser=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of deuces
-function player_total_deuces(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from point where ".
-			 "point.scorer=$id and point.amount=2");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_deuces($id) {
+  $result = db_query("select count(*) from point where ".
+		     "point.scorer=$id and point.amount=2");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's number of points scored against as a winner
-function player_points_scored_against_as_winner(&$db, $id) {
-  $result = sqlite_query($db,"select sum(game.loser_points) from game where ".
-			 "game.winner=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_points_scored_against_as_winner($id) {
+  $result = db_query("select sum(game.loser_points) from game where ".
+		     "game.winner=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's number of points scored against as a loser
-function player_points_scored_against_as_loser(&$db, $id) {
-  $result = sqlite_query($db,"select sum(game.winner_points) from game where ".
-			 "game.loser=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_points_scored_against_as_loser($id) {
+  $result = db_query("select sum(game.winner_points) from game where ".
+		     "game.loser=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of good bruises
-function player_total_bruises_successful(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from bruise where ".
-			 "bruise.player=$id and bruise.success=1");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_bruises_successful($id) {
+  $result = db_query("select count(*) from bruise where ".
+		     "bruise.player=$id and bruise.success=1");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of missed bruises
-function player_total_bruises_unsuccessful(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from bruise where ".
-			 "bruise.player=$id and bruise.success=0");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_bruises_unsuccessful($id) {
+  $result = db_query("select count(*) from bruise where ".
+		     "bruise.player=$id and bruise.success=0");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of attempted bruises
-function player_total_bruises_attempted(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from bruise where ".
-			 "bruise.player=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_bruises_attempted($id) {
+  $result = db_query("select count(*) from bruise where ".
+		     "bruise.player=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's number of shutouts
-function player_total_shutouts(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from game where ".
-			 "game.winner=$id and game.loser_points=0");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_shutouts($id) {
+  $result = db_query("select count(*) from game where ".
+		     "game.winner=$id and game.loser_points=0");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get number of times a player has been shutout
-function player_total_been_shutouts(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from game where ".
-			 "game.loser=$id and game.loser_points=0");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_been_shutouts($id) {
+  $result = db_query("select count(*) from game where ".
+		     "game.loser=$id and game.loser_points=0");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of tetrises
-function player_total_tetrises(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from point as point1, point as point2, point as point3, point as point4 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point4.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point4.id=point3.id+1 and point4.amount=2 and point1.game=point2.game and point2.game=point3.game and point3.game=point4.game");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_tetrises($id) {
+  $result = db_query("select count(*) from point as point1, point as point2, point as point3, point as point4 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point4.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point4.id=point3.id+1 and point4.amount=2 and point1.game=point2.game and point2.game=point3.game and point3.game=point4.game");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of turkeys
-function player_total_turkeys(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
-  return clean_value($row[0] - (player_total_tetrises($db, $id) * 2));
+function player_total_turkeys($id) {
+  $result = db_query("select count(*) from point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game");
+  $row = db_fetch_array($result);
+  return clean_value($row[0] - (player_total_tetrises($id) * 2));
 }
 
 #get player's total number of times in turkey territory
-function player_total_double_deuces_with_possible_turkey(&$db, $id) {
+function player_total_double_deuces_with_possible_turkey($id) {
   #in this query, point0 is a placeholder for the point before the double
   #deuce.  This helps us avoid scoring a turkey as two double deuces
   #(2,[2),2]  <--- first double is in paranthesis and second is in brackets
   #FIXME: this query doesn't work on the first point in the DB
-  $result = sqlite_query($db,"select count(*) from point as point0, point as point1, point as point2, point as point3 where ((point0.id+1=point1.id) and (point0.amount!=2 or point0.scorer!=$id or point0.game!=point1.game)) and point1.scorer=$id and point2.scorer=$id and point1.amount=2 and point2.amount=2 and point2.id=point1.id+1 and point3.id=point2.id+1 and point1.game=point2.game and point2.game=point3.game");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+  $result = db_query("select count(*) from point as point0, point as point1, point as point2, point as point3 where ((point0.id+1=point1.id) and (point0.amount!=2 or point0.scorer!=$id or point0.game!=point1.game)) and point1.scorer=$id and point2.scorer=$id and point1.amount=2 and point2.amount=2 and point2.id=point1.id+1 and point3.id=point2.id+1 and point1.game=point2.game and point2.game=point3.game");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's overall current streak
-function player_overall_current_streak(&$db, $id) {
+function player_overall_current_streak($id) {
   #get list of every game this player played in, sorted backwards by date
-  $result = sqlite_query($db,"select winner, loser from game where winner=$id or loser=$id order by date desc");
+  $result = db_query("select winner, loser from game where winner=$id or loser=$id order by date desc");
   
   #figure out what happened in the last game
-  $row1 = sqlite_fetch_array($result,SQLITE_ASSOC);
+  $row1 = db_fetch_array($result);
   if ($row1['winner'] == $id) {
     $tag = "W";
     $key = "winner";
@@ -212,7 +213,7 @@ function player_overall_current_streak(&$db, $id) {
 
   #count how many times whatever happend last game happened before that
   #without anything else happening
-  while($row = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+  while($row = db_fetch_array($result)) {
     if ($row[$key] == $id) {
       $count++;
     } else {
@@ -225,10 +226,10 @@ function player_overall_current_streak(&$db, $id) {
   return "$count $tag";
 }
 
-function player_total_coinflips_won(&$db, $id) {
-  $result = sqlite_query($db,"select count(*) from game where ".
-			 "game.coinflip_winner=$id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_coinflips_won($id) {
+  $result = db_query("select count(*) from game where ".
+		     "game.coinflip_winner=$id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);  
 }
 
@@ -237,63 +238,63 @@ function player_total_coinflips_won(&$db, $id) {
  ******************************/
 
 #return number of times this player has used this ball
-function player_total_games_played_with_ball(&$db, $id, $ball) {
-  $type = ball_type($db, $ball);
+function player_total_games_played_with_ball($id, $ball) {
+  $type = ball_type($ball);
   $winnerfield = "winner_ball$type";
   $loserfield  = "loser_ball$type";
 
-  $result = sqlite_query($db,"select count(*) from game where (winner=$id and $winnerfield=$ball) or (loser=$id and $loserfield=$ball)");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+  $result = db_query("select count(*) from game where (winner=$id and $winnerfield=$ball) or (loser=$id and $loserfield=$ball)");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #return number of times this player has won with this ball
-function player_total_games_won_with_ball(&$db, $id, $ball) {
-  $type = ball_type($db, $ball);
+function player_total_games_won_with_ball($id, $ball) {
+  $type = ball_type($ball);
   $winnerfield = "winner_ball$type";
 
-  $result = sqlite_query($db,"select count(*) from game where winner=$id and $winnerfield=$ball");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+  $result = db_query("select count(*) from game where winner=$id and $winnerfield=$ball");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_deuces_with_ball(&$db, $id, $ball) {
-  $type = ball_type($db, $ball);
+function player_total_deuces_with_ball($id, $ball) {
+  $type = ball_type($ball);
   $winnerfield = "winner_ball$type";
   $loserfield  = "loser_ball$type";
 
-  $result = sqlite_query($db, "select count(*) from point, game where point.game = game.id and point.amount=2 and ((game.winner=$id and point.scorer=game.winner and game.$winnerfield=$ball) or (game.loser=$id and point.scorer=game.loser and game.$loserfield=$ball))");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+  $result = db_query("select count(*) from point, game where point.game = game.id and point.amount=2 and ((game.winner=$id and point.scorer=game.winner and game.$winnerfield=$ball) or (game.loser=$id and point.scorer=game.loser and game.$loserfield=$ball))");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_overall_deuces_per_game_with_ball(&$db, $id, $ball) {
-  $games_played_with_ball = player_total_games_played_with_ball($db,$id,$ball);
+function player_overall_deuces_per_game_with_ball($id, $ball) {
+  $games_played_with_ball = player_total_games_played_with_ball($id,$ball);
   if ($games_played_with_ball == 0) {
     return 0;
   }
 
-  $deuces_scored_with_ball = player_total_deuces_with_ball($db, $id, $ball);
+  $deuces_scored_with_ball = player_total_deuces_with_ball($id, $ball);
   return clean_value($deuces_scored_with_ball / $games_played_with_ball);
 }
 
-function player_overall_win_percentage_with_ball(&$db, $id, $ball) {
-  $games_played_with_ball = player_total_games_played_with_ball($db,$id,$ball);
+function player_overall_win_percentage_with_ball($id, $ball) {
+  $games_played_with_ball = player_total_games_played_with_ball($id,$ball);
   if ($games_played_with_ball == 0) {
     return 0;
   }
 
-  $games_won_with_ball = player_total_games_won_with_ball($db, $id, $ball);
+  $games_won_with_ball = player_total_games_won_with_ball($id, $ball);
   return clean_value($games_won_with_ball / $games_played_with_ball);
 }
 
-function player_overall_ball_use_percentage(&$db, $id, $ball) {
-  $games_played = player_total_games_played($db, $id);
+function player_overall_ball_use_percentage($id, $ball) {
+  $games_played = player_total_games_played($id);
   if ($games_played == 0) {
     return 0;
   }
 
-  $games_played_with_ball = player_total_games_played_with_ball($db,$id,$ball);
+  $games_played_with_ball = player_total_games_played_with_ball($id,$ball);
   return clean_value($games_played_with_ball / $games_played);
 }
 
@@ -301,224 +302,223 @@ function player_overall_ball_use_percentage(&$db, $id, $ball) {
  * Stats that reference another player *
  ***************************************/
 
-function player_total_wins_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from game where game.winner = $id and game.loser = $player");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_wins_versus($id, $player) {
+  $result = db_query("select count(*) from game where game.winner = $id and game.loser = $player");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_losses_versus(&$db, $id, $player) {
+function player_total_losses_versus($id, $player) {
   //this is just the reverse of player_total_wins_versus
-  return player_total_wins_versus($db, $player, $id);
+  return player_total_wins_versus($player, $id);
 }
 
-function player_total_points_scored_as_winner_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select sum(game.winner_points) from game where game.winner = $id and game.loser = $player");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_points_scored_as_winner_versus($id, $player) {
+  $result = db_query("select sum(game.winner_points) from game where game.winner = $id and game.loser = $player");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_points_scored_as_loser_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select sum(game.loser_points) from game where game.winner = $player and game.loser = $id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_points_scored_as_loser_versus($id, $player) {
+  $result = db_query("select sum(game.loser_points) from game where game.winner = $player and game.loser = $id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_points_scored_against_as_loser_versus(&$db, $id,
+function player_total_points_scored_against_as_loser_versus($id,
 							    $player) {
   //this is the reverse of player_total_points_scored_as_winner_versus
-  return player_total_points_scored_as_winner_versus($db, $player, $id);
+  return player_total_points_scored_as_winner_versus($player, $id);
 }
 
-function player_total_points_scored_against_as_winner_versus(&$db, $id,
+function player_total_points_scored_against_as_winner_versus($id,
 							      $player) {
   //this is the reverse of player_total_points_scored_as_loser_versus
-  return player_total_points_scored_as_loser_versus($db, $player, $id);
+  return player_total_points_scored_as_loser_versus($player, $id);
 }
 
-function player_total_points_scored_versus(&$db, $id, $player) {
-  return player_total_points_scored_as_loser_versus($db, $id, $player) +
-    player_total_points_scored_as_winner_versus($db, $id, $player);
+function player_total_points_scored_versus($id, $player) {
+  return player_total_points_scored_as_loser_versus($id, $player) +
+    player_total_points_scored_as_winner_versus($id, $player);
 }
 
-function player_total_points_scored_against_versus(&$db, $id, $player) {
+function player_total_points_scored_against_versus($id, $player) {
   //this is the reverse of player_total_points_scored_versus
-  return player_total_points_scored_versus($db, $player, $id);
+  return player_total_points_scored_versus($player, $id);
 }  
 
-function player_total_deuces_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from game, point where game.id = point.game and point.scorer = $id and point.amount = 2 and ((game.winner = $player and game.loser = $id) or (game.loser = $player and game.winner = $id))");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_deuces_versus($id, $player) {
+  $result = db_query("select count(*) from game, point where game.id = point.game and point.scorer = $id and point.amount = 2 and ((game.winner = $player and game.loser = $id) or (game.loser = $player and game.winner = $id))");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_deuces_against_versus(&$db, $id, $player) {
-  return player_total_deuces_versus($db, $player, $id);
+function player_total_deuces_against_versus($id, $player) {
+  return player_total_deuces_versus($player, $id);
 }
 
-function player_total_shutouts_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from game where game.winner = $id and game.loser = $player and game.loser_points=0");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_shutouts_versus($id, $player) {
+  $result = db_query("select count(*) from game where game.winner = $id and game.loser = $player and game.loser_points=0");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_been_shutouts_versus(&$db, $id, $player) {
+function player_total_been_shutouts_versus($id, $player) {
   //this is the reverse of player_total_shutouts_versus
-  return player_total_shutouts_versus($db, $player, $id);
+  return player_total_shutouts_versus($player, $id);
 }
 
-function player_total_bruises_successful_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id and bruise.success = 1");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_bruises_successful_versus($id, $player) {
+  $result = db_query("select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id and bruise.success = 1");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_bruises_missed_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id and bruise.success != 1");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_bruises_missed_versus($id, $player) {
+  $result = db_query("select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id and bruise.success != 1");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }  
 
-function player_total_bruises_attempted_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_bruises_attempted_versus($id, $player) {
+  $result = db_query("select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
-function player_total_games_played_versus(&$db, $id, $player) {
-  return player_total_wins_versus($db, $id, $player) +
-    player_total_losses_versus($db, $id, $player);
+function player_total_games_played_versus($id, $player) {
+  return player_total_wins_versus($id, $player) +
+    player_total_losses_versus($id, $player);
 }
 
 #get player's total number of tetrises
-function player_total_tetrises_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from game, point as point1, point as point2, point as point3, point as point4 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point4.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point4.id=point3.id+1 and point4.amount=2 and point1.game=point2.game and point2.game=point3.game and point3.game=point4.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
+function player_total_tetrises_versus($id, $player) {
+  $result = db_query("select count(*) from game, point as point1, point as point2, point as point3, point as point4 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point4.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point4.id=point3.id+1 and point4.amount=2 and point1.game=point2.game and point2.game=point3.game and point3.game=point4.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #get player's total number of turkeys
-function player_total_turkeys_versus(&$db, $id, $player) {
-  $result = sqlite_query($db,"select count(*) from game, point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
-  $row = sqlite_fetch_array($result,SQLITE_NUM);
-  return clean_value($row[0] - (player_total_tetrises($db, $id) * 2));
+function player_total_turkeys_versus($id, $player) {
+  $result = db_query("select count(*) from game, point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
+  $row = db_fetch_array($result);
+  return clean_value($row[0] - (player_total_tetrises($id) * 2));
 }
 
 /******************************************
  * Overall Stats that require calculation *
  ******************************************/
 
-function player_overall_win_percentage(&$db, $id) {
-  $games_played = player_total_games_played($db, $id);
+function player_overall_win_percentage($id) {
+  $games_played = player_total_games_played($id);
 
   if ($games_played == 0) {
     return 0;
   }
 
-  $total_wins = player_total_wins($db, $id);
+  $total_wins = player_total_wins($id);
   return clean_value($total_wins / $games_played);
 }
 
-function player_overall_points_per_game(&$db, $id) {
-  $games_played = player_total_games_played($db, $id);
+function player_overall_points_per_game($id) {
+  $games_played = player_total_games_played($id);
 
   if ($games_played == 0) {
     return 0;
   }
 
-  $total_points = player_total_points_scored($db, $id);
+  $total_points = player_total_points_scored($id);
   return clean_value($total_points / $games_played);
 }
 
-function player_overall_points_against_per_game(&$db, $id) {
-  $games_played = player_total_games_played($db, $id);
+function player_overall_points_against_per_game($id) {
+  $games_played = player_total_games_played($id);
 
   if ($games_played == 0) {
     return 0;
   }
 
-  $total_points_against = player_total_points_scored_against($db, $id);
+  $total_points_against = player_total_points_scored_against($id);
   return clean_value($total_points_against / $games_played);
 }
 
-function player_overall_deuces_per_game(&$db, $id) {
-  $games_played = player_total_games_played($db, $id);
+function player_overall_deuces_per_game($id) {
+  $games_played = player_total_games_played($id);
 
   if ($games_played == 0) {
     return 0;
   }
 
-  $total_deuces = player_total_deuces($db, $id);
+  $total_deuces = player_total_deuces($id);
   return clean_value($total_deuces / $games_played);
 }
 
-function player_overall_points_per_game_as_loser(&$db, $id) {
-  $total_losses = player_total_losses($db, $id);
+function player_overall_points_per_game_as_loser($id) {
+  $total_losses = player_total_losses($id);
 
   if ($total_losses == 0) {
     return 0;
   }
 
-  $total_points_as_loser = player_total_points_scored_as_loser($db, $id);
+  $total_points_as_loser = player_total_points_scored_as_loser($id);
   return clean_value($total_points_as_loser / $total_losses);
 }
 
-function player_overall_points_against_per_game_as_winner(&$db, $id) {
-  $total_wins = player_total_wins($db, $id);
+function player_overall_points_against_per_game_as_winner($id) {
+  $total_wins = player_total_wins($id);
 
   if ($total_wins == 0) {
     return 0;
   }
 
   $total_points_against_as_winner =
-    player_total_points_scored_against_as_winner($db, $id);
+    player_total_points_scored_against_as_winner($id);
 
   return clean_value($total_points_against_as_winner / $total_wins);
 }
 
-function player_overall_bruise_percentage(&$db, $id) {
-  $total_bruise_attempts = player_total_bruises_attempted($db, $id);
+function player_overall_bruise_percentage($id) {
+  $total_bruise_attempts = player_total_bruises_attempted($id);
 
   if ($total_bruise_attempts == 0) {
     return 0;
   }
 
-  $good_bruises = player_total_bruises_successful($db, $id);
+  $good_bruises = player_total_bruises_successful($id);
   return clean_value($good_bruises / $total_bruise_attempts);
 }
 
-function player_overall_bruise_attempts_per_game(&$db, $id) {
-  $total_games_played = player_total_games_played($db, $id);
+function player_overall_bruise_attempts_per_game($id) {
+  $total_games_played = player_total_games_played($id);
   
   if ($total_games_played == 0) {
     return 0;
   }
 
-  $total_bruise_attempts = player_total_bruises_attempted($db, $id);
+  $total_bruise_attempts = player_total_bruises_attempted($id);
   return clean_value($total_bruise_attempts / $total_games_played);
 }
 
-function player_overall_double_deuce_to_turkey_conversion_percentage(&$db,
-								     $id) {
+function player_overall_double_deuce_to_turkey_conversion_percentage($id) {
   $total_turkey_territories =
-    player_total_double_deuces_with_possible_turkey($db, $id);
+    player_total_double_deuces_with_possible_turkey($id);
 
   if ($total_turkey_territories == 0) {
     return 0;
   }
 
-  $total_turkeys = player_total_turkeys($db, $id);
+  $total_turkeys = player_total_turkeys($id);
   return clean_value($total_turkeys / $total_turkey_territories);
 }
 
-function player_overall_coinflip_win_percentage(&$db, $id) {
-  $total_games_played = player_total_games_played($db, $id);
+function player_overall_coinflip_win_percentage($id) {
+  $total_games_played = player_total_games_played($id);
   
   if ($total_games_played == 0) {
     return 0;
   }
 
-  $total_coinflips_won = player_total_coinflips_won($db, $id);
+  $total_coinflips_won = player_total_coinflips_won($id);
   return clean_value($total_coinflips_won / $total_games_played);
 }
 
@@ -526,92 +526,92 @@ function player_overall_coinflip_win_percentage(&$db, $id) {
  * Stats that reference another player and require calculation *
  ***************************************************************/
 
-function player_overall_win_percentage_versus(&$db, $id, $player) {
+function player_overall_win_percentage_versus($id, $player) {
   $total_games_played_versus =
-    player_total_games_played_versus($db, $id, $player);
+    player_total_games_played_versus($id, $player);
   
   if ($total_games_played_versus == 0) {
     return 0;
   }
 
-  $total_wins_versus = player_total_wins_versus($db, $id, $player);
+  $total_wins_versus = player_total_wins_versus($id, $player);
   return clean_value($total_wins_versus / $total_games_played_versus);
 }
 
-function player_overall_deuces_per_game_versus(&$db, $id, $player) {
+function player_overall_deuces_per_game_versus($id, $player) {
   $total_games_played_versus = 
-    player_total_games_played_versus($db, $id, $player);
+    player_total_games_played_versus($id, $player);
   
   if ($total_games_played_versus == 0) {
     return 0;
   }
 
-  $total_deuces_versus = player_total_deuces_versus($db, $id, $player);
+  $total_deuces_versus = player_total_deuces_versus($id, $player);
   return clean_value($total_deuces_versus / $total_games_played_versus);
 }
 
-function player_overall_deuces_against_per_game_versus(&$db, $id, $player) {
+function player_overall_deuces_against_per_game_versus($id, $player) {
   //this is the reverse of player_overall_deuces_per_game_versus
-  return player_overall_deuces_per_game_versus($db, $player, $id);
+  return player_overall_deuces_per_game_versus($player, $id);
 }
 
-function player_overall_points_scored_per_game_versus(&$db, $id, $player) {
+function player_overall_points_scored_per_game_versus($id, $player) {
   $total_games_played_versus = 
-    player_total_games_played_versus($db, $id, $player);
+    player_total_games_played_versus($id, $player);
   
   if ($total_games_played_versus == 0) {
     return 0;
   }
 
   $total_points_scored_versus =
-    player_total_points_scored_versus($db, $id, $player);
+    player_total_points_scored_versus($id, $player);
   return clean_value($total_points_scored_versus / $total_games_played_versus);
 }
   
-function player_overall_points_scored_against_per_game_versus(&$db, $id,
+function player_overall_points_scored_against_per_game_versus($id,
 							      $player) {
   //this is the reverse of player_overall_points_scored_per_game_versus
-  return player_overall_points_scored_per_game_versus($db, $player, $id);
+  return player_overall_points_scored_per_game_versus($player, $id);
 }
 
-function player_overall_bruise_percentage_versus(&$db, $id, $player) {
+function player_overall_bruise_percentage_versus($id, $player) {
   $total_bruises_attempted_versus =
-    player_total_bruises_attempted_versus($db, $id, $player);
+    player_total_bruises_attempted_versus($id, $player);
 
   if ($total_bruises_attempted_versus == 0) {
     return 0;
   }
 
   $total_bruises_successful_versus =
-    player_total_bruises_successful_versus($db, $id, $player);
+    player_total_bruises_successful_versus($id, $player);
 
   return clean_value($total_bruises_successful_versus /
 		     $total_bruises_attempted_versus);
 }
 
-function player_overall_bruises_attempted_per_game_versus(&$db, $id, $player) {
+function player_overall_bruises_attempted_per_game_versus($id, $player) {
   $total_games_played_versus = 
-    player_total_games_played_versus($db, $id, $player);
+    player_total_games_played_versus($id, $player);
   
   if ($total_games_played_versus == 0) {
     return 0;
   }
 
   $total_bruises_attempted_versus =
-    player_total_bruises_attempted_versus($db, $id, $player);
+    player_total_bruises_attempted_versus($id, $player);
   return clean_value($total_bruises_attempted_versus /
 		     $total_games_played_versus);
 }
 
-function player_total_games_played_percent_versus(&$db, $id, $player) {
+function player_total_games_played_percent_versus($id, $player) {
   $total_games_played_versus =
-    player_total_games_played_versus($db, $id, $player);
+    player_total_games_played_versus($id, $player);
 
   if ($total_games_played_versus == 0) {
     return 0;
   }  
 
-  $total_games_played = player_total_games_played($db, $id);
+  $total_games_played = player_total_games_played($id);
   return clean_value($total_games_played_versus / $total_games_played);
 }
 
@@ -620,11 +620,11 @@ function player_total_games_played_percent_versus(&$db, $id, $player) {
  ***************************************/
 
 #get an array of all of the ball IDs
-function all_balls(&$db) {
+function all_balls() {
   $balls = array();
 
-  $result = sqlite_query($db,"select id from ball");
-  while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+  $result = db_query("select id from ball");
+  while ($row = db_fetch_array($result)) {
     $balls[] = $row["id"];
   }
 
@@ -632,12 +632,12 @@ function all_balls(&$db) {
 }
 
 #get an array of all of the bruiser's ball IDs
-function all_bruisers(&$db) {
+function all_bruisers() {
   $bruiser_num = 1;
 
   $balls = array();
-  $result = sqlite_query($db, "select id from ball where num=$bruiser_num");
-  while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+  $result = db_query("select id from ball where num=$bruiser_num");
+  while ($row = db_fetch_array($result)) {
     $balls[] = $row["id"];
   }
 
@@ -645,12 +645,12 @@ function all_bruisers(&$db) {
 }
 
 #get an array of all of the small ball's ball IDs
-function all_small_balls(&$db) {
+function all_small_balls() {
   $small_num = 2;
 
   $balls = array();
-  $result = sqlite_query($db, "select id from ball where num=$small_num");
-  while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+  $result = db_query("select id from ball where num=$small_num");
+  while ($row = db_fetch_array($result)) {
     $balls[] = $row["id"];
   }
 
@@ -658,77 +658,77 @@ function all_small_balls(&$db) {
 }
 
 #get the type of the ball as an integer
-function ball_type(&$db, $ball) {
-  $result = sqlite_query($db, "select num from ball where id=$ball");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
+function ball_type($ball) {
+  $result = db_query("select num from ball where id=$ball");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
   
 #return the total number of games that have been played with this ball
-function ball_total_games_played(&$db, $ball) {
-  $type = ball_type($db, $ball);
+function ball_total_games_played($ball) {
+  $type = ball_type($ball);
   $winnerfield = "winner_ball$type";
   $loserfield  = "loser_ball$type";
 
-  $result = sqlite_query($db, "select count(*) from game where ($winnerfield=$ball or $loserfield=$ball)");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
+  $result = db_query("select count(*) from game where ($winnerfield=$ball or $loserfield=$ball)");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #return the total number of games that have been won with this ball
-function ball_total_games_won(&$db, $ball) {
-  $type = ball_type($db, $ball);
+function ball_total_games_won($ball) {
+  $type = ball_type($ball);
   $winnerfield = "winner_ball$type";
 
-  $result = sqlite_query($db, "select count(*) from game where $winnerfield=$ball");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
+  $result = db_query("select count(*) from game where $winnerfield=$ball");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }  
 
 #number of deuces scored with this ball color
-function ball_total_deuces_scored(&$db, $ball) {
-  $type = ball_type($db, $ball);
+function ball_total_deuces_scored($ball) {
+  $type = ball_type($ball);
   $winnerfield = "winner_ball$type";
   $loserfield  = "loser_ball$type";
 
-  $result = sqlite_query($db, "select count(*) from point, game where point.game = game.id and point.amount=2 and ((point.scorer=game.winner and game.$winnerfield=$ball) or (point.scorer=game.loser and game.$loserfield=$ball))");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
+  $result = db_query("select count(*) from point, game where point.game = game.id and point.amount=2 and ((point.scorer=game.winner and game.$winnerfield=$ball) or (point.scorer=game.loser and game.$loserfield=$ball))");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 
 #return the deuces per game when played with a certain ball
-function ball_overall_deuces_per_game(&$db, $ball) {
-  $ball_total_games_played = ball_total_games_played($db, $ball);
+function ball_overall_deuces_per_game($ball) {
+  $ball_total_games_played = ball_total_games_played($ball);
   
   if ($ball_total_games_played == 0) {
     return 0;
   }
 
-  $ball_total_deuces = ball_total_deuces_scored($db, $ball);
+  $ball_total_deuces = ball_total_deuces_scored($ball);
   return clean_value($ball_total_deuces / $ball_total_games_played);
 }
 
 #return the frequency which this ball is played with overall
-function ball_overall_use_percentage(&$db, $ball) {
-  $universe_num_games = universe_total_games_played($db);
+function ball_overall_use_percentage($ball) {
+  $universe_num_games = universe_total_games_played();
 
   if ($universe_num_games == 0) {
     return 0;
   }
 
-  $ball_total_games_played = ball_total_games_played($db, $ball);
+  $ball_total_games_played = ball_total_games_played($ball);
   return clean_value($ball_total_games_played / $universe_num_games);
 }
 
 #return the win percentage of this ball
-function ball_overall_win_percentage(&$db, $ball) {
-  $ball_total_games_played = ball_total_games_played($db, $ball);
+function ball_overall_win_percentage($ball) {
+  $ball_total_games_played = ball_total_games_played($ball);
 
   if ($ball_total_games_played == 0) {
     return 0;
   }
 
-  $ball_games_won = ball_total_games_won($db, $ball);
+  $ball_games_won = ball_total_games_won($ball);
 
   return clean_value($ball_games_won / $ball_total_games_played);
 }
@@ -738,9 +738,9 @@ function ball_overall_win_percentage(&$db, $ball) {
  *************************************************/
 
 #return the total number of games ever played
-function universe_total_games_played(&$db) {
-  $result = sqlite_query($db, "select count(*) from game");
-  $row = sqlite_fetch_array($result, SQLITE_NUM);
+function universe_total_games_played() {
+  $result = db_query("select count(*) from game");
+  $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
 

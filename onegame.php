@@ -1,6 +1,7 @@
 <?
 /*
  * Copyright (C) 2004, 2005 Mark Drago
+ *           (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,18 +18,19 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+require("db.php");
 require("boccelib.php");
 require("header.php");
 require("side.php");
 
 $game = $_GET["game"];
-$db = sqlite_open($database_file);
-$result = sqlite_query($db,"select * from player");
+db_open();
+$result = db_query("select * from player");
 
 $players = array();
 
-$result = sqlite_query($db,"select winner,loser,winner_points,loser_points,strftime('%s',date) as date from game where id=$game");
-$row = sqlite_fetch_array($result,SQLITE_ASSOC);
+$result = db_query("select winner,loser,winner_points,loser_points,strftime('%s',date) as date from game where id=$game");
+$row = db_fetch_array($result);
 $winner = $row["winner"];
 $loser = $row["loser"];
 $winner_score = $row["winner_points"];
@@ -50,8 +52,8 @@ $roundtr = "<tr><th>Round</th>";
 $winnertr = "<tr><th>$winner_name</th>";
 $losertr = "<tr><th>$loser_name</th>";
 
-$result = sqlite_query($db,"select * from point where game=$game order by round");
-while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+$result = db_query("select * from point where game=$game order by round");
+while ($row = db_fetch_array($result)) {
   $scorer = $row["scorer"];
   $amount = $row["amount"];
   $round = $row["round"];
@@ -74,14 +76,14 @@ print $winnertr;
 print $losertr;
 print "</table>";
 
-$result = sqlite_query($db,"select * from bruise where game=$game order by round");
-if (sqlite_num_rows($result) > 0) {
+$result = db_query("select * from bruise where game=$game order by round");
+if (db_num_rows($result) > 0) {
   print '<h3>Bruises</h3>';
   print '<table class="bruises">';
   
   print '<tr><th>Name</th><th>Round</th><th>Success</th></tr>';
 
-  while ($row = sqlite_fetch_array($result,SQLITE_ASSOC)) {
+  while ($row = db_fetch_array($result)) {
 
     //get name of bruiser
     $name = "";
@@ -106,7 +108,7 @@ if (sqlite_num_rows($result) > 0) {
   print "</table>";
 }
 
-sqlite_close($db);
+db_close();
 ?>
 </div>
 </body>
