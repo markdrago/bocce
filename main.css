@@ -1,174 +1,187 @@
+/* very global settings */
 body {
-  font-family: Arial;
+	font-family: Arial;
 }
 
-div#header { 
-  background-color: #6495ED;
-  border: 1px solid #000;
-  margin: 0;
+/* just the main output area */
+#wrapper {
 }
 
-span.title { 
-  font-size: xx-large;
-  font-weight: bold;
+/* the header */
+#header {
+	background-color: #6495ED;
+	border: 1px solid #000000;
+	margin: 0px;
 }
 
-span#maintitle {
-  color: #191970;
-  position: relative;
-  left: 50px;
-  bottom: 50px;
+/* the title, part of the header */
+#title {
+	color: #191970;
+	font-size: xx-large;
+	font-weight: bold;
+	position: relative;
+	left: 50px;
+	bottom: 50px;
 }
 
-div#sidepanel { 
-  position: relative;
-  float: left;
-  top: 10px;
-  margin:0;
-  background-color: #6495ED;
-  border: 1px solid #000;
-  width: 180px;
+/* sidepanel */
+#sidepanel {
+	width: 180px;
+	border: 1px solid #000000;
+	background-color: #6495ED;
+	margin: 0px;
+	float: left;
+	position: relative;
+	top: 10px;
 }
 
-div#sidepanel div#buttons {
-  margin: 0px;
-  width: 180px;
-  background-color: #6495ED;
+/* sidepanel buttons */
+/*#sp-buttons {
+	margin: 0px;
+	width: 180px;
+	background-color: #6495ED;
+}*/
+
+/* sidepanel list style */
+#sp-buttons ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	border: none;
 }
 
-div#sidepanel div#buttons ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border: none;
+/* sidepanel list item */
+#sp-buttons li {
+	border-bottom: 1px solid #90BADE;
+	margin: 0px;
 }
 
-div#sidepanel div#buttons li {
-  border-bottom: 1px solid #90bade;
-  margin: 0;
+/* sidepanel last list item */
+#sp-buttons li.last {
+	border-bottom: none;
 }
 
-div#sidepanel div#buttons li.last {
-  border-bottom: 0;
+/* nice sidepanel links */
+#sp-buttons a {
+	display: block;
+	padding: 5px 15px 5px 15px;
+	color: #191970;
+	text-decoration: none;
 }
 
-div#sidepanel div#buttons li a {
-  display: block;
-  padding: 5px 15px 5px 15px;
-  background-color: #6495ED;
-  color: #191970;
-  text-decoration: none;
+/* javascript is dead! */
+#sp-buttons a:hover {
+	background-color: #00008B;
+	color: #ffffff;
 }
 
-div#sidepanel div#buttons li a:hover {
-  background-color: #00008B;
-  color: #fff;
+/* the content pane */
+#content {
+	margin-left: 200px;
+	margin-top: 10px;
+	width: auto;
 }
 
-html>body #button li a {
-  width: auto;
+/* paragraph style */
+#content p {
+	margin: 1em 3em 1em 3em;
 }
 
-div#mainbody { 
-  text-align: center;
+/* subtitle */
+#subtitle {
 }
 
-div#mainbody p { 
-  margin: 1em 3em 1em 3em;
+/* subtitle - the text */
+#subtitle h1 {
+	margin: 0px;
+	//margin-bottom: 10pt;
 }
 
-div.body { 
-  margin-left: 200px;
-  margin-top: 10px;
+#subtitlehint {
+	padding-left: 10px;
+	font-size: small;
+	font-weight: normal;
+	margin-bottom: 1em;
 }
 
-img { 
-  border:0;
+h2, h3 {
+	margin: 0px;
 }
 
-td {
-text-align: center;
-}
-
-h1, h2, h3 {
-padding: 0; margin: 0;
-}
-
-h1 span.titlehint {
-padding-left: 10px;
-font-size: small;
-font-weight: normal;
-}
-
-h1.score {
-font-size: 48pt;
-}
-
-div.label {
-padding-top: 3px;
-}
-
-div.label div {
-text-align: right;
-float: left;
-width: 10em;
-padding-right: 5px;
-}
-
-div.label#password {
-margin-top: 20px;
-}
-
-div.labels div.submit {
-margin-top: 5px;
-margin-left: 10.5em;
-}
-
-div.labels {
-margin-top: 10px;
-}
-
-div.notice {
-margin-top: 10px;
-color: red;
-text-align: center;
-width: 100%;
-}
-
+table.score,
 table.controls {
-padding: 10px;
+	border: 0px;
 }
 
-table.stats,
-table.controlpad,
-table.scoreboard,
-table.bruises,
-table.allgames {
-border: thin solid black;
-border-collapse: collapse;
-margin-bottom: 10px;
+table.score td {
+	border: 0px;
 }
 
-table.stats td,
-table.stats th,
-table.controlpad td,
-table.scoreboard td,
-table.scoreboard th,
-table.bruises td,
-table.bruises th,
-table.allgames td,
-table.allgames th {
-border: thin solid black;
-padding: 5px;
+#labels {
+	margin-top: 5px;
 }
 
-table.stats td,
-table.stats th {
-font-size: small;
+div.label,
+div.widelabel {
+	padding-top: 3px;
 }
 
-table#graphs img {
-padding-right: 10px;
-padding-bottom: 8px;
+div.submit {
+	padding-left: 10.5em;
 }
 
+#notice {
+	margin-top: 10px;
+	color: red;
+	text-align: center;
+	width: 100%;
+}
+
+div.label div,
+div.widelabel div {
+	text-align: right;
+	float: left;
+	width: 10em;
+	padding-right: 5px;
+}
+
+div.widelabel div {
+	width: 12em;
+}
+
+/* no border around images */
+img {
+	border: none;
+}
+
+img.leftimage {
+	float: left;
+}
+
+img.rightimage {
+	float:right;
+}
+
+table {
+	border: thin solid black;
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+
+table.stats {
+	font-size: small;
+}
+
+th, td {
+	border: thin solid black;
+	text-align: center;
+	padding: 5px;
+}
+
+#copyright {
+	border: none;
+	text-align: center;
+	font-size: 10pt;
+	color: #AAAAAA;
+	margin-top: 1em;
+}

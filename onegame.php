@@ -18,10 +18,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require("db.php");
-require("boccelib.php");
-require("header.php");
-require("side.php");
+require("start.php");
 
 $game = $_GET["game"];
 db_open();

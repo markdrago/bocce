@@ -1,0 +1,35 @@
+--- ../bocce.tmp2/allscores.php	2005-06-15 23:33:03.237850608 -0400
++++ allscores.php	2005-06-04 00:15:02.481520520 -0400
+@@ -29,18 +29,26 @@
+   $players[$row["id"]] = $row["firstname"];
+  }
+ 
+-$result = db_query("select id,winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game order by dts desc");
++$data = Array();
++
++$result = db_query("select id,winner,loser,winner_points,loser_points,strftime('%s',date) as date from game order by date desc");
+ while ($row = db_fetch_array($result)) {
+   $winner_name = $players[$row["winner"]];
+   $loser_name = $players[$row["loser"]];
+   $score = $row["winner_points"] . " - " . $row["loser_points"];
+   $date = date("M jS, Y @ g:i a",$row["date"]);
+   $id = $row["id"];
+-  echo "<tr><td>$winner_name</td><td>$loser_name</td><td>$score</td><td><a href='onegame.php?game=$id'>$date</a></td></tr>";
++  $data[] = Array(
++  		'id' => $id,
++  		'winner_name' => $winner_name,
++		'loser_name' => $loser_name,
++		'score' => $score,
++		'date' => $date);
+  }
+ db_close();
++
++$page->assign('subtitle', 'Office Bocce Games');
++$page->assign('data', $data);
++$page->display('allscores.tpl');
++
+ ?>
+-</table>
+-</div>
+-</body>
+-</html>

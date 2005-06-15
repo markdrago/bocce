@@ -18,8 +18,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require ('db.php');
-require ('boccelib.php');
+require ('start.php');
 
 $notice = "";
 
@@ -93,48 +92,9 @@ if (isset($_POST["submit"])) {
   }
 }
 
-require("header.php");
-require("side.php");
+$page->assign('notice', $notice);
+$page->assign('subtitle', "Add a Bocce Player");
 
-print "<div class=\"body\">";
+$page->display('addplayer.tpl');
 
-if ($notice != "") {
-  print "<div class=\"notice\">$notice</div>";
-}
 ?>
-<h1>Add a Bocce Player</h1>
-
-<form action="" method="post">
-  <div class="labels">
-    <div class="label">
-      <div>First Name:</div>
-      <input type="text" maxlength="25" size="25" name="fname" value="<?=$fname?>" />
-    </div>
-    <div class="label">
-      <div>Last Name:</div>
-      <input type="text" maxlength="25" size="25" name="lname" value="<?=$lname?>" />
-    </div>
-    <div class="label">
-      <div>User Name:</div>
-      <input type="text" maxlength="16" size="25" name="uname" value="<?=$uname?>" />
-    </div>
-    <div class="label">
-      <div>Email Address:</div>
-      <input type="text" size="25" name="email" value="<?=$email?>" />
-    </div>
-    <div class="label" id="password">
-      <div>Password:</div>
-      <input type="password" maxlength="25" size="25" name="pass" />
-    </div>
-    <div class="label">
-      <div>Verify Password:</div>
-      <input type="password" maxlength="25" size="25" name="vpass" />
-    </div>
-    <div class="submit">
-      <input class="submit" name="submit" type="submit" value="Submit" />
-    </div>
-  </div>
-</form>
-</div>
-</body>
-</html>

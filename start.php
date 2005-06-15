@@ -1,6 +1,6 @@
 <?
 /*
- * Copyright (C) 2004, 2005 Mark Drago
+ * Copyright (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,20 +17,32 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require_once("boccelib.php");
+require_once("config.php");
 
-checkForDB();
+/*
+ * Start up the session
+ */
+session_start();
 
-print "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-print "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
+/*
+ * Set up Smarty
+ */
+require_once(SMARTY_DIR."Smarty.class.php");
+
+$page = new Smarty;
+$page->template_dir	= $template_dir;
+$page->compile_dir	= $compile_dir;
+$page->config_dir	= $config_dir;
+$page->cache_dir	= $cache_dir;
+
+/*
+ * Set up db
+ */
+require_once("db.php");
+
+/*
+ * Start up boccelib
+ */
+require("boccelib.php");
+
 ?>
-<html>
-<head>
-<title>OfficeBocce.com</title>
-<link rel="stylesheet" type="text/css" href="main.css" />
-</head>
-<body>
-<div id="header">
-<a href="index.php"><img src="images/bocceball.png" alt="Bocce Ball" /></a>
-<span id="maintitle" class="title">Office Bocce Score Tracker</span>
-</div>

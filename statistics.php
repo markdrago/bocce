@@ -18,203 +18,63 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require("db.php");
-require("boccelib.php");
+require("start.php");
 require("statslib.php");
-require("header.php");
-require("side.php");
-?>
-<div class="body">
-<h1>Office Bocce Scores</h1>
-<br />
-<table width="100%" class="stats">
-<tr>
-<th>Name</th>
-<th>Record (W-L)</th>
-<th>Win Percentage</th>
-<th>Deuces Per Game</th>
-<th>Deuces Against Per Game</th>
-<th>Points per Game</th>
-<th>PA per Game</th>
-<th>Current Streak</th>
-</tr>
 
-<?
+$page->assign('subtitle',"Office Bocce Scores");
+
+$players = Array();
 
 db_open();
 
 foreach (all_players() as $player) {
-  print "<tr>";
-
-  print "<th><a href=\"personal.php?id=$player\">";
-  print player_name($player)."</a></th>\n";
-
-  print "<td>".player_total_wins($player)."&nbsp;-&nbsp;";
-  print player_total_losses($player)."</td>\n";
-
-  print "<td>".format_percent(player_overall_win_percentage($player)).
-    "</td>\n";
-
-  print "<td>".format_average(player_overall_deuces_per_game($player)).
-    "</td>\n";
-
-  print "<td>".format_average(player_overall_deuces_against_per_game($player)).
-    "</td>\n";
-
-  print "<td>".format_average(player_overall_points_per_game($player)).
-    "</td>\n";
-
-  print "<td>".format_average(
-    player_overall_points_against_per_game($player))."</td>\n";
-
-  print "<td>".player_overall_current_streak($player)."</td>\n";
-
-  print "</tr>\n";
+	$players[] = Array(
+		'id' => $player,
+		'name' => player_name($player),
+		'wins' => player_total_wins($player),
+		'loses' => player_total_losses($player),
+		'overall_win_perc' => format_percent(player_overall_win_percentage($player)),
+		'overall_deuces_per_game' => format_average(player_overall_deuces_per_game($player)),
+		'overall_deuces_against_per_game' => format_average(player_overall_deuces_against_per_game($player)),
+		'overall_points_per_game' => format_average(player_overall_points_per_game($player)),
+		'overall_points_against_per_game' => format_average(player_overall_points_against_per_game($player)),
+		'overall_current_streak' => player_overall_current_streak($player),
+		// second table
+		'overall_points_per_game_as_loser' => format_average(player_overall_points_per_game_as_loser($player)),
+		'overall_points_against_per_game_as_winner' => format_average(player_overall_points_against_per_game_as_winner($player)),
+		'overall_bruise_perc' => format_percent(player_overall_bruise_percentage($player)),
+		'overall_bruise_attempts_per_game' => format_average(player_overall_bruise_attempts_per_game($player)),
+		'overall_rounds_per_game' => format_average(player_overall_rounds_per_game($player)),
+		'overall_deuces_per_round' => format_percent(player_overall_deuces_per_round($player)),
+		'overall_double_deuce_to_turkey_conv_perc' => format_percent(player_overall_double_deuce_to_turkey_conversion_percentage($player)),
+		'overall_coinflip_win_perc' => format_percent(player_overall_coinflip_win_percentage($player)),
+		// third table
+		'total_deuces' => player_total_deuces($player),
+		'total_points_scored' => player_total_points_scored($player),
+		'total_points_scored_against' => player_total_points_scored_against($player),
+		'total_turkeys' => player_total_turkeys($player),
+		'total_tetrises' => player_total_tetrises($player),
+		'total_bruises_succ' => player_total_bruises_successful($player),
+		'total_bruises_unsecc' => player_total_bruises_unsuccessful($player),
+		'total_shutouts' => player_total_shutouts($player),
+		'total_been_shutouts' => player_total_been_shutouts($player));
 }
 
-?>
-</table>
+$page->assign('players', $players);
 
-<br />
-
-<table width="100%" class="stats">
-<tr>
-<th>Name</th>
-<th>PPG as loser</th>
-<th>PAPG as winner</th>
-<th>Bruise Percentage</th>
-<th>Bruise Attempts per Game</th>
-<th>Rounds per Game</th>
-<th>Deuces per Round</th>
-<th>2x Deuce -> Turkey Percentage</th>
-<th>Coinflip Win Percentage</th>
-</tr>
-
-<?
-
-foreach (all_players() as $player) {
-  print "<tr>";
-
-  print "<th><a href=\"personal.php?id=$player\">";
-  print player_name($player)."</a></th>\n";
-
-  print "<td>".format_average(
-    player_overall_points_per_game_as_loser($player))."</td>\n";
-
-  print "<td>".format_average(
-    player_overall_points_against_per_game_as_winner($player))."</td>\n";
-
-  print "<td>".format_percent(
-    player_overall_bruise_percentage($player))."</td>\n";
-
-  print "<td>".format_average(
-    player_overall_bruise_attempts_per_game($player))."</td>\n";
-
-  print "<td>".format_average(
-    player_overall_rounds_per_game($player))."</td>\n";
-
-  print "<td>".format_percent(
-    player_overall_deuces_per_round($player))."</td>\n";
-
-  print "<td>".
-  format_percent(player_overall_double_deuce_to_turkey_conversion_percentage($player))."</td>";
-  print "<td>".
-  format_percent(player_overall_coinflip_win_percentage($player))."</td>";
-
-  print "</tr>\n";
-}
-
-?>
-
-</table>
-
-<br />
-
-<table width="100%" class="stats">
-<tr>
-<th>Name</th>
-<th>Total Deuces</th>
-<th>Points Scored</th>
-<th>Points Against</th>
-<th>Turkeys</th>
-<th>Tetrises</th>
-<th>Successful Bruises</th>
-<th>Missed Bruises</th>
-<th>Shutouts</th>
-<th>Been Shutout</th>
-</tr>
-
-<?
-foreach (all_players() as $player) {
-  print "<tr>";
-
-  print "<th><a href=\"personal.php?id=$player\">";
-  print player_name($player)."</a></th>\n";
-
-  print "<td>".player_total_deuces($player)."</td>\n";
-  print "<td>".player_total_points_scored($player)."</td>\n";
-  print "<td>".player_total_points_scored_against($player)."</td>\n";
-  print "<td>".player_total_turkeys($player)."</td>\n";
-  print "<td>".player_total_tetrises($player)."</td>\n";
-  print "<td>".player_total_bruises_successful($player)."</td>\n";
-  print "<td>".player_total_bruises_unsuccessful($player)."</td>\n";
-  print "<td>".player_total_shutouts($player)."</td>\n";
-  print "<td>".player_total_been_shutouts($player)."</td>\n";
-  print "</tr>\n";
-}
-
-?>
-</table>
-
-<br />
-<h2>Graphs</h2>
-<table id="graphs">
-<tr>
-<td><img src="winpercentage.php" alt="Winning Percentage Graph" /></td>
-<td><img src="deucespergame.php" alt="Deuces per Game Graph" /></td>
-</tr>
-<tr>
-<td><img src="bruisepercentage.php" alt="Bruise Percentage Graph" /></td>
-<td><img src="rollingwinpercentage.php" alt="Rolling Win Percentage Graph" /></td>
-</tr>
-</table>
-<br />
-
-<h2>Balls</h2>
-<table width="100%" class="stats">
-<tr>
-<th>Color</th>
-<th>Ball Type</th>
-<th>Use Percentage</th>
-<th>Win Percentage</th>
-<th>Deuces Per Game</th>
-</tr>
-
-<?
+$balls = Array();
 foreach (all_balls() as $ball) {
-  print "<tr>";
-
-  print "<th>".ball_color($ball)."</th>\n";
-
-  print "<td>".ball_type_name(ball_type($ball))."</td>\n";
-
-  print "<td>".
-  format_percent(ball_overall_use_percentage($ball))."</td>\n";
-
-  print "<td>".
-  format_percent(ball_overall_win_percentage($ball))."</td>\n";
-
-  print "<td>".
-  format_percent(ball_overall_deuces_per_game($ball))."</td>\n";
-
-  print "</tr>\n";
+	$balls[] = Array(
+		'color' => ball_color($ball),
+		'type' => ball_type_name(ball_type($ball)),
+		'use_perc' => format_percent(ball_overall_use_percentage($ball)),
+		'win_perc' => format_percent(ball_overall_win_percentage($ball)),
+		'deuces_per_game' => format_percent(ball_overall_deuces_per_game($ball)));
 }
 
 db_close();
+
+$page->assign('balls', $balls);
+$page->display('statistics.tpl');
+
 ?>
-</table>
-
-
-</div>
-</body>
-</html>

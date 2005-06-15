@@ -1,14 +1,14 @@
 8
 
 dir
-19
+20
 http://www.markdrago.com/svn/bocce/trunk/patches
 http://www.markdrago.com/svn
 
 
 
-2005-06-15T21:28:31.129330Z
-19
+2005-06-15T22:47:43.795159Z
+20
 mdrago
 
 
@@ -25,6 +25,30 @@ svn:special svn:externals svn:needs-lock
 
 
 ab78e0e6-faed-0310-8a29-dcbdf91d11af
+
+smarty-conversion.patch
+file
+
+
+
+
+2007-04-28T18:09:55.000000Z
+88e92a8874f14bb6c1c25509dd4978ca
+2005-06-15T22:47:43.795159Z
+20
+mdrago
+
+smarty-fix.patch
+file
+
+
+
+
+2007-04-28T18:09:55.000000Z
+cd3e0bafc9803a6a1f269c39df8b6aa2
+2005-06-15T22:47:43.795159Z
+20
+mdrago
 
 abstract-db.patch
 file
@@ -56,10 +80,10 @@ file
 
 
 
-2007-04-28T18:09:52.000000Z
-2ee16890a57c4d3f223b568d7948e7ed
-2005-06-15T21:28:31.129330Z
-19
+2007-04-28T18:09:55.000000Z
+1d6f76225eb81ee64f75a89e536de208
+2005-06-15T22:47:43.795159Z
+20
 mdrago
 
 css-validation.patch

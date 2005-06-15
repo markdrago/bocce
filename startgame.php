@@ -19,9 +19,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-session_start();
-require('db.php');
-require('boccelib.php');
+require('start.php');
 
 $uname = "";
 $titlehint = "";
@@ -110,41 +108,11 @@ if (isset($_SESSION["player1"])) {
   $playernum = "Second";
 }
 
-require("header.php");
-require("side.php");
+$page->assign('notice', $notice);
+$page->assign('subtitle', "Login $playernum Player");
+$page->assign('subtitlehint', $titlehint);
+$page->assign('uname', $uname);
 
-print "<div class=\"body\">";
-
-if ($notice != "") {
-  print "<div class=\"notice\">$notice</div>";
-}
+$page->display('startgame.tpl');
 
 ?>
-<h1 class="title">Login <?=$playernum?> Player<span class="titlehint"><?=$titlehint?></span></h1>
-<form action="" method="post">
-  <div class="labels">
-    <div class="label">
-      <div>User Name:</div>
-      <input type="text" maxlength="16" size="25" name="uname" value="<?=$uname?>" />
-    </div>
-    <div class="label">
-      <div>Password:</div>
-      <input type="password" maxlength="25" size="25" name="pass" />
-    </div>
-    <div class="submit">
-      <input name="submit" type="submit" value="Login" />
-      <input name="submit" type="submit" value="Cancel" />
-    </div>
-  </div>
-</form>
-</div>
-
-<script type="text/javascript">
-function setfocus() {
-  document.forms[0].uname.focus();
-}
-window.onload=setfocus;
-</script>
-
-</body>
-</html>

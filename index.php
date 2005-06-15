@@ -18,17 +18,8 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-print "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-print "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">";
-require("boccelib.php");
-require("header.php");
-require("side.php");
+require("start.php");
+
+$page->display('index.tpl');
 
 ?>
-<div id="mainbody">
-<p>This is meant to be an exercise in web development with php and sqlite.  This is also a great excuse to go extrememly overboard with statistics for bocce, but it should be trivial adding support for other database engines.</p>
-<img src="images/pope.gif" alt="The pope playing bocce" />
-</div>
-<div class="cleaner" />
-</body>
-</html>

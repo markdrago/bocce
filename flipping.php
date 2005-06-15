@@ -17,20 +17,11 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require("header.php");
-require("side.php");
+require("start.php");
+
+$page->assign('subtitle', "Flipping the coin");
+
+$page->display('flipping.tpl');
+
 ?>
 
-<div class="body">
-<h1>Flipping the Coin ...</h1>
-</div>
-
-<script>
-function gotoFlipCoin() {
-  window.location="flipcoin.php";
-}
-setTimeout("gotoFlipCoin()", 2500);
-</script>
-</div>
-</body>
-</html>

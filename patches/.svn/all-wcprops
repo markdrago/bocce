@@ -1,7 +1,19 @@
 K 25
 svn:wc:ra_dav:version-url
 V 36
-/svn/!svn/ver/19/bocce/trunk/patches
+/svn/!svn/ver/20/bocce/trunk/patches
+END
+smarty-conversion.patch
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/20/bocce/trunk/patches/smarty-conversion.patch
+END
+smarty-fix.patch
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/20/bocce/trunk/patches/smarty-fix.patch
 END
 abstract-db.patch
 K 25
@@ -19,7 +31,7 @@ README
 K 25
 svn:wc:ra_dav:version-url
 V 43
-/svn/!svn/ver/19/bocce/trunk/patches/README
+/svn/!svn/ver/20/bocce/trunk/patches/README
 END
 css-validation.patch
 K 25

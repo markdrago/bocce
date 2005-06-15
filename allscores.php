@@ -18,16 +18,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require("db.php");
-require("boccelib.php");
-require("header.php");
-require("side.php");
-?>
-<div class="body">
-<h1>Office Bocce Games</h1>
-<table class="allgames">
-<tr><th>Winner</th><th>Loser</th><th>Score</th><th>Date & Time</th></tr>
-<?
+require("start.php");
 
 db_open();
 $result = db_query("select * from player");
@@ -38,6 +29,8 @@ while ($row = db_fetch_array($result)) {
   $players[$row["id"]] = $row["firstname"];
  }
 
+$data = Array();
+
 $result = db_query("select id,winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game order by dts desc");
 while ($row = db_fetch_array($result)) {
   $winner_name = $players[$row["winner"]];
@@ -45,11 +38,17 @@ while ($row = db_fetch_array($result)) {
   $score = $row["winner_points"] . " - " . $row["loser_points"];
   $date = date("M jS, Y @ g:i a",$row["date"]);
   $id = $row["id"];
-  echo "<tr><td>$winner_name</td><td>$loser_name</td><td>$score</td><td><a href='onegame.php?game=$id'>$date</a></td></tr>";
+  $data[] = Array(
+  		'id' => $id,
+  		'winner_name' => $winner_name,
+		'loser_name' => $loser_name,
+		'score' => $score,
+		'date' => $date);
  }
 db_close();
+
+$page->assign('subtitle', 'Office Bocce Games');
+$page->assign('data', $data);
+$page->display('allscores.tpl');
+
 ?>
-</table>
-</div>
-</body>
-</html>

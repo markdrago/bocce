@@ -2,6 +2,12 @@
 	* schema/*
 	Applied a patch from Jeff Sipek that includes database schemas
 	for all of the supported databases (mysql, pgsql, and sqlite)
+
+	*
+	Applied a patch from Jeff Sipek to convert office bocce to use smarty
+	templates instead of outputting HTML directly.  This should greatly
+	clean up the code and make it easier to clean up the look of office
+	bocce.
 	
 2005-03-31 Mark Drago   <markdrago@mail.com>
 	* statslib.php

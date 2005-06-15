@@ -17,166 +17,125 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-session_start();
-require('boccelib.php');
-  db_open();
+require('start.php');
+
+db_open();
 
 if (!isset($_POST["submit"])) {
-  coinFlipResults();
-
+	coinFlipResults();
+	$template = 'results';
 } elseif ($_POST["submit"] == "Go First") {
-  chooseGoFirst();
-
+	chooseGoFirst();
+	$template = 'gofirst';
 } elseif ($_POST["submit"] == "Choose Balls") {
-  chooseBallColor();
+	chooseBallColor();
+	$template = 'ballcolor';
 }
 
+$page->display("flipcoin-$template.tpl");
+exit(0);
+
 function chooseGoFirst() {
-  require("header.php");
-  require("side.php");
+	global $page;
 
-  //if the winner of the coin toss selected to 'go first'
-  $_SESSION["pallino_toss"] = array();
-  $_SESSION["pallino_toss"][0] = $_SESSION["acting_player"];
-  $chose_first_name = player_name($_SESSION["acting_player"]);
+	//if the winner of the coin toss selected to 'go first'
+	$_SESSION["pallino_toss"] = array();
+	$_SESSION["pallino_toss"][0] = $_SESSION["acting_player"];
+	$chose_first_name = player_name($_SESSION["acting_player"]);
 
-  $_SESSION["acting_player"] = nonActingPlayer();
-  $acting_player_name = player_name($_SESSION["acting_player"]);
+	$_SESSION["acting_player"] = nonActingPlayer();
+	$acting_player_name = player_name($_SESSION["acting_player"]);
 
-  ?>
-  <div class="body">
-  <form action="" method="post">
-    <h1 class="title"><?=$acting_player_name?>, Choose Your Balls</h1>
-    <div style="padding-top: 1em; width: 12em; text-align: right;">
-      <?=$chose_first_name?> chose to go first.
-    </div>
-    <form action="" method="post">
-    <div class="labels">
-      <? select_balls("Choose your balls:"); ?>
-    </div>
-  </form>
-  </div>
-  <?
+	$page->assign('subtitle', "$acting_player_name, Choose Your Balls");
 
-  db_close();
+	$page->assign('chose_first_name', $chose_first_name);
+        select_balls("Choose your balls:");
+	
+	db_close();
 }
 
 function chooseBallColor() {
-  require("header.php");
-  require("side.php");
+	global $page;
 
-  if ($_SESSION["acting_player"] == $_SESSION["player1"]) {
-    $player = "player1";
-  } else {
-    $player = "player2";
-  }
+	if ($_SESSION["acting_player"] == $_SESSION["player1"]) {
+		$player = "player1";
+	} else {
+		$player = "player2";
+	}
 
-  $_SESSION[$player."_ball1"]=$_POST['ball1'];
-  $_SESSION[$player."_ball2"]=$_POST['ball2'];
+	$_SESSION[$player."_ball1"]=$_POST['ball1'];
+	$_SESSION[$player."_ball2"]=$_POST['ball2'];
 
-  if (!isset($_SESSION["pallino_toss"][0])) {
-    $_SESSION["pallino_toss"][0] = nonActingPlayer();
-  }
+	if (!isset($_SESSION["pallino_toss"][0])) {
+		$_SESSION["pallino_toss"][0] = nonActingPlayer();
+	}
 
-  //if we're done
-  if (isset($_SESSION["player1_ball1"]) &&
-      isset($_SESSION["player1_ball2"]) &&
-      isset($_SESSION["player2_ball1"]) &&
-      isset($_SESSION["player2_ball2"]) &&
-      isset($_SESSION["pallino_toss"][0])) {
+	//if we're done
+	if (isset($_SESSION["player1_ball1"]) &&
+	    isset($_SESSION["player1_ball2"]) &&
+	    isset($_SESSION["player2_ball1"]) &&
+	    isset($_SESSION["player2_ball2"]) &&
+	    isset($_SESSION["pallino_toss"][0])) {
+		unset($_SESSION["acting_player"]);
 
-    unset($_SESSION["acting_player"]);
+		redirect("addscore.php");
+		db_close();
+		return 0;
+	}
 
-    redirect("addscore.php");
-    db_close();
-    return 0;
-  }
+	$chose_balls_name = player_name($_SESSION["acting_player"]);
+	$page->assign('chose_balls_name', $chose_balls_name);
 
-  $chose_balls_name = player_name($_SESSION["acting_player"]);
+	$_SESSION["acting_player"] = nonActingPlayer();
+	$acting_player_name = player_name($_SESSION["acting_player"]);
 
-  $_SESSION["acting_player"] = nonActingPlayer();
-  $acting_player_name = player_name($_SESSION["acting_player"]);
+	$page->assign('subtitle', "$acting_player_name, Choose Your Balls");
 
-  $big_ball_name = ball_type_name($GLOBALS["BRUISER_TYPE"]);
-  $small_ball_name = ball_type_name($GLOBALS["LITTLE_BALL_TYPE"]);
+	$prev_balls = Array(
+		Array(
+			'name' => ball_type_name($GLOBALS["BRUISER_TYPE"]),
+			'color' => ball_color($_POST['ball1'])
+		),
+		Array(
+			'name' => ball_type_name($GLOBALS["LITTLE_BALL_TYPE"]),
+			'color' => ball_color($_POST['ball2'])));
+	$page->assign('prev_balls', $prev_balls);
 
-  $big_ball_color = ball_color($_POST['ball1']);
-  $small_ball_color = ball_color($_POST['ball2']);
+	select_balls("Choose your balls:");
 
-  ?>
-  <div class="body">
-  <form action="" method="post">
-    <h1 class="title"><?=$acting_player_name?>, Choose Your Balls</h1>
-    <div style="padding-top: 1em; padding-left: 1em;">
-      <?=$chose_balls_name?> chose to use the following balls:
-    </div>
-    <div style="padding-left: 6em;">
-      <?=$big_ball_name?>: <?=$big_ball_color?><br />
-      <?=$small_ball_name?>: <?=$small_ball_color?>
-    </div>
-    <form action="" method="post">
-    <div class="labels">
-      <? select_balls("Choose your balls:"); ?>
-    </div>
-  </form>
-  </div>
-  <?
-
-  db_close();
+	db_close();
 }
 
 function coinFlipResults() {
-  require("header.php");
-  require("side.php");
+	global $page;
+	
+	$coinflip_winner = (flip_coin() + 1);
 
-  $coinflip_winner = (flip_coin() + 1);
+	//the acting_player is the player that is making the current decision
+	$coinflip_winner = "player" . $coinflip_winner;
+	$_SESSION["acting_player"] = $_SESSION[$coinflip_winner];
+	$_SESSION["coinflip_winner"] = $_SESSION[$coinflip_winner];
 
-  //the acting_player is the player that is making the current decision
-  $coinflip_winner = "player" . $coinflip_winner;
-  $_SESSION["acting_player"] = $_SESSION[$coinflip_winner];
-  $_SESSION["coinflip_winner"] = $_SESSION[$coinflip_winner];
-  $coinflip_winner_name = player_name($_SESSION["coinflip_winner"]);
+	$page->assign('subtitle', player_name($_SESSION["coinflip_winner"]) . " Won the Coin Toss!");
   
-  ?>
-  <div class="body">
-  <form action="" method="post">
-  <h1 class="title"><?=$coinflip_winner_name?> Won the Coin Toss!</h1>
+	select_balls("I want to choose my balls:");
   
-  <form action="" method="post">
-    <div class="labels">
-      <div class="label" style="padding-bottom: 10px;">
-        <div style="width: 12em;">I want to go first:</div>
-        <input name="submit" type="submit" value="Go First" />
-      </div>
-     <? select_balls("I want to choose my balls:"); ?>
-    </div>
-  </form>
-  </div>
-  <?
-
-  db_close();
+	db_close();
 }
   
 function select_balls($message) {
-  $bruiserselect = get_ball_select($GLOBALS['BRUISER_TYPE']);
-  $littleballselect = get_ball_select($GLOBALS['LITTLE_BALL_TYPE']);
+	global $page;
 
-?>
-  <div class="label">
-    <div style="width: 12em;"><?=$message?></div>
-    <?=$bruiserselect?>
-    <?=$littleballselect?>
-    <br />
-    <div style="text-align: right; width: 25.7em; padding-top: 0px;">
-      <input name="submit" type="submit" value="Choose Balls" />
-    </div>
-  </div>
-<?
+	$bruisers = get_balls($GLOBALS['BRUISER_TYPE']);
+	$littleballs = get_balls($GLOBALS['LITTLE_BALL_TYPE']);
+
+	$page->assign('balls_message', $message);
+	$page->assign('balls', Array($bruisers, $littleballs));
 }
 
 function flip_coin() {
-  //this function just returns a 0 or a 1
-  return (mt_rand() & 1);
+	//this function just returns a 0 or a 1
+	return (mt_rand() & 1);
 }
 
 function nonActingPlayer() {
@@ -188,38 +147,34 @@ function nonActingPlayer() {
   }
 }
 
-function get_ball_select($type) {
-  $query = "select id, color from ball where num=$type order by color";
-  $result = db_query($query);
+function get_balls($type) {
+	$query = "select id, color from ball where num=$type order by color";
+	$result = db_query($query);
 
-  $balls = array();
+	$balls = array();
 
-  while($row = db_fetch_array($result)) {
-    $balls[$row['id']] = $row['color'];
-  }
+	while($row = db_fetch_array($result)) {
+		$balls[$row['id']] = $row['color'];
+	}
 
-  $ball_type_name = ball_type_name($type);
+	$ball_type_name = ball_type_name($type);
 
-  $exclude = "";
-  for ($i = 1; $i <= 2; $i++) {
-    if (isset($_SESSION["player$i" . "_ball$type"])) {
-      $exclude = $_SESSION["player$i" . "_ball$type"];
-    }
-  }
+	$exclude = "";
+	for ($i = 1; $i <= 2; $i++) {
+		if (isset($_SESSION["player$i" . "_ball$type"])) {
+			$exclude = $_SESSION["player$i" . "_ball$type"];
+		}
+	}
 
-  $ballselect = "<select name=\"ball$type\">\n";
-  $ballselect .= "<option value=\"-----\">$ball_type_name</option>\n";
-  foreach ($balls as $id => $ball) {
-    if ($id != $exclude) {
-      $ballselect .= "<option value=\"$id\">$ball</option>\n";
-    }
-  }
-  $ballselect .= "</select>\n";
+	$balldata = Array();
+	foreach ($balls as $id => $ball) {
+		if ($id != $exclude) {
+			$balldata[] = Array('id' => $id, 'name' => $ball);
+		}
+	}
   
-  return $ballselect;
+	return Array('type' => $type, 'type_name' => $ball_type_name, 'balls' => $balldata);
 }
 
-?>
 
-</body>
-</html>
+?>

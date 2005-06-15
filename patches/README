@@ -10,6 +10,18 @@ filename
 - date of submission
 - date of application
 
+smarty-fix.patch
+- Jeff Sipek
+- jeffpc@optonline.net
+- sub: 2005-06-15
+- app: 2005-06-15
+
+smarty-conversion.patch
+- Jeff Sipek
+- jeffpc@optonline.net
+- sub: 2005-06-15
+- app: 2005-06-15
+
 mysql-pgsql.patch
 - Jeff Sipek
 - jeffpc@optonline.net
