@@ -44,7 +44,7 @@ foreach ($player as $key => $value) {
 }
 
 #get record of all players
-$result = db_query("select winner, loser from game order by date");
+$result = db_query("select winner, loser from game order by dts");
 while ($row = db_fetch_array($result)) {
   array_push($player[$row["winner"]]["record"], 1);
   array_push($player[$row["loser"]]["record"], 0);

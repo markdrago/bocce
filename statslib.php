@@ -207,7 +207,7 @@ function player_total_double_deuces_with_possible_turkey($id) {
 #get player's overall current streak
 function player_overall_current_streak($id) {
   #get list of every game this player played in, sorted backwards by date
-  $result = db_query("select winner, loser from game where winner=$id or loser=$id order by date desc");
+  $result = db_query("select winner, loser from game where winner=$id or loser=$id order by dts desc");
   
   $count = 0;
 
@@ -448,7 +448,7 @@ function player_total_rounds_played_versus($id, $player) {
 
 #get player's overall current streak
 function player_overall_current_streak_versus($id, $player) {
-  $result = db_query("select winner, loser from game where (winner=$id and loser=$player) or (loser=$id and winner=$player) order by date desc");
+  $result = db_query("select winner, loser from game where (winner=$id and loser=$player) or (loser=$id and winner=$player) order by dts desc");
   
   $count = 0;
 

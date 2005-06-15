@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 36
-/svn/!svn/ver/12/bocce/trunk/patches
+/svn/!svn/ver/18/bocce/trunk/patches
 END
 abstract-db.patch
 K 25
@@ -9,9 +9,21 @@ svn:wc:ra_dav:version-url
 V 53
 /svn/!svn/ver/7/bocce/trunk/patches/abstract-db.patch
 END
+mysql-pgsql.patch
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/18/bocce/trunk/patches/mysql-pgsql.patch
+END
 README
 K 25
 svn:wc:ra_dav:version-url
 V 43
 /svn/!svn/ver/12/bocce/trunk/patches/README
+END
+css-validation.patch
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/18/bocce/trunk/patches/css-validation.patch
 END

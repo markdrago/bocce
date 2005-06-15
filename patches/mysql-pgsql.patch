@@ -1,0 +1,308 @@
+Index: vardefs.php
+===================================================================
+--- vardefs.php (revision 17)
++++ vardefs.php (working copy)
+@@ -1,8 +1,8 @@
+ <?
+ 
+ $config_file = "config.php";
+-$schema_file = "dbschema.sql";
++$schema_file = "schema/$dbengine.sql";
+ 
+ require($config_file);
+ 
+-?>
+\ No newline at end of file
++?>
+Index: onegame.php
+===================================================================
+--- onegame.php (revision 17)
++++ onegame.php (working copy)
+@@ -29,7 +29,7 @@
+ 
+ $players = array();
+ 
+-$result = db_query("select winner,loser,winner_points,loser_points,strftime('%s',date) as date from game where id=$game");
++$result = db_query("select winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game where id=$game");
+ $row = db_fetch_array($result);
+ $winner = $row["winner"];
+ $loser = $row["loser"];
+@@ -112,4 +112,4 @@
+ ?>
+ </div>
+ </body>
+-</html>
+\ No newline at end of file
++</html>
+Index: dbschema.sql
+===================================================================
+--- dbschema.sql        (revision 17)
++++ dbschema.sql        (working copy)
+@@ -1,36 +0,0 @@
+-create table ball(
+-id INTEGER PRIMARY KEY,
+-num INTEGER,
+-color CHAR(100));
+-CREATE table bruise(
+-id integer primary key,
+-game integer,
+-round integer,
+-player integer,
+-success integer);
+-CREATE TABLE game(
+-id INTEGER PRIMARY KEY,
+-loser INTEGER,
+-winner INTEGER,
+-coinflip_winner INTEGER,
+-loser_points INTEGER,
+-winner_points INTEGER,
+-winner_ball1 CHAR(100),
+-winner_ball2 CHAR(100),
+-loser_ball1 CHAR(100),
+-loser_ball2 CHAR(100),
+-date DATETIME);
+-CREATE TABLE player(
+-id INTEGER PRIMARY KEY,
+-username VARCHAR(100),
+-firstname VARCHAR(100),
+-lastname VARCHAR(100),
+-email VARCHAR(100),
+-password CHAR(32));
+-CREATE TABLE point(
+-id INTEGER PRIMARY KEY,
+-game INTEGER,
+-round INTEGER,
+-scorer INTEGER,
+-pallino_tosser INTEGER,
+-amount INTEGER);
+Index: statslib.php
+===================================================================
+--- statslib.php        (revision 17)
++++ statslib.php        (working copy)
+@@ -207,7 +207,7 @@
+ #get player's overall current streak
+ function player_overall_current_streak($id) {
+   #get list of every game this player played in, sorted backwards by date
+-  $result = db_query("select winner, loser from game where winner=$id or loser=$id order by date desc");
++  $result = db_query("select winner, loser from game where winner=$id or loser=$id order by dts desc");
+   
+   $count = 0;
+ 
+@@ -448,7 +448,7 @@
+ 
+ #get player's overall current streak
+ function player_overall_current_streak_versus($id, $player) {
+-  $result = db_query("select winner, loser from game where (winner=$id and loser=$player) or (loser=$id and winner=$player) order by date desc");
++  $result = db_query("select winner, loser from game where (winner=$id and loser=$player) or (loser=$id and winner=$player) order by dts desc");
+   
+   $count = 0;
+ 
+@@ -904,4 +904,4 @@
+   return sprintf("%01.2f", $value);
+ }
+ 
+-?>
+\ No newline at end of file
++?>
+Index: allscores.php
+===================================================================
+--- allscores.php       (revision 17)
++++ allscores.php       (working copy)
+@@ -38,7 +38,7 @@
+   $players[$row["id"]] = $row["firstname"];
+  }
+ 
+-$result = db_query("select id,winner,loser,winner_points,loser_points,strftime('%s',date) as date from game order by date desc");
++$result = db_query("select id,winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game order by dts desc");
+ while ($row = db_fetch_array($result)) {
+   $winner_name = $players[$row["winner"]];
+   $loser_name = $players[$row["loser"]];
+@@ -52,4 +52,4 @@
+ </table>
+ </div>
+ </body>
+-</html>
+\ No newline at end of file
++</html>
+Index: schema/sqlite.sql
+===================================================================
+--- schema/sqlite.sql   (revision 0)
++++ schema/sqlite.sql   (revision 0)
+@@ -0,0 +1,36 @@
++create table ball(
++id INTEGER PRIMARY KEY,
++num INTEGER,
++color CHAR(100));
++CREATE table bruise(
++id integer primary key,
++game integer,
++round integer,
++player integer,
++success integer);
++CREATE TABLE game(
++id INTEGER PRIMARY KEY,
++loser INTEGER,
++winner INTEGER,
++coinflip_winner INTEGER,
++loser_points INTEGER,
++winner_points INTEGER,
++winner_ball1 CHAR(100),
++winner_ball2 CHAR(100),
++loser_ball1 CHAR(100),
++loser_ball2 CHAR(100),
++dts DATETIME);
++CREATE TABLE player(
++id INTEGER PRIMARY KEY,
++username VARCHAR(100),
++firstname VARCHAR(100),
++lastname VARCHAR(100),
++email VARCHAR(100),
++password CHAR(32));
++CREATE TABLE point(
++id INTEGER PRIMARY KEY,
++game INTEGER,
++round INTEGER,
++scorer INTEGER,
++pallino_tosser INTEGER,
++amount INTEGER);
+Index: schema/mysql.sql
+===================================================================
+--- schema/mysql.sql    (revision 0)
++++ schema/mysql.sql    (revision 0)
+@@ -0,0 +1,55 @@
++DROP TABLE IF EXISTS ball;
++CREATE TABLE ball (
++       id int(11) NOT NULL auto_increment,
++       num int(11) default NULL,
++       color varchar(100) default NULL,
++       PRIMARY KEY (id)
++) ENGINE=MyISAM DEFAULT CHARSET=latin1;
++
++DROP TABLE IF EXISTS bruise;
++CREATE TABLE bruise (
++       id int(11) NOT NULL auto_increment,
++       game int(11) default NULL,
++       round int(11) default NULL,
++       player int(11) default NULL,
++       success int(11) default NULL,
++       PRIMARY KEY (id)
++) ENGINE=MyISAM DEFAULT CHARSET=latin1;
++
++DROP TABLE IF EXISTS game;
++CREATE TABLE game (
++       id int(11) NOT NULL auto_increment,
++       loser int(11) default NULL,
++       winner int(11) default NULL,
++       coinflip_winner int(11) default NULL,
++       loser_points int(11) default NULL,
++       winner_points int(11) default NULL,
++       winner_ball1 varchar(100) default NULL,
++       winner_ball2 varchar(100) default NULL,
++       loser_ball1 varchar(100) default NULL,
++       loser_ball2 varchar(100) default NULL,
++       dts timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
++       PRIMARY KEY  (id)
++) ENGINE=MyISAM DEFAULT CHARSET=latin1;
++
++DROP TABLE IF EXISTS player;
++CREATE TABLE player (
++       id int(11) NOT NULL auto_increment,
++       username varchar(100) default NULL,
++       firstname varchar(100) default NULL,
++       lastname varchar(100) default NULL,
++       email varchar(100) default NULL,
++       `password` varchar(32) default NULL,
++       PRIMARY KEY  (id)
++) ENGINE=MyISAM DEFAULT CHARSET=latin1;
++
++DROP TABLE IF EXISTS point;
++CREATE TABLE point (
++       id int(11) NOT NULL auto_increment,
++       game int(11) default NULL,
++       round int(11) default NULL,
++       scorer int(11) default NULL,
++       pallino_tosser int(11) default NULL,
++       amount int(11) default NULL,
++       PRIMARY KEY  (id)
++) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+Index: schema/pgsql.sql
+===================================================================
+--- schema/pgsql.sql    (revision 0)
++++ schema/pgsql.sql    (revision 0)
+@@ -0,0 +1,56 @@
++DROP TABLE ball;
++CREATE TABLE ball (
++       id int,
++       num int,
++       color varchar(100),
++       CONSTRAINT ball_pk PRIMARY KEY (id)
++);
++
++DROP TABLE bruise;
++CREATE TABLE bruise (
++       id int,
++       game int,
++       round int,
++       player int,
++       success int,
++       CONSTRAINT bruise_pk PRIMARY KEY (id)
++);
++
++DROP TABLE game;
++CREATE TABLE game (
++       id int,
++       loser int,
++       winner int,
++       coinflip_winner int,
++       loser_points int,
++       winner_points int,
++       winner_ball1 varchar(100),
++       winner_ball2 varchar(100),
++       loser_ball1 varchar(100),
++       loser_ball2 varchar(100),
++       dts timestamp without time zone,
++       CONSTRAINT game_pk PRIMARY KEY (id)
++);
++
++DROP TABLE player;
++CREATE TABLE player (
++       id int,
++       username varchar(100),
++       firstname varchar(100),
++       lastname varchar(100),
++       email varchar(100),
++       password char(32),
++       CONSTRAINT player_pk PRIMARY KEY (id)
++);
++
++DROP TABLE point;
++CREATE TABLE point (
++       id int,
++       game int,
++       round int,
++       scorer int,
++       pallino_tosser int,
++       amount int,
++       CONSTRAINT point_pk PRIMARY KEY (id)
++);
++
+Index: rollingwinpercentage.php
+===================================================================
+--- rollingwinpercentage.php    (revision 17)
++++ rollingwinpercentage.php    (working copy)
+@@ -44,7 +44,7 @@
+ }
+ 
+ #get record of all players
+-$result = db_query("select winner, loser from game order by date");
++$result = db_query("select winner, loser from game order by dts");
+ while ($row = db_fetch_array($result)) {
+   array_push($player[$row["winner"]]["record"], 1);
+   array_push($player[$row["loser"]]["record"], 0);
+@@ -99,4 +99,4 @@
+ 
+ #Display the graph
+ $graph->Stroke();
+-?>
+\ No newline at end of file
++?>

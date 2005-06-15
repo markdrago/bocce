@@ -1,7 +1,7 @@
 <?
 
 $config_file = "config.php";
-$schema_file = "dbschema.sql";
+$schema_file = "schema/$dbengine.sql";
 
 require($config_file);
 

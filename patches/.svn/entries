@@ -1,14 +1,14 @@
 8
 
 dir
-14
+18
 http://www.markdrago.com/svn/bocce/trunk/patches
 http://www.markdrago.com/svn
 
 
 
-2005-03-30T23:53:11.618096Z
-12
+2005-06-15T21:05:25.972270Z
+18
 mdrago
 
 
@@ -38,6 +38,18 @@ file
 7
 mdrago
 
+mysql-pgsql.patch
+file
+
+
+
+
+2007-04-28T18:09:50.000000Z
+c22bf73de3ae88ade7dedb9420b7b28d
+2005-06-15T21:05:25.972270Z
+18
+mdrago
+
 README
 file
 
@@ -48,5 +60,17 @@ file
 fe3f84cd123778c4d4f94bac82d98f7b
 2005-03-30T23:53:11.618096Z
 12
+mdrago
+
+css-validation.patch
+file
+
+
+
+
+2007-04-28T18:09:50.000000Z
+f9a9d8d05673d55c274510e2058df296
+2005-06-15T21:05:25.972270Z
+18
 mdrago
 

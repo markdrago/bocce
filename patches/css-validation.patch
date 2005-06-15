@@ -1,0 +1,56 @@
+Index: main.css
+===================================================================
+--- main.css    (revision 7)
++++ main.css    (working copy)
+@@ -3,7 +3,7 @@
+ }
+ 
+ div#header { 
+-  background-color: cornflowerblue;
++  background-color: #6495ED;
+   border: 1px solid #000;
+   margin: 0;
+ }
+@@ -14,7 +14,7 @@
+ }
+ 
+ span#maintitle {
+-  color: midnightblue;
++  color: #191970;
+   position: relative;
+   left: 50px;
+   bottom: 50px;
+@@ -25,7 +25,7 @@
+   float: left;
+   top: 10px;
+   margin:0;
+-  background-color: cornflowerblue;
++  background-color: #6495ED;
+   border: 1px solid #000;
+   width: 180px;
+ }
+@@ -33,7 +33,7 @@
+ div#sidepanel div#buttons {
+   margin: 0px;
+   width: 180px;
+-  background-color: cornflowerblue;
++  background-color: #6495ED;
+ }
+ 
+ div#sidepanel div#buttons ul {
+@@ -55,12 +55,12 @@
+ div#sidepanel div#buttons li a {
+   display: block;
+   padding: 5px 15px 5px 15px;
+-  background-color: cornflowerblue;
+-  color: midnightblue;
++  background-color: #6495ED;
++  color: #191970;
+   text-decoration: none;
+ }
+ 
+ div#sidepanel div#buttons li a:hover {
+-  background-color: darkblue;
++  background-color: #00008B;
+   color: #fff;
+ }

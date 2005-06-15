@@ -1,3 +1,4 @@
+BEGIN TRANSACTION;
 create table ball(
 id INTEGER PRIMARY KEY,
 num INTEGER,
@@ -19,7 +20,7 @@ winner_ball1 CHAR(100),
 winner_ball2 CHAR(100),
 loser_ball1 CHAR(100),
 loser_ball2 CHAR(100),
-date DATETIME);
+dts DATETIME);
 CREATE TABLE player(
 id INTEGER PRIMARY KEY,
 username VARCHAR(100),
@@ -34,3 +35,4 @@ round INTEGER,
 scorer INTEGER,
 pallino_tosser INTEGER,
 amount INTEGER);
+COMMIT;

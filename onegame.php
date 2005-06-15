@@ -29,7 +29,7 @@ $result = db_query("select * from player");
 
 $players = array();
 
-$result = db_query("select winner,loser,winner_points,loser_points,strftime('%s',date) as date from game where id=$game");
+$result = db_query("select winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game where id=$game");
 $row = db_fetch_array($result);
 $winner = $row["winner"];
 $loser = $row["loser"];
