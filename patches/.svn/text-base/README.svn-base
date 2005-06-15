@@ -10,6 +10,12 @@ filename
 - date of submission
 - date of application
 
+mysql-pgsql.patch
+- Jeff Sipek
+- jeffpc@optonline.net
+- sub: 2005-06-02
+- app: 2005-06-15
+
 css-validation.patch
 - Jeff Sipek
 - jeffpc@optonline.net

@@ -1,14 +1,14 @@
 8
 
 dir
-18
+19
 http://www.markdrago.com/svn/bocce/trunk/patches
 http://www.markdrago.com/svn
 
 
 
-2005-06-15T21:05:25.972270Z
-18
+2005-06-15T21:28:31.129330Z
+19
 mdrago
 
 
@@ -56,10 +56,10 @@ file
 
 
 
-2007-04-28T18:09:36.000000Z
-fe3f84cd123778c4d4f94bac82d98f7b
-2005-03-30T23:53:11.618096Z
-12
+2007-04-28T18:09:52.000000Z
+2ee16890a57c4d3f223b568d7948e7ed
+2005-06-15T21:28:31.129330Z
+19
 mdrago
 
 css-validation.patch

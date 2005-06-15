@@ -1,3 +1,8 @@
+2005-06-15 Mark Drago   <markdrago@mail.com>
+	* schema/*
+	Applied a patch from Jeff Sipek that includes database schemas
+	for all of the supported databases (mysql, pgsql, and sqlite)
+	
 2005-03-31 Mark Drago   <markdrago@mail.com>
 	* statslib.php
 	Fix bug in player_overall_deuces_against_per_game that game the

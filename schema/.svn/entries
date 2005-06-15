@@ -1,14 +1,14 @@
 8
 
 dir
-18
+19
 http://www.markdrago.com/svn/bocce/trunk/schema
 http://www.markdrago.com/svn
 
 
 
-2005-06-15T21:05:25.972270Z
-18
+2005-06-15T21:28:31.129330Z
+19
 mdrago
 
 
@@ -25,6 +25,18 @@ svn:special svn:externals svn:needs-lock
 
 
 ab78e0e6-faed-0310-8a29-dcbdf91d11af
+
+sqlite.sql
+file
+
+
+
+
+2007-04-28T18:09:52.000000Z
+726b4e82d7a8a44709ce114c9ffbdb93
+2005-06-15T21:28:31.129330Z
+19
+mdrago
 
 mysql.sql
 file
