@@ -27,7 +27,7 @@ $players = Array();
 
 db_open();
 
-foreach (all_players() as $player) {
+foreach (all_players(STAT_GLOBAL, 0) as $player) {
 	$players[] = Array(
 		'id' => $player,
 		'name' => player_name($player),
