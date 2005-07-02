@@ -3,7 +3,7 @@ CREATE TABLE ball (
 	id int(11) NOT NULL auto_increment,
 	num int(11) default NULL,
 	color varchar(100) default NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS bruise;
@@ -13,7 +13,7 @@ CREATE TABLE bruise (
 	round int(11) default NULL,
 	player int(11) default NULL,
 	success int(11) default NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS game;
@@ -28,7 +28,25 @@ CREATE TABLE game (
 	winner_ball2 varchar(100) default NULL,
 	loser_ball1 varchar(100) default NULL,
 	loser_ball2 varchar(100) default NULL,
-	dts int(11) NOT NULL default 0,
+	dts int(11) NOT NULL default '0',
+	season int(11) NOT NULL default '0',
+	PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS league;
+CREATE TABLE league (
+	id int(11) NOT NULL auto_increment,
+	name int(11) NOT NULL default '0',
+	manager int(11) NOT NULL default '0',
+	dts int(11) NOT NULL default '0',
+	PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS league_player;
+CREATE TABLE league_player (
+	id int(11) NOT NULL auto_increment,
+	league int(11) NOT NULL default '0',
+	player int(11) NOT NULL default '0',
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -36,20 +54,39 @@ DROP TABLE IF EXISTS player;
 CREATE TABLE player (
 	id int(11) NOT NULL auto_increment,
 	username varchar(100) default NULL,
+	nickname varchar(100) default NULL,
 	firstname varchar(100) default NULL,
 	lastname varchar(100) default NULL,
 	email varchar(100) default NULL,
-	`password` varchar(40) default NULL,
+	pass varchar(40) default NULL,
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS point;
-CREATE TABLE point (
+CREATE TABLE `point` (
 	id int(11) NOT NULL auto_increment,
 	game int(11) default NULL,
 	round int(11) default NULL,
 	scorer int(11) default NULL,
 	pallino_tosser int(11) default NULL,
 	amount int(11) default NULL,
+	PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS season;
+CREATE TABLE season (
+	id int(11) NOT NULL auto_increment,
+	league int(11) NOT NULL default '0',
+	dts_start int(11) NOT NULL default '0',
+	dts_end int(11) NOT NULL default '0',
+	num_games int(11) NOT NULL default '0',
+	PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS season_player;
+CREATE TABLE season_player (
+	id int(11) NOT NULL auto_increment,
+	season int(11) NOT NULL default '0',
+	player int(11) NOT NULL default '0',
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

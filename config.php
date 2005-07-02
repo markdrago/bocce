@@ -15,7 +15,7 @@ $cache_dir	= 'cache';
 #	mysql
 #	pgsql
 #	sqlite
-$dbengine = "sqlite";
+$dbengine = "pgsql";
 
 # Database file for sqlite (used only if $dbengine is set to sqlite)
 $database_file = "bocce.db";

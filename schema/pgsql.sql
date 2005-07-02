@@ -32,14 +32,30 @@ CREATE TABLE game (
 	dts int default 0
 );
 
+DROP TABLE league;
+CREATE TABLE league (
+	id int NOT NULL default nextval('idseq') PRIMARY KEY,
+	name int,
+	manager int,
+	dts int
+);
+
+DROP TABLE league_player;
+CREATE TABLE league_player (
+	id int NOT NULL default nextval('idseq') PRIMARY KEY,
+	league int,
+	player int
+);
+
 DROP TABLE player;
 CREATE TABLE player (
 	id int NOT NULL default nextval('idseq') PRIMARY KEY,
 	username varchar(100),
+	nickname varchar(100),
 	firstname varchar(100),
 	lastname varchar(100),
 	email varchar(100),
-	password char(40)
+	pass char(40)
 );
 
 DROP TABLE point;
@@ -52,3 +68,18 @@ CREATE TABLE point (
 	amount int
 );
 
+DROP TABLE season;
+CREATE TABLE season (
+	id int NOT NULL default nextval('idseq') PRIMARY KEY,
+	league int,
+	dts_start int,
+	dts_end int,
+	num_games int
+);
+
+DROP TABLE season_player;
+CREATE TABLE season_player (
+	id int NOT NULL default nextval('idseq') PRIMARY KEY,
+	season int,
+	player int
+);

@@ -89,7 +89,7 @@ if (isset($_POST["submit"])) {
     db_open();
     $sha1pass = sha1($pass);
     $query = "insert into player " .
-      "(username, firstname, lastname, email, password, nickname)" .
+      "(username, firstname, lastname, email, pass, nickname)" .
     " values " .
       "('$uname','$fname','$lname','$email','$sha1pass', '$nick')";
     db_query($query);
