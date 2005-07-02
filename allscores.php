@@ -31,7 +31,7 @@ while ($row = db_fetch_array($result)) {
 
 $data = Array();
 
-$result = db_query("select id,winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game order by dts desc");
+$result = db_query("select id,winner,loser,winner_points,loser_points,dts as date from game order by dts desc");
 while ($row = db_fetch_array($result)) {
   $winner_name = $players[$row["winner"]];
   $loser_name = $players[$row["loser"]];

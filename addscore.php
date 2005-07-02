@@ -206,7 +206,7 @@ if (!$confirmed) {
 		$loser_ball2=$_SESSION['player1_ball2'];
 	}
 
-	$query = "insert into game values(null, $loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', datetime('now'))";
+	$query = "insert into game (loser, winner, coinflip_winner, loser_points, winner_points, winner_ball1, winner_ball2, loser_ball1, loser_ball2, dts) values($loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', ".time().")";
 	$result = db_query($query);
 	$game_id = db_last_insert_rowid();
     
@@ -221,7 +221,7 @@ if (!$confirmed) {
 		}
 		$pallino_tosser = $_SESSION['pallino_toss'][$round];
 		$roundnumber = $round + 1;
-		$query = "insert into point values(null, $game_id, $roundnumber, $scorer, $pallino_tosser, $amount)";
+		$query = "insert into point (game, round, scorer, pallino_tosser, amount) values ($game_id, $roundnumber, $scorer, $pallino_tosser, $amount)";
 		$result = db_query($query);
 	}
     
@@ -231,7 +231,7 @@ if (!$confirmed) {
 		$roundnum = $bruise[1];
 		$success = $bruise[2];
 
-		$query = "insert into bruise values(null, $game_id, $roundnum, $player, $success)";
+		$query = "insert into bruise (game, round, player, success) values ($game_id, $roundnum, $player, $success)";
 		$result = db_query($query);
 	}
 

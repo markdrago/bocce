@@ -12,10 +12,19 @@ $cache_dir	= 'cache';
 
 # Database engine to use
 #    Choices:
+#	mysql
+#	pgsql
 #	sqlite
-$dbengine = "sqlite";
+$dbengine = "mysql";
 
 # Database file for sqlite (used only if $dbengine is set to sqlite)
 $database_file = "bocce.db";
+
+# Database hostname, username and password (used only if $dbengine is set
+# to mysql or pgsql)
+$database_host = "localhost";
+$database_db   = "officebocce";
+$database_user = "web";
+$database_pass = "web";
 
 ?>

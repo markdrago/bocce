@@ -83,8 +83,10 @@ if (isset($_POST["submit"])) {
   if ($notice == "") {
     db_open();
     $md5pass = md5($pass);
-    $query = "insert into player values " .
-      "(null,'$uname','$fname','$lname','$email','$md5pass')";
+    $query = "insert into player " .
+      "(username, firstname, lastname, email, password)" .
+    " values " .
+      "('$uname','$fname','$lname','$email','$md5pass')";
     db_query($query);
     db_close();
 

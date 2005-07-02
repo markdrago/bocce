@@ -174,11 +174,4 @@ function ball_color($ball) {
   return clean_value($row[0]);
 }
 
-function checkForDB() {
-  global $database_file;
-  global $schema_file;
-  if (!file_exists($database_file)) {
-    system("sqlite $database_file < $schema_file");
-  }
-}
 ?>

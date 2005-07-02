@@ -20,7 +20,7 @@ winner_ball1 CHAR(100),
 winner_ball2 CHAR(100),
 loser_ball1 CHAR(100),
 loser_ball2 CHAR(100),
-dts DATETIME);
+dts INTEGER);
 CREATE TABLE player(
 id INTEGER PRIMARY KEY,
 username VARCHAR(100),

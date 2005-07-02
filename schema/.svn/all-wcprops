@@ -1,23 +1,23 @@
 K 25
 svn:wc:ra_dav:version-url
 V 35
-/svn/!svn/ver/19/bocce/trunk/schema
+/svn/!svn/ver/22/bocce/trunk/schema
 END
 sqlite.sql
 K 25
 svn:wc:ra_dav:version-url
 V 46
-/svn/!svn/ver/19/bocce/trunk/schema/sqlite.sql
+/svn/!svn/ver/22/bocce/trunk/schema/sqlite.sql
 END
 mysql.sql
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/18/bocce/trunk/schema/mysql.sql
+/svn/!svn/ver/22/bocce/trunk/schema/mysql.sql
 END
 pgsql.sql
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/18/bocce/trunk/schema/pgsql.sql
+/svn/!svn/ver/22/bocce/trunk/schema/pgsql.sql
 END

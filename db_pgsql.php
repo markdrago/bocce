@@ -17,83 +17,87 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-if (!@extension_loaded('sqlite'))
-	@dl('sqlite.so');
+if (!@extension_loaded('pgsql'))
+	@dl('pgsql.so');
 
-$db = null;
 $open_count = 0;
+$link = null;
+$last_res = null;
+
+define("DB_ASSOC",	MYSQL_ASSOC);
+define("DB_NUM",	MYSQL_NUM);
 
 function db_open()
 {
-	global $database_file;
-	global $db;
+	global $database_host, $database_user, $database_pass;
+	global $database_db;
+	global $link;
 	global $open_count;
 	
 	$open_count++;
 	if ($open_count!=1)
 		return;
 	
-	$db = sqlite_open($database_file);
+	$link = pg_Connect("host=$database_host dbname=$database_db user=$database_user password=$database_pass");
 }
 
 function db_close()
 {
-	global $db;
+	global $link;
 	global $open_count;
 	
 	$open_count--;
 	if ($open_count>0)
 		return;
 
-	sqlite_close($db);
-	$db = null;
+	pg_Close($link);
+	$link = null;
 }
 
 function db_query($sql)
 {
-	global $db;
+	global $link;
 	global $open_count;
+	global $last_res;
 	
-	$result = sqlite_query($db,$sql);
+	$result = pg_Query($link,$sql);
 	if ($result===false) {
 		echo "Error, could not execute query:\n";
 		echo "\t$sql\n";
 		echo "Open Count = $open_count\n";
+		if (pg_last_error($link))
+			echo "pg_last_error(): " . pg_last_error($link) . "\n";
 	}
+
+	$last_res = $result;
 	
 	return $result;
 }
 
 function db_fetch_array()
 {
-	global $db;
+	global $link;
 	
 	$result = func_get_arg(0);
-	$type = SQLITE_BOTH;
-	if (func_num_args()==2)
-		$type = func_get_arg(1);
-
-	return sqlite_fetch_array($result,$type);
+	return pg_fetch_array($result);
 }
 
 function db_num_rows($result)
 {
-	return sqlite_num_rows($result);
+	return pg_num_rows($result);
 }
 
 function db_last_insert_rowid()
 {
-	global $db;
+	global $link;
 
-	return sqlite_last_insert_rowid($db);
+	$result = pg_query("SELECT CURRVAL('idseq') AS seq;");
+	$result = pg_fetch_array($result);
+	return $result[0];
 }
 
-function checkForDB() {
-  global $database_file;
-  global $schema_file;
-  if (!file_exists($database_file)) {
-    system("sqlite $database_file < $schema_file");
-  }
+function checkForDB()
+{
 }
 
 ?>

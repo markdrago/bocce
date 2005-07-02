@@ -26,7 +26,7 @@ $result = db_query("select * from player");
 
 $players = array();
 
-$result = db_query("select winner,loser,winner_points,loser_points,strftime('%s',dts) as date from game where id=$game");
+$result = db_query("select winner,loser,winner_points,loser_points,dts as date from game where id=$game");
 $row = db_fetch_array($result);
 $winner = $row["winner"];
 $loser = $row["loser"];
@@ -38,75 +38,50 @@ $names = getNames($winner, $loser);
 $winner_name = $names[0];
 $loser_name = $names[1];
 
-print "<div class=\"body\">";
-print "<h1>$winner_name vs. $loser_name</h1>";
-print "<h2>$date</h2>";
-print "<br />";
-print "<h3>Score History</h3>";
-print "<table class=\"scoreboard\">";
+$page->assign('subtitle', "$winner_name vs. $loser_name");
+$page->assign('gamedate',$date);;
+$page->assign('winner_name',$winner_name);
+$page->assign('loser_name',$loser_name);
 
-$roundtr = "<tr><th>Round</th>";
-$winnertr = "<tr><th>$winner_name</th>";
-$losertr = "<tr><th>$loser_name</th>";
-
+$scoredata = Array();
 $result = db_query("select * from point where game=$game order by round");
 while ($row = db_fetch_array($result)) {
-  $scorer = $row["scorer"];
-  $amount = $row["amount"];
-  $round = $row["round"];
+	$scorer = $row["scorer"];
+	$amount = $row["amount"];
+	$round = $row["round"];
 
-  $roundtr .= "<th>$round</th>";
-  if ($scorer == $winner) {
-    $winnertr .= "<td>$amount</td>";
-    $losertr .= "<td>0</td>";
-  } else {
-    $winnertr .= "<td>0</td>";
-    $losertr .= "<td>$amount</td>";
-  }
- }
-$roundtr .= "<th>Final</th></tr>\n";
-$winnertr .= "<td>$winner_score</td></tr>\n";
-$losertr .= "<td>$loser_score</td></tr>";
+	if ($scorer == $winner) {
+		$winner_pts = $amount;
+		$loser_pts = 0;
+	} else {
+		$winner_pts = 0;
+		$loser_pts = $amount;
+	}
+	$scoredata[] = Array(
+		'round' => $round,
+		'winner_pts' => $winner_pts,
+		'loser_pts' => $loser_pts);
+}
+$scoredata[] = Array(
+	'round' => 'Final',
+	'winner_pts' => $winner_score,
+	'loser_pts' => $loser_score);
 
-print $roundtr;
-print $winnertr;
-print $losertr;
-print "</table>";
+$page->assign('scoredata',$scoredata);
 
+$bruisedata = Array();
 $result = db_query("select * from bruise where game=$game order by round");
 if (db_num_rows($result) > 0) {
-  print '<h3>Bruises</h3>';
-  print '<table class="bruises">';
-  
-  print '<tr><th>Name</th><th>Round</th><th>Success</th></tr>';
-
-  while ($row = db_fetch_array($result)) {
-
-    //get name of bruiser
-    $name = "";
-    if ($row['player'] == $winner) {
-      $name = $winner_name;
-    } else {
-      $name = $loser_name;
-    }
-
-    print "<tr><td>$name</td>";
-
-    print "<td>" . ($row['round'] + 1) . "</td";
-
-    print "<td>";
-    if ($row['success'] == 1) {
-      print "Successful";
-    } else {
-      print "Failure";
-    }
-    print "</td>";
-  }
-  print "</table>";
+	while ($row = db_fetch_array($result))
+		$bruisedata[] = Array(
+			'name' => ($row['player']==$winner?$winner_name:$loser_name),
+			'round' => $row['round'] + 1,
+			'success' => ($row['success']?"Successful":"Failure"));
 }
+$page->assign('bruisedata', $bruisedata);
 
 db_close();
+
+$page->display('onegame.tpl');
+
 ?>
-</div>
-</body>
-</html>
