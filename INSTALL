@@ -1,3 +1,17 @@
-This file should be filled with the notes the next time I start developing
-office bocce on a new system.  All of the steps needed to get office bocce
-working should be added to this file.
+1. Check OfficeBocce out of subversion - if you're reading this you probably already did that.
+  - Make sure that wherever you put bocce your web server will be able to see it
+
+2. Download JPGraph from here: http://www.aditus.nu/jpgraph/index.php
+
+  - Unpack JPGraph (I recommend doing this in the same directory that the bocce/ directory is in, although that shouldn't be mandatory)
+
+  - Set the relative path to jpgraph in the config.php file (if you put JPGraph next to the bocce/ directory than the line should look like this: $jpgraph_dir = "../jpgraph-<version>";)
+
+3. Download Smarty from here: http://smarty.php.net
+  - Unpack Smarty and copy everything in its 'libs/' into /usr/lib/php/Smarty (It doesn't really matter where you put it because in the next step we're going to tell bocce exactly where it is located)
+
+  - Set the absolute path to the smarty directory that contains the Smarty.class.php file in bocce's config.php file (If you put Smarty in /usr/lib/php/Smarty then this line should look like the following: define('SMARTY_DIR','/usr/lib/php/Smarty/');
+
+  - Make sure that the 'templates_c' file is writable by your web server (chmod 777 templates_c) should be fine.
+
+4. Fire up bocce and start playing!
