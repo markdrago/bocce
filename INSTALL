@@ -14,4 +14,6 @@
 
   - Make sure that the 'templates_c' file is writable by your web server (chmod 777 templates_c) should be fine.
 
-4. Fire up bocce and start playing!
+4. Set up your database of choice by setting the dbengine in config.php and the options that are required for your database.  You'll also have to create the database table by using the supplied schema file in the schema/ directory.
+
+Now, fire up bocce and start playing!

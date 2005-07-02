@@ -22,6 +22,7 @@ require ('start.php');
 
 $notice = "";
 
+$nick = "";
 $uname = "";
 $fname = "";
 $lname = "";
@@ -36,13 +37,15 @@ if (isset($_POST["submit"])) {
   $email = $_POST["email"];
   $pass  = $_POST["pass"];
   $vpass = $_POST["vpass"];
+  $nick = $_POST["nick"];
 
   if ($notice == "") {
     $requiredarray = array("You must enter a user name."=>$uname,
 			   "You must enter a first name."=>$fname,
 			   "You must enter a last name."=>$lname,
 			   "You must enter an email address."=>$email,
-			   "You must enter a password."=>$pass);
+			   "You must enter a password."=>$pass,
+			   "You must enter a nickname."=>$nick);
 
     $notice = checkrequired($requiredarray);
   }
@@ -52,14 +55,16 @@ if (isset($_POST["submit"])) {
   }
   
   if ($notice == "") {
-    $lengtharray = array("Your user name must be between " .
-			 "3 and 16 characters in length."=>array($uname,3,16),
-			 "Your first name must be between ".
-			 "2 and 25 characters in length."=>array($fname,2,25),
-			 "Your last name must be between " .
-			 "2 and 25 characters in length."=>array($lname,2,25),
-			 "Your password must be between " .
-			 "6 and 25 characters in length."=>array($pass,6,25));
+    $lengtharray =array("Your user name must be between " .
+			"3 and 100 characters in length."=>array($uname,3,100),
+			"Your first name must be between ".
+			"2 and 100 characters in length."=>array($fname,2,100),
+			"Your last name must be between " .
+			"2 and 100 characters in length."=>array($lname,2,100),
+			"Your password must be between " .
+			"6 and 100 characters in length."=>array($pass,6,100),
+ 			"Your nickname must be between " .
+			"2 and 100 characters in length."=>array($pass,2,100));
 
     $notice = checklength($lengtharray);
   }
@@ -84,9 +89,9 @@ if (isset($_POST["submit"])) {
     db_open();
     $sha1pass = sha1($pass);
     $query = "insert into player " .
-      "(username, firstname, lastname, email, password)" .
+      "(username, firstname, lastname, email, password, nickname)" .
     " values " .
-      "('$uname','$fname','$lname','$email','$sha1pass')";
+      "('$uname','$fname','$lname','$email','$sha1pass', '$nick')";
     db_query($query);
     db_close();
 
