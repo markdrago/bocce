@@ -67,7 +67,7 @@ function __player_where_clause($type, $type_value) {
 			break;
 		case STAT_GLOBAL:
 		default:
-			return "1";
+			return "'1'";
 			break;
 	}
 }
@@ -98,7 +98,7 @@ function __game_where_clause($type, $type_value) {
 			break;
 		case STAT_GLOBAL:
 		default:
-			return "1";
+			return "'1'";
 	}
 }
 
@@ -130,7 +130,7 @@ function __point_where_clause($type, $type_value) {
 			break;
 		case STAT_GLOBAL:
 		default:
-			return "1";
+			return "'1'";
 			break;
 	}
 }
