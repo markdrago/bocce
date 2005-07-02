@@ -71,10 +71,12 @@ function __player_where_clause($type, $type_value) {
 	switch ($type) {
 		case STAT_SEASON:
 			return "(player.id = season_player.player and " .
-			       "season_player.season = $type_value)";
+			       "season_player.season = season.id and " .
+			       "season.id = $type_value)";
 			break;
 		case STAT_LEAGUE:
 			return "(player.id = league_player.player and " .
+			       "league_player.league = league.id and " .
 			       "league.id = $type_value)";
 			break;
 		case STAT_GLOBAL:
@@ -87,10 +89,10 @@ function __player_where_clause($type, $type_value) {
 function __game_from_clause($type) {
 	switch($type) {
 		case STAT_SEASON:
-			return "";
+			return ", season";
 			break;
 		case STAT_LEAGUE:
-			return ", league";
+			return ", season, league";
 			break;
 		case STAT_GLOBAL:
 		default:
@@ -102,10 +104,12 @@ function __game_from_clause($type) {
 function __game_where_clause($type, $type_value) {
 	switch ($type) {
 		case STAT_SEASON:
-			return "(game.season = $type_value)";
+			return "(game.season = season.id and " .
+			       "season.id = $type_value)";
 			break;
 		case STAT_LEAGUE:
-			return "(game.season = league.season and " .
+			return "(game.season = season.id and " .
+			       "season.league = league.id and " .
 			       "league.id = $type_value)";
 			break;
 		case STAT_GLOBAL:
@@ -117,10 +121,10 @@ function __game_where_clause($type, $type_value) {
 function __game_link_from_clause($type) {
 	switch ($type) {
 		case STAT_SEASON:
-			return ", game";
+			return ", game, season";
 			break;
 		case STAT_LEAGUE:
-			return ", game, season";
+			return ", game, season, league";
 			break;
 		case STAT_GLOBAL:
 		default:
@@ -133,12 +137,14 @@ function __game_link_where_clause($tablename, $type, $type_value) {
 	switch ($type) {
 		case STAT_SEASON:
 			return "($tablename.game = game.id and " .
-			       "game.season = $type_value)";
+			       "game.season = season.id and " .
+			       "season.id = $type_value)";
 			break;
 		case STAT_LEAGUE:
 			return "($tablename.game = game.id and " .
 			       "game.season = season.id and " .
-			       "season.league = $type_value)";
+			       "season.league = league.id and " .
+			       "league.id = $type_value)";
 			break;
 		case STAT_GLOBAL:
 		default:
@@ -496,7 +502,10 @@ function player_overall_ball_use_percentage($type, $type_value, $id, $ball) {
  ***************************************/
 
 function player_total_wins_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from game where game.winner = $id and game.loser = $player");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.winner = $id and game.loser = $player and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -507,13 +516,19 @@ function player_total_losses_versus($type, $type_value, $id, $player) {
 }
 
 function player_total_points_scored_as_winner_versus($type, $type_value, $id, $player) {
-	$result = db_query("select sum(game.winner_points) from game where game.winner = $id and game.loser = $player");
+	$result = db_query("select sum(game.winner_points) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.winner = $id and game.loser = $player and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 function player_total_points_scored_as_loser_versus($type, $type_value, $id, $player) {
-	$result = db_query("select sum(game.loser_points) from game where game.winner = $player and game.loser = $id");
+	$result = db_query("select sum(game.loser_points) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.winner = $player and game.loser = $id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -539,7 +554,13 @@ function player_total_points_scored_against_versus($type, $type_value, $id, $pla
 }  
 
 function player_total_deuces_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from game, point where game.id = point.game and point.scorer = $id and point.amount = 2 and ((game.winner = $player and game.loser = $id) or (game.loser = $player and game.winner = $id))");
+	$result = db_query("select count(*) from game, point" .
+			   __game_from_clause($type) . " where " .
+			   "game.id = point.game and point.scorer = $id and " .
+			   "point.amount = 2 and ((game.winner = $player and " .
+			   "game.loser = $id) or (game.loser = $player and " .
+			   "game.winner = $id)) and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -549,7 +570,11 @@ function player_total_deuces_against_versus($type, $type_value, $id, $player) {
 }
 
 function player_total_shutouts_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from game where game.winner = $id and game.loser = $player and game.loser_points=0");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) .
+			   " where game.winner = $id and " .
+			   "game.loser = $player and game.loser_points=0 and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -560,19 +585,36 @@ function player_total_been_shutouts_versus($type, $type_value, $id, $player) {
 }
 
 function player_total_bruises_successful_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id and bruise.success = 1");
+	$result = db_query("select count(*) from bruise, game" .
+			   __game_from_clause($type) . " where " .
+			   "((game.winner = $id and game.loser = $player) or " .
+			   "(game.loser = $id and game.winner = $player)) and ".
+			   "game.id = bruise.game and bruise.player = $id and ".
+			   "bruise.success = 1 and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 function player_total_bruises_missed_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id and bruise.success != 1");
+	$result = db_query("select count(*) from bruise, game" .
+			   __game_from_clause($type) . " where " .
+			   "((game.winner = $id and game.loser = $player) or ".
+			   "(game.loser = $id and game.winner = $player)) and ".
+			   "game.id = bruise.game and bruise.player = $id and ".
+			   "bruise.success != 1 and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }  
 
-function player_total_bruises_attempted_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from bruise, game where ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and game.id = bruise.game and bruise.player = $id");
+function player_total_bruises_attempted_versus($type,$type_value,$id, $player) {
+	$result = db_query("select count(*) from bruise, game" .
+			   __game_from_clause($type) . " where " .
+			   "((game.winner = $id and game.loser = $player) or ".
+			   "(game.loser = $id and game.winner = $player)) and ".
+			   "game.id = bruise.game and bruise.player = $id and ".
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -584,38 +626,47 @@ function player_total_games_played_versus($type, $type_value, $id, $player) {
 
 #get player's total number of tetrises
 function player_total_tetrises_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from game, point as point1, point as point2, point as point3, point as point4 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point4.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point4.id=point3.id+1 and point4.amount=2 and point1.game=point2.game and point2.game=point3.game and point3.game=point4.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
+	$result = db_query("select count(*) from game, point as point1, point as point2, point as point3, point as point4" . __game_from_clause($type) . " where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point4.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point4.id=point3.id+1 and point4.amount=2 and point1.game=point2.game and point2.game=point3.game and point3.game=point4.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and " . __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's total number of turkeys
 function player_total_turkeys_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from game, point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
+	$result = db_query("select count(*) from game, point as point1, point as point2, point as point3" . __game_from_clause($type) . " where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player)) and " . __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0] - (player_total_tetrises($type, $type_value, $id) * 2));
 }
 
 function player_total_coinflips_won_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from game where (game.winner=$player ".
-		"or game.loser=$player) and ".
-		"game.coinflip_winner=$id");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) . " where " .
+			   "(game.winner=$player or game.loser=$player) and ".
+			   "game.coinflip_winner=$id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 function player_total_rounds_played_versus($type, $type_value, $id, $player) {
-	$result = db_query("select count(*) from point, game where ".
-		"((game.winner=$player and game.loser=$id) ".
-		"or (game.winner=$id and game.loser=$player)) ".
-		"and point.game=game.id");
+	$result = db_query("select count(*) from point, game" .
+			   __game_from_clause($type) . " where " .
+			   "((game.winner=$player and game.loser=$id) ".
+			   "or (game.winner=$id and game.loser=$player)) ".
+			   "and point.game=game.id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's overall current streak
 function player_overall_current_streak_versus($type, $type_value, $id, $player) {
-	$result = db_query("select winner, loser from game where (winner=$id and loser=$player) or (loser=$id and winner=$player) order by dts desc");
+	$result = db_query("select winner, loser from game" .
+			   __game_from_clause($type) . " where " .
+			   "(winner=$id and loser=$player) or " .
+			   "(loser=$id and winner=$player) and " .
+			   __game_where_clause($type, $type_value) .
+			   "order by dts desc");
   
 	$count = 0;
 
@@ -984,7 +1035,10 @@ function ball_total_games_played($type, $type_value, $ball) {
 	$winnerfield = "winner_ball$type";
 	$loserfield  = "loser_ball$type";
 
-	$result = db_query("select count(*) from game where ($winnerfield=$ball or $loserfield=$ball)");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) . " where " .
+			   "($winnerfield=$ball or $loserfield=$ball) and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -994,7 +1048,10 @@ function ball_total_games_won($type, $type_value, $ball) {
 	$type = ball_type($ball);
 	$winnerfield = "winner_ball$type";
 
-	$result = db_query("select count(*) from game where $winnerfield=$ball");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) . " where " .
+			   "$winnerfield=$ball and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }  
@@ -1005,7 +1062,14 @@ function ball_total_deuces_scored($type, $type_value, $ball) {
 	$winnerfield = "winner_ball$type";
 	$loserfield  = "loser_ball$type";
 
-	$result = db_query("select count(*) from point, game where point.game = game.id and point.amount=2 and ((point.scorer=game.winner and game.$winnerfield=$ball) or (point.scorer=game.loser and game.$loserfield=$ball))");
+	$result = db_query("select count(*) from point, game" .
+			   __game_from_clause($type) . " where " .
+			   "point.game = game.id and point.amount=2 and " .
+			   "((point.scorer=game.winner and " . 
+			   "game.$winnerfield=$ball) or " .
+			   "(point.scorer=game.loser and " .
+			   "game.$loserfield=$ball)) and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
