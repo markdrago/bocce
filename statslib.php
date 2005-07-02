@@ -27,29 +27,131 @@
 //      'egrep ^function statslib.php' works pretty nicely
 
 
-#return an array of all players' ids
+#return an array of all players ids
 function all_players($type, $type_value) {
 	$players = array();
 
-	$result = db_query("select id from player");
+	$result = db_query("select player.id from player" .
+			   __player_from_clause($type). " where " .
+			   __player_where_clause($type, $type_value));
 	while ($row = db_fetch_array($result)) {
 		$players[] = $row["id"];
 	}
 	return $players;
 }
 
+function __player_from_clause($type) {
+	switch ($type) {
+		case STAT_SEASON:
+			return ", season, season_player";
+			break;
+		case STAT_LEAGUE:
+			return ", league, league_player";
+			break;
+		case STAT_GLOBAL:
+		default:
+			return "";
+			break;
+	}
+}
+
+function __player_where_clause($type, $type_value) {
+	switch ($type) {
+		case STAT_SEASON:
+			return "(player.id = season_player.player and " .
+			       "season_player.season = $type_value)";
+			break;
+		case STAT_LEAGUE:
+			return "(player.id = league_player.player and " .
+			       "league.id = $type_value)";
+			break;
+		case STAT_GLOBAL:
+		default:
+			return "1";
+			break;
+	}
+}
+
+function __game_from_clause($type) {
+	switch($type) {
+		case STAT_SEASON:
+			return "";
+			break;
+		case STAT_LEAGUE:
+			return ", league";
+			break;
+		case STAT_GLOBAL:
+		default:
+			return "";
+			break;
+	}
+}
+
+function __game_where_clause($type, $type_value) {
+	switch ($type) {
+		case STAT_SEASON:
+			return "(game.season = $type_value)";
+			break;
+		case STAT_LEAGUE:
+			return "(game.season = league.season and " .
+			       "league.id = $type_value)";
+			break;
+		case STAT_GLOBAL:
+		default:
+			return "1";
+	}
+}
+
+function __point_from_clause($type) {
+	switch ($type) {
+		case STAT_SEASON:
+			return ", game";
+			break;
+		case STAT_LEAGUE:
+			return ", game, season";
+			break;
+		case STAT_GLOBAL:
+		default:
+			return "";
+			break;
+	}
+}
+
+function __point_where_clause($type, $type_value) {
+	switch ($type) {
+		case STAT_SEASON:
+			return "(point.game = game.id and " .
+			       "game.season = $type_value)";
+			break;
+		case STAT_LEAGUE:
+			return "(point.game = game.id and " .
+			       "game.season = season.id and " .
+			       "season.league = $type_value)";
+			break;
+		case STAT_GLOBAL:
+		default:
+			return "1";
+			break;
+	}
+}
+
 #get player's total number of wins
 function player_total_wins($type, $type_value, $id) {
-	$result = db_query("select count(*) from game ".
-		     "where game.winner=$id");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.winner = $id and " .
+		     	   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
+
 #get player's total number of losses
 function player_total_losses($type, $type_value, $id) {
-	$result = db_query("select count(*) from game ".
-			 "where game.loser=$id");
+	$result = db_query("select count(*) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.loser = $id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
@@ -74,58 +176,72 @@ function player_total_points_scored_against($type, $type_value, $id) {
 
 #get player's total number of points scored as a loser
 function player_total_points_scored_as_loser($type, $type_value, $id) {
-	$result = db_query("select sum(game.loser_points) from game where ".
-		     "game.loser=$id");
+	$result = db_query("select sum(game.loser_points) from game" .
+			   __game_from_clause($type) . " where ".
+			   "game.loser=$id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's total number of points scored as a winner
 function player_total_points_scored_as_winner($type, $type_value, $id) {
-	$result = db_query("select sum(game.winner_points) from game where ".
-		     "game.winner=$id");
+	$result = db_query("select sum(game.winner_points) from game" .
+			   __game_from_clause($type) . " where ".
+			   "game.winner=$id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's total number of points scored against as winner
 function player_total_points_scored_against_as_winner($type, $type_value, $id) {
-	$result = db_query("select sum(game.loser_points) from game where ".
-		     "game.winner=$id");
+	$result = db_query("select sum(game.loser_points) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.winner=$id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's total number of points scored against as loser
 function player_total_points_scored_against_as_loser($type, $type_value, $id) {
-	$result = db_query("select sum(game.winner_points) from game where ".
-		     "game.loser=$id");
+	$result = db_query("select sum(game.winner_points) from game" .
+			   __game_from_clause($type) . " where " .
+			   "game.loser=$id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's total number of deuces
 function player_total_deuces($type, $type_value, $id) {
-	$result = db_query("select count(*) from point where ".
-		     "point.scorer=$id and point.amount=2");
+	$result = db_query("select count(*) from point" .
+			   __point_from_clause($type) . " where ".
+			   "point.scorer=$id and point.amount=2 and " .
+			   __point_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 function player_total_deuces_against($type, $type_value, $id) {
-	$result = db_query("select count(*) from game, point where ".
-		     "((game.winner!=$id and game.loser=$id and ".
-		     "game.winner=point.scorer) or (game.loser!=$id and ".
-		     "game.winner=$id and game.loser=point.scorer)) and ".
-		     "point.amount=2 and point.game=game.id");
+	$result = db_query("select count(*) from game, point" .
+			   __game_from_clause($type) . " where ".
+			   "((game.winner!=$id and game.loser=$id and ".
+			   "game.winner=point.scorer) or (game.loser!=$id and ".
+			   "game.winner=$id and game.loser=point.scorer)) and ".
+			   "point.amount=2 and point.game=game.id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
 
 #get player's number of points scored against as a winner
 function player_points_scored_against_as_winner($type, $type_value, $id) {
-	$result = db_query("select sum(game.loser_points) from game where ".
-		     "game.winner=$id");
+	$result = db_query("select sum(game.loser_points) from game" .
+			   __game_from_clause($type) . " where ".
+			   "game.winner=$id and " .
+			   __game_where_clause($type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
 }
