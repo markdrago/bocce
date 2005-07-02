@@ -40,18 +40,6 @@ function all_players($type, $type_value) {
 	return $players;
 }
 
-function num_players($type, $type_value) {
-	$players = array();
-
-	$result = db_query("select count(1) from player" .
-			   __player_from_clause($type). " where " .
-			   __player_where_clause($type, $type_value));
-	while ($row = db_fetch_array($result)) {
-		$players[] = $row["id"];
-	}
-	return $players;
-}
-
 function __player_from_clause($type) {
 	switch ($type) {
 		case STAT_SEASON:
@@ -338,7 +326,7 @@ function player_total_tetrises($type, $type_value, $id) {
 #get player's total number of turkeys
 function player_total_turkeys($type, $type_value, $id) {
 	$result = db_query("select count(*) from point as point1, point as point2, point as point3" .
-			   __game_link_from_clause($type) . " where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and " . __game_link_where_clause("point1", $type, $type_value));
+			   __game_link_from_clause($type) . " where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and " __game_link_where_clause("point1", $type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0] - (player_total_tetrises($type, $type_value, $id) * 2));
 }
@@ -362,7 +350,7 @@ function player_overall_current_streak($type, $type_value, $id) {
 	$result = db_query("select winner, loser from game" .
 			   __game_from_clause($type) . " where " .
 			   "winner=$id or loser=$id and " .
-			   __game_where_clause($type, $value) .
+			   __game_where_clause($type, $type_value) .
 			   " order by dts desc");
   
 	$count = 0;
