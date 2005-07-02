@@ -326,7 +326,7 @@ function player_total_tetrises($type, $type_value, $id) {
 #get player's total number of turkeys
 function player_total_turkeys($type, $type_value, $id) {
 	$result = db_query("select count(*) from point as point1, point as point2, point as point3" .
-			   __game_link_from_clause($type) . " where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and " __game_link_where_clause("point1", $type, $type_value));
+			   __game_link_from_clause($type) . " where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and " . __game_link_where_clause("point1", $type, $type_value));
 	$row = db_fetch_array($result);
 	return clean_value($row[0] - (player_total_tetrises($type, $type_value, $id) * 2));
 }
