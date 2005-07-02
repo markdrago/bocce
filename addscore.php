@@ -206,7 +206,8 @@ if (!$confirmed) {
 		$loser_ball2=$_SESSION['player1_ball2'];
 	}
 
-	$query = "insert into game (loser, winner, coinflip_winner, loser_points, winner_points, winner_ball1, winner_ball2, loser_ball1, loser_ball2, dts) values($loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', ".time().")";
+	$season = $_SESSION["season"];
+	$query = "insert into game (loser, winner, coinflip_winner, loser_points, winner_points, winner_ball1, winner_ball2, loser_ball1, loser_ball2, dts, season) values($loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', ".time().", $season)";
 	$result = db_query($query);
 	$game_id = db_last_insert_rowid();
     

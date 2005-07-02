@@ -1,3 +1,10 @@
+2005-07-02 Mark Drag    <markdrago@mail.com>
+	*
+	Today is the first ever office bocce hack-a-thon.  Jeff is here and
+	we're hacking away at office bocce.  I'm not going to list every change
+	here because there's likely to be a lot.  We're working on league
+	support now - pretty exciting stuff.
+	
 2005-06-15 Mark Drago   <markdrago@mail.com>
 	* schema/*
 	Applied a patch from Jeff Sipek that includes database schemas

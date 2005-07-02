@@ -29,11 +29,11 @@
     </div>
     <div class="label">
       <div>Password:</div>
-      <input type="password" size="25" name="pass" />
+      <input type="password" maxlength="100" size="25" name="pass" />
     </div>
     <div class="label">
       <div>Verify Password:</div>
-      <input type="password" size="25" name="vpass" />
+      <input type="password" maxlength="100" size="25" name="vpass" />
     </div>
     <div class="submit">
       <input class="submit" name="submit" type="submit" value="Submit" />

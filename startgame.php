@@ -52,10 +52,10 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
 
   //check that username and password are of an acceptable length
   if ($notice == "") {
-    $lengtharray = array("Your user name must be between " .
-			 "3 and 16 characters in length."=>array($uname,3,16),
-			 "Your password must be between " .
-			 "6 and 25 characters in length."=>array($pass,6,25));
+    $lengtharray =array("Your user name must be between " .
+			"3 and 100 characters in length."=>array($uname,3,100),
+			"Your password must be between " .
+			"6 and 100 characters in length."=>array($pass,6,100));
 
     $notice = checklength($lengtharray);
   }
@@ -108,10 +108,16 @@ if (isset($_SESSION["player1"])) {
   $playernum = "Second";
 }
 
+//This should be removed when we're handling seasons better
+if (isset($_POST["season"])) {
+  $_SESSION["season"] = $_POST["season"];
+}
+
 $page->assign('notice', $notice);
 $page->assign('subtitle', "Login $playernum Player");
 $page->assign('subtitlehint', $titlehint);
 $page->assign('uname', $uname);
+$page->assign('playernum', $playernum);
 
 $page->display('startgame.tpl');
 
