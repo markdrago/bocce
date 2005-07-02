@@ -36,7 +36,7 @@ CREATE TABLE game (
 DROP TABLE IF EXISTS league;
 CREATE TABLE league (
 	id int(11) NOT NULL auto_increment,
-	name int(11) NOT NULL default '0',
+	name varchar(100) NOT NULL default '0',
 	manager int(11) NOT NULL default '0',
 	dts int(11) NOT NULL default '0',
 	PRIMARY KEY  (id)

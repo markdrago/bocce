@@ -36,7 +36,7 @@ CREATE TABLE game (
 DROP TABLE league;
 CREATE TABLE league (
 	id int NOT NULL default nextval('idseq') PRIMARY KEY,
-	name int,
+	name varchar(100),
 	manager int,
 	dts int
 );

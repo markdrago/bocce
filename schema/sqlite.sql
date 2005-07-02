@@ -29,7 +29,7 @@ CREATE TABLE game(
 
 CREATE TABLE league (
 	id integer PRIMARY KEY,
-	name integer,
+	name varchar(100),
 	manager integer,
 	dts integer
 );
