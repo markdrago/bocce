@@ -20,7 +20,7 @@
 
 //this file contains general functions that are used throughout officebocce
 
-require("vardefs.php");
+require("consts.php");
 require("db.php");
 
 $GLOBALS['BRUISER_TYPE'] = "1";
