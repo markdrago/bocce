@@ -1,0 +1,138 @@
+/* very global settings */
+body {
+	font-family: Arial;
+	color: black;
+}
+
+/* just the main output area */
+#wrapper {
+}
+
+/* the header */
+#header {
+	background-color: #ffffff;
+	border: none;
+	margin: 0px;
+}
+
+/* the title, part of the header */
+#title {
+	display: none;
+}
+
+/* sidepanel */
+#sidepanel {
+	display: none;
+}
+
+/* the content pane */
+#content {
+}
+
+/* paragraph style */
+#content p {
+	margin: 1em 3em 1em 3em;
+}
+
+/* subtitle */
+#subtitle {
+	position: absolute;
+	top: 0px;
+}
+
+/* subtitle - the text */
+#subtitle h1 {
+	font-size: xx-large;
+	font-weight: bold;
+	margin-left: 100px;
+	margin-top: 35px;
+}
+
+#subtitlehint {
+	padding-left: 10px;
+	font-size: small;
+	font-weight: normal;
+	margin-bottom: 1em;
+}
+
+h2, h3 {
+	margin: 0px;
+}
+
+table.score,
+table.controls {
+	border: 0px;
+}
+
+table.score td {
+	border: 0px;
+}
+
+#labels {
+	margin-top: 5px;
+}
+
+div.label,
+div.widelabel {
+	padding-top: 3px;
+}
+
+div.submit {
+	padding-left: 10.5em;
+}
+
+#notice {
+	margin-top: 10px;
+	color: black;
+	text-align: center;
+	width: 100%;
+}
+
+div.label div,
+div.widelabel div {
+	text-align: right;
+	float: left;
+	width: 10em;
+	padding-right: 5px;
+}
+
+div.widelabel div {
+	width: 12em;
+}
+
+/* no border around images */
+img {
+	border: none;
+}
+
+img.leftimage {
+	float: left;
+}
+
+img.rightimage {
+	float:right;
+}
+
+table {
+	border: thin solid black;
+	border-collapse: collapse;
+	margin-bottom: 10px;
+}
+
+table.stats {
+	font-size: small;
+}
+
+th, td {
+	border: thin solid black;
+	text-align: center;
+	padding: 5px;
+}
+
+a {
+	color: black;
+}
+
+#copyright {
+	display: none;
+}

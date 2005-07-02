@@ -3,7 +3,8 @@
 <html>
 <head>
 <title>OfficeBocce.com</title>
-<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css" href="main.css" media="screen,projection" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
 </head>
 <body>
 <div id="wrapper">
