@@ -17,7 +17,7 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require "consts.php";
+require_once "consts.php";
 
 require_once "db_$dbengine.php";
 

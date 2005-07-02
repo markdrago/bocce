@@ -20,8 +20,8 @@
 
 //this file contains general functions that are used throughout officebocce
 
-require("consts.php");
-require("db.php");
+require_once("consts.php");
+require_once("db.php");
 
 $GLOBALS['BRUISER_TYPE'] = "1";
 $GLOBALS['LITTLE_BALL_TYPE'] = "2";

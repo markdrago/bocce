@@ -425,7 +425,7 @@ function player_total_tetrises_versus($type, $type_value, $id, $player) {
 function player_total_turkeys_versus($type, $type_value, $id, $player) {
 	$result = db_query("select count(*) from game, point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game and point1.game = game.id and ((game.winner = $id and game.loser = $player) or (game.loser = $id and game.winner = $player))");
 	$row = db_fetch_array($result);
-	return clean_value($row[0] - (player_total_tetrises($id) * 2));
+	return clean_value($row[0] - (player_total_tetrises($type, $type_value, $id) * 2));
 }
 
 function player_total_coinflips_won_versus($type, $type_value, $id, $player) {
@@ -720,7 +720,7 @@ function player_total_games_played_percent_versus($type, $type_value, $id, $play
 		return 0;
 	}
 
-	$total_games_played = player_total_games_played($id);
+	$total_games_played = player_total_games_played($type, $type_value, $id);
 	return clean_value($total_games_played_versus / $total_games_played);
 }
 

@@ -6,7 +6,7 @@ define('STAT_LEAGUE', 1);
 define('STAT_SEASON', 2);
 
 $config_file = "config.php";
-require($config_file);
+require_once($config_file);
 
 $schema_file = "schema/$dbengine.sql";
 
