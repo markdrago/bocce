@@ -8,7 +8,7 @@
 <body>
 <div id="wrapper">
 <div id="header">
-<a href="index.php"><img src="images/bocceball.png" alt="Bocce Ball" /></a>
+<a href="index.php"><img height="66px" width="90px" src="images/bocceball.png" alt="Bocce Ball" /></a>
 <span id="title">{$title|default:"Office Bocce Score Tracker"}</span>
 </div> <!--header-->
 
