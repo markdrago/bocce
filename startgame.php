@@ -75,8 +75,8 @@ elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
   }
 
   if ($notice == "") {
-    $md5pass = md5($pass);
-    $query = "select id from player where username='$uname' and password='$md5pass'";
+    $sha1pass = sha1($pass);
+    $query = "select id from player where username='$uname' and password='$sha1pass'";
     $result = db_query($query);
 
     if ($row = db_fetch_array($result)) {

@@ -39,7 +39,7 @@ CREATE TABLE player (
 	firstname varchar(100),
 	lastname varchar(100),
 	email varchar(100),
-	password char(32)
+	password char(40)
 );
 
 DROP TABLE point;

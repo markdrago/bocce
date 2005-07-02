@@ -39,7 +39,7 @@ CREATE TABLE player (
 	firstname varchar(100) default NULL,
 	lastname varchar(100) default NULL,
 	email varchar(100) default NULL,
-	`password` varchar(32) default NULL,
+	`password` varchar(40) default NULL,
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

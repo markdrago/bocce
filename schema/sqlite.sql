@@ -27,7 +27,7 @@ username VARCHAR(100),
 firstname VARCHAR(100),
 lastname VARCHAR(100),
 email VARCHAR(100),
-password CHAR(32));
+password CHAR(40));
 CREATE TABLE point(
 id INTEGER PRIMARY KEY,
 game INTEGER,
