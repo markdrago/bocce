@@ -1,14 +1,14 @@
 8
 
 dir
-29
+30
 http://www.markdrago.com/svn/bocce/trunk/schema
 http://www.markdrago.com/svn
 
 
 
-2005-07-02T14:34:23.912523Z
-27
+2005-07-02T17:33:39.945009Z
+30
 jeffpc
 
 
@@ -56,10 +56,10 @@ file
 
 
 
-2007-04-28T18:10:23.000000Z
-d3173ba6e1c3eb145ddbbd20506ee5b9
-2005-07-02T14:20:00.322277Z
-25
+2007-04-28T18:10:34.000000Z
+72af7eae28df5993ee9da90afd789948
+2005-07-02T17:33:39.945009Z
+30
 jeffpc
 
 sample-ball.sql

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 35
-/svn/!svn/ver/27/bocce/trunk/schema
+/svn/!svn/ver/30/bocce/trunk/schema
 END
 sqlite.sql
 K 25
@@ -19,7 +19,7 @@ pgsql.sql
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/25/bocce/trunk/schema/pgsql.sql
+/svn/!svn/ver/30/bocce/trunk/schema/pgsql.sql
 END
 sample-ball.sql
 K 25

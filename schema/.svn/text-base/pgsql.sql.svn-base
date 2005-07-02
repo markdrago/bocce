@@ -29,7 +29,8 @@ CREATE TABLE game (
 	winner_ball2 varchar(100),
 	loser_ball1 varchar(100),
 	loser_ball2 varchar(100),
-	dts int default 0
+	dts int default 0,
+	season int
 );
 
 DROP TABLE league;
