@@ -63,7 +63,7 @@ foreach (all_players(STAT_GLOBAL, 0) as $player) {
 $page->assign('players', $players);
 
 $balls = Array();
-foreach (all_balls() as $ball) {
+foreach (all_balls(STAT_GLOBAL, 0) as $ball) {
 	$balls[] = Array(
 		'color' => ball_color($ball),
 		'type' => ball_type_name(ball_type($ball)),

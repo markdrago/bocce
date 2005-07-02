@@ -56,20 +56,20 @@ function player_total_losses($type, $type_value, $id) {
 
 #get player's total number of games played
 function player_total_games_played($type, $type_value, $id) {
-	return clean_value(player_total_wins($id) +
-		     player_total_losses($id));
+	return clean_value(player_total_wins($type, $type_value, $id) +
+		     player_total_losses($type, $type_value, $id));
 }
 
 #get player's total points scored
 function player_total_points_scored($type, $type_value, $id) {
-	return clean_value(player_total_points_scored_as_winner($id) +
-		     player_total_points_scored_as_loser($id));
+	return clean_value(player_total_points_scored_as_winner($type, $type_value, $id) +
+		     player_total_points_scored_as_loser($type, $type_value, $id));
 }
 
 #get player's total points scored against
 function player_total_points_scored_against($type, $type_value, $id) {
-	return clean_value(player_total_points_scored_against_as_winner($id) +
-		     player_total_points_scored_against_as_loser($id));
+	return clean_value(player_total_points_scored_against_as_winner($type, $type_value, $id) +
+		     player_total_points_scored_against_as_loser($type, $type_value, $id));
 }
 
 #get player's total number of points scored as a loser
@@ -189,7 +189,7 @@ function player_total_tetrises($type, $type_value, $id) {
 function player_total_turkeys($type, $type_value, $id) {
 	$result = db_query("select count(*) from point as point1, point as point2, point as point3 where point1.scorer=$id and point2.scorer=$id and point3.scorer=$id and point1.amount=2 and point2.id=point1.id+1 and point2.amount=2 and point3.id=point2.id+1 and point3.amount=2 and point1.game=point2.game and point2.game=point3.game");
 	$row = db_fetch_array($result);
-	return clean_value($row[0] - (player_total_tetrises($id) * 2));
+	return clean_value($row[0] - (player_total_tetrises($type, $type_value, $id) * 2));
 }
 
 #get player's total number of times in turkey territory
@@ -295,30 +295,30 @@ function player_total_deuces_with_ball($type, $type_value, $id, $ball) {
 }
 
 function player_overall_deuces_per_game_with_ball($type, $type_value, $id, $ball) {
-	$games_played_with_ball = player_total_games_played_with_ball($id,$ball);
+	$games_played_with_ball = player_total_games_played_with_ball($type, $type_value, $id,$ball);
 	if ($games_played_with_ball == 0) {
 		return 0;
 	}
 
-	$deuces_scored_with_ball = player_total_deuces_with_ball($id, $ball);
+	$deuces_scored_with_ball = player_total_deuces_with_ball($type, $type_value, $id, $ball);
 	return clean_value($deuces_scored_with_ball / $games_played_with_ball);
 }
 
 function player_overall_win_percentage_with_ball($type, $type_value, $id, $ball) {
-	$games_played_with_ball = player_total_games_played_with_ball($id,$ball);
+	$games_played_with_ball = player_total_games_played_with_ball($type, $type_value, $id,$ball);
 	if ($games_played_with_ball == 0)
 		return 0;
 
-	$games_won_with_ball = player_total_games_won_with_ball($id, $ball);
+	$games_won_with_ball = player_total_games_won_with_ball($type, $type_value, $id, $ball);
 	
 	return clean_value($games_won_with_ball / $games_played_with_ball);
 }
 
 function player_overall_ball_use_percentage($type, $type_value, $id, $ball) {
-	$games_played = player_total_games_played($id);
+	$games_played = player_total_games_played($type, $type_value, $id);
 	if ($games_played == 0)
 		return 0;
-	$games_played_with_ball = player_total_games_played_with_ball($id,$ball);
+	$games_played_with_ball = player_total_games_played_with_ball($type, $type_value, $id,$ball);
 	
 	return clean_value($games_played_with_ball / $games_played);
 }
@@ -335,7 +335,7 @@ function player_total_wins_versus($type, $type_value, $id, $player) {
 
 function player_total_losses_versus($type, $type_value, $id, $player) {
 	//this is just the reverse of player_total_wins_versus
-	return player_total_wins_versus($player, $id);
+	return player_total_wins_versus($type, $type_value, $player, $id);
 }
 
 function player_total_points_scored_as_winner_versus($type, $type_value, $id, $player) {
@@ -352,22 +352,22 @@ function player_total_points_scored_as_loser_versus($type, $type_value, $id, $pl
 
 function player_total_points_scored_against_as_loser_versus($type, $type_value, $id, $player) {
 	//this is the reverse of player_total_points_scored_as_winner_versus
-	return player_total_points_scored_as_winner_versus($player, $id);
+	return player_total_points_scored_as_winner_versus($type, $type_value, $player, $id);
 }
 
 function player_total_points_scored_against_as_winner_versus($type, $type_value, $id, $player) {
 	//this is the reverse of player_total_points_scored_as_loser_versus
-	return player_total_points_scored_as_loser_versus($player, $id);
+	return player_total_points_scored_as_loser_versus($type, $type_value, $player, $id);
 }
 
 function player_total_points_scored_versus($type, $type_value, $id, $player) {
-	return player_total_points_scored_as_loser_versus($id, $player) +
-		player_total_points_scored_as_winner_versus($id, $player);
+	return player_total_points_scored_as_loser_versus($type, $type_value, $id, $player) +
+		player_total_points_scored_as_winner_versus($type, $type_value, $id, $player);
 }
 
 function player_total_points_scored_against_versus($type, $type_value, $id, $player) {
 	//this is the reverse of player_total_points_scored_versus
-	return player_total_points_scored_versus($player, $id);
+	return player_total_points_scored_versus($type, $type_value, $player, $id);
 }  
 
 function player_total_deuces_versus($type, $type_value, $id, $player) {
@@ -377,7 +377,7 @@ function player_total_deuces_versus($type, $type_value, $id, $player) {
 }
 
 function player_total_deuces_against_versus($type, $type_value, $id, $player) {
-	return player_total_deuces_versus($player, $id);
+	return player_total_deuces_versus($type, $type_value, $player, $id);
 }
 
 function player_total_shutouts_versus($type, $type_value, $id, $player) {
@@ -388,7 +388,7 @@ function player_total_shutouts_versus($type, $type_value, $id, $player) {
 
 function player_total_been_shutouts_versus($type, $type_value, $id, $player) {
 	//this is the reverse of player_total_shutouts_versus
-	return player_total_shutouts_versus($player, $id);
+	return player_total_shutouts_versus($type, $type_value, $player, $id);
 }
 
 function player_total_bruises_successful_versus($type, $type_value, $id, $player) {
@@ -410,8 +410,8 @@ function player_total_bruises_attempted_versus($type, $type_value, $id, $player)
 }
 
 function player_total_games_played_versus($type, $type_value, $id, $player) {
-	return player_total_wins_versus($id, $player) +
-		player_total_losses_versus($id, $player);
+	return player_total_wins_versus($type, $type_value, $id, $player) +
+		player_total_losses_versus($type, $type_value, $id, $player);
 }
 
 #get player's total number of tetrises
@@ -487,148 +487,148 @@ function player_overall_current_streak_versus($type, $type_value, $id, $player) 
  ******************************************/
 
 function player_overall_win_percentage($type, $type_value, $id) {
-	$games_played = player_total_games_played($id);
+	$games_played = player_total_games_played($type, $type_value, $id);
 
 	if ($games_played == 0) {
 		return 0;
 	}
 
-	$total_wins = player_total_wins($id);
+	$total_wins = player_total_wins($type, $type_value, $id);
 	return clean_value($total_wins / $games_played);
 }
 
 function player_overall_points_per_game($type, $type_value, $id) {
-	$games_played = player_total_games_played($id);
+	$games_played = player_total_games_played($type, $type_value, $id);
 
 	if ($games_played == 0) {
 		return 0;
 	}
 
-	$total_points = player_total_points_scored($id);
+	$total_points = player_total_points_scored($type, $type_value, $id);
 	return clean_value($total_points / $games_played);
 }
 
 function player_overall_points_against_per_game($type, $type_value, $id) {
-	$games_played = player_total_games_played($id);
+	$games_played = player_total_games_played($type, $type_value, $id);
 
 	if ($games_played == 0) {
 		return 0;
 	}
 
-	$total_points_against = player_total_points_scored_against($id);
+	$total_points_against = player_total_points_scored_against($type, $type_value, $id);
 	return clean_value($total_points_against / $games_played);
 }
 
 function player_overall_deuces_per_game($type, $type_value, $id) {
-	$games_played = player_total_games_played($id);
+	$games_played = player_total_games_played($type, $type_value, $id);
 
 	if ($games_played == 0) {
 		return 0;
 	}
 
-	$total_deuces = player_total_deuces($id);
+	$total_deuces = player_total_deuces($type, $type_value, $id);
 	return clean_value($total_deuces / $games_played);
 }
 
 function player_overall_deuces_against_per_game($type, $type_value, $id) {
-	$games_played = player_total_games_played($id);
+	$games_played = player_total_games_played($type, $type_value, $id);
 
 	if ($games_played == 0) {
 		return 0;
 	}
 
-	$total_deuces_against = player_total_deuces_against($id);
+	$total_deuces_against = player_total_deuces_against($type, $type_value, $id);
 	return clean_value($total_deuces_against / $games_played);
 }
 
 function player_overall_points_per_game_as_loser($type, $type_value, $id) {
-	$total_losses = player_total_losses($id);
+	$total_losses = player_total_losses($type, $type_value, $id);
 
 	if ($total_losses == 0) {
 		return 0;
 	}
 
-	$total_points_as_loser = player_total_points_scored_as_loser($id);
+	$total_points_as_loser = player_total_points_scored_as_loser($type, $type_value, $id);
 	return clean_value($total_points_as_loser / $total_losses);
 }
 
 function player_overall_points_against_per_game_as_winner($type, $type_value, $id) {
-	$total_wins = player_total_wins($id);
+	$total_wins = player_total_wins($type, $type_value, $id);
 
 	if ($total_wins == 0) {
 		return 0;
 	}
 
 	$total_points_against_as_winner =
-		player_total_points_scored_against_as_winner($id);
+		player_total_points_scored_against_as_winner($type, $type_value, $id);
 
 	return clean_value($total_points_against_as_winner / $total_wins);
 }
 
 function player_overall_bruise_percentage($type, $type_value, $id) {
-	$total_bruise_attempts = player_total_bruises_attempted($id);
+	$total_bruise_attempts = player_total_bruises_attempted($type, $type_value, $id);
 
 	if ($total_bruise_attempts == 0) {
 		return 0;
 	}
 
-	$good_bruises = player_total_bruises_successful($id);
+	$good_bruises = player_total_bruises_successful($type, $type_value, $id);
 	return clean_value($good_bruises / $total_bruise_attempts);
 }
 
 function player_overall_bruise_attempts_per_game($type, $type_value, $id) {
-	$total_games_played = player_total_games_played($id);
+	$total_games_played = player_total_games_played($type, $type_value, $id);
 
 	if ($total_games_played == 0) {
 		return 0;
 	}
 
-	$total_bruise_attempts = player_total_bruises_attempted($id);
+	$total_bruise_attempts = player_total_bruises_attempted($type, $type_value, $id);
 	return clean_value($total_bruise_attempts / $total_games_played);
 }
 
 function player_overall_double_deuce_to_turkey_conversion_percentage($type, $type_value, $id) {
 	$total_turkey_territories =
-		player_total_double_deuces_with_possible_turkey($id);
+		player_total_double_deuces_with_possible_turkey($type, $type_value, $id);
 
 	if ($total_turkey_territories == 0) {
 		return 0;
 	}
 
-	$total_turkeys = player_total_turkeys($id);
+	$total_turkeys = player_total_turkeys($type, $type_value, $id);
 	return clean_value($total_turkeys / $total_turkey_territories);
 }
 
 function player_overall_coinflip_win_percentage($type, $type_value, $id) {
-	$total_games_played = player_total_games_played($id);
+	$total_games_played = player_total_games_played($type, $type_value, $id);
   
 	if ($total_games_played == 0) {
 		return 0;
 	}
 
-	$total_coinflips_won = player_total_coinflips_won($id);
+	$total_coinflips_won = player_total_coinflips_won($type, $type_value, $id);
 	return clean_value($total_coinflips_won / $total_games_played);
 }
 
 function player_overall_rounds_per_game($type, $type_value, $id) {
-	$total_games_played = player_total_games_played($id);
+	$total_games_played = player_total_games_played($type, $type_value, $id);
   
 	if ($total_games_played == 0) {
 		return 0;
 	}
 
-	$total_rounds_played = player_total_rounds_played($id);
+	$total_rounds_played = player_total_rounds_played($type, $type_value, $id);
 	return clean_value($total_rounds_played / $total_games_played);
 }
 
 function player_overall_deuces_per_round($type, $type_value, $id) {
-	$total_rounds_played = player_total_rounds_played($id);
+	$total_rounds_played = player_total_rounds_played($type, $type_value, $id);
 
 	if ($total_rounds_played == 0) {
 		return 0;
 	}
 
-	$total_deuces = player_total_deuces($id);
+	$total_deuces = player_total_deuces($type, $type_value, $id);
 	return clean_value($total_deuces / $total_rounds_played);
 }
 
@@ -638,61 +638,61 @@ function player_overall_deuces_per_round($type, $type_value, $id) {
 
 function player_overall_win_percentage_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus =
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
   
 	if ($total_games_played_versus == 0) {
 		return 0;
 	}
 
-	$total_wins_versus = player_total_wins_versus($id, $player);
+	$total_wins_versus = player_total_wins_versus($type, $type_value, $id, $player);
 	return clean_value($total_wins_versus / $total_games_played_versus);
 }
 
 function player_overall_deuces_per_game_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus = 
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
   
 	if ($total_games_played_versus == 0) {
 		return 0;
 	}
 
-	$total_deuces_versus = player_total_deuces_versus($id, $player);
+	$total_deuces_versus = player_total_deuces_versus($type, $type_value, $id, $player);
 	return clean_value($total_deuces_versus / $total_games_played_versus);
 }
 
 function player_overall_deuces_against_per_game_versus($type, $type_value, $id, $player) {
 	//this is the reverse of player_overall_deuces_per_game_versus
-	return player_overall_deuces_per_game_versus($player, $id);
+	return player_overall_deuces_per_game_versus($type, $type_value, $player, $id);
 }
 
 function player_overall_points_scored_per_game_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus = 
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
   
 	if ($total_games_played_versus == 0) {
 		return 0;
 	}
 
 	$total_points_scored_versus =
-		player_total_points_scored_versus($id, $player);
+		player_total_points_scored_versus($type, $type_value, $id, $player);
 	return clean_value($total_points_scored_versus / $total_games_played_versus);
 }
   
 function player_overall_points_scored_against_per_game_versus($type, $type_value, $id, $player) {
 	//this is the reverse of player_overall_points_scored_per_game_versus
-	return player_overall_points_scored_per_game_versus($player, $id);
+	return player_overall_points_scored_per_game_versus($type, $type_value, $player, $id);
 }
 
 function player_overall_bruise_percentage_versus($type, $type_value, $id, $player) {
 	$total_bruises_attempted_versus =
-		player_total_bruises_attempted_versus($id, $player);
+		player_total_bruises_attempted_versus($type, $type_value, $id, $player);
 
 	if ($total_bruises_attempted_versus == 0) {
 		return 0;
 	}
 
 	$total_bruises_successful_versus =
-		player_total_bruises_successful_versus($id, $player);
+		player_total_bruises_successful_versus($type, $type_value, $id, $player);
 
 	return clean_value($total_bruises_successful_versus /
 		$total_bruises_attempted_versus);
@@ -700,21 +700,21 @@ function player_overall_bruise_percentage_versus($type, $type_value, $id, $playe
 
 function player_overall_bruises_attempted_per_game_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus = 
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
   
 	if ($total_games_played_versus == 0) {
 		return 0;
 	}
 
 	$total_bruises_attempted_versus =
-		player_total_bruises_attempted_versus($id, $player);
+		player_total_bruises_attempted_versus($type, $type_value, $id, $player);
 	return clean_value($total_bruises_attempted_versus /
 		$total_games_played_versus);
 }
 
 function player_total_games_played_percent_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus =
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
 
 	if ($total_games_played_versus == 0) {
 		return 0;
@@ -726,13 +726,13 @@ function player_total_games_played_percent_versus($type, $type_value, $id, $play
 
 function player_overall_coinflip_win_percentage_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus =
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
 
 	if ($total_games_played_versus == 0) {
 		return 0;
 	}
 
-	$total_coinflips_won_against=player_total_coinflips_won_versus($id, $player);
+	$total_coinflips_won_against=player_total_coinflips_won_versus($type, $type_value, $id, $player);
 
 	return clean_value($total_coinflips_won_against/$total_games_played_versus);
 }
@@ -740,24 +740,24 @@ function player_overall_coinflip_win_percentage_versus($type, $type_value, $id, 
 
 function player_overall_rounds_per_game_versus($type, $type_value, $id, $player) {
 	$total_games_played_versus =
-		player_total_games_played_versus($id, $player);
+		player_total_games_played_versus($type, $type_value, $id, $player);
 
 	if ($total_games_played_versus == 0) {
 		return 0;
 	}
 
-	$total_rounds_played_versus = player_total_rounds_played_versus($id,$player);
+	$total_rounds_played_versus = player_total_rounds_played_versus($type, $type_value, $id,$player);
 	return clean_value($total_rounds_played_versus / $total_games_played_versus);
 }
 
 function player_overall_deuces_per_round_versus($type, $type_value, $id, $player) {
-	$total_rounds_played_versus = player_total_rounds_played_versus($id,$player);
+	$total_rounds_played_versus = player_total_rounds_played_versus($type, $type_value, $id,$player);
   
 	if ($total_rounds_played_versus == 0) {
 		return 0;
 	}
 
-	$total_deuces_versus = player_total_deuces_versus($id, $player);
+	$total_deuces_versus = player_total_deuces_versus($type, $type_value, $id, $player);
 	return clean_value($total_deuces_versus / $total_rounds_played_versus);
 }
 
@@ -804,7 +804,7 @@ function all_small_balls($type, $type_value) {
 }
 
 #get the type of the ball as an integer
-function ball_type($type, $type_value, $ball) {
+function ball_type($ball) {
 	$result = db_query("select num from ball where id=$ball");
 	$row = db_fetch_array($result);
 	return clean_value($row[0]);
@@ -844,37 +844,37 @@ function ball_total_deuces_scored($type, $type_value, $ball) {
 
 #return the deuces per game when played with a certain ball
 function ball_overall_deuces_per_game($type, $type_value, $ball) {
-	$ball_total_games_played = ball_total_games_played($ball);
+	$ball_total_games_played = ball_total_games_played($type, $type_value, $ball);
   
 	if ($ball_total_games_played == 0) {
 		return 0;
 	}
 
-	$ball_total_deuces = ball_total_deuces_scored($ball);
+	$ball_total_deuces = ball_total_deuces_scored($type, $type_value, $ball);
 	return clean_value($ball_total_deuces / $ball_total_games_played);
 }
 
 #return the frequency which this ball is played with overall
 function ball_overall_use_percentage($type, $type_value, $ball) {
-	$universe_num_games = universe_total_games_played();
+	$universe_num_games = universe_total_games_played($type, $type_value);
 
 	if ($universe_num_games == 0) {
 		return 0;
 	}
 
-	$ball_total_games_played = ball_total_games_played($ball);
+	$ball_total_games_played = ball_total_games_played($type, $type_value, $ball);
 	return clean_value($ball_total_games_played / $universe_num_games);
 }
 
 #return the win percentage of this ball
 function ball_overall_win_percentage($type, $type_value, $ball) {
-	$ball_total_games_played = ball_total_games_played($ball);
+	$ball_total_games_played = ball_total_games_played($type, $type_value, $ball);
 
 	if ($ball_total_games_played == 0) {
 		return 0;
 	}
 
-	$ball_games_won = ball_total_games_won($ball);
+	$ball_games_won = ball_total_games_won($type, $type_value, $ball);
 
 	return clean_value($ball_games_won / $ball_total_games_played);
 }
