@@ -34,7 +34,7 @@ function all_players($type, $type_value) {
 	$result = db_query("select id from player");
 	while ($row = db_fetch_array($result)) {
 		$players[] = $row["id"];
-
+	}
 	return $players;
 }
 
