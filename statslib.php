@@ -351,7 +351,7 @@ function player_overall_current_streak($type, $type_value, $id) {
 			   __game_from_clause($type) . " where " .
 			   "winner=$id or loser=$id and " .
 			   __game_where_clause($type, $type_value) .
-			   " order by dts desc");
+			   " order by game.dts desc");
   
 	$count = 0;
 
