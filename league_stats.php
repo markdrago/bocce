@@ -33,8 +33,16 @@ function league_score($id)
 	$row = db_fetch_array($result);
 	if ($row['games'] == 0)
 		return 0;
-//echo $sql;
-	return $row['games'] / ceil(($row['max'] - $row['min'] + 1) / (3600.0 * 24 * 7)) / $row['players'];
+
+	switch ($row['games']) {
+		case 0:
+			return 0;
+		default:
+			return 100*(sqrt(log($row['games'], 2.71)) + log($row['games']/$row['players'], 2.71))*(1- ((time() - $row['max'])/(3600.0*24))/100.0);
+	}
+
+	/* if for whatever reason... */
+	return 0;
 }
 
 $page->assign('subtitle',"League Statistics");
@@ -50,7 +58,7 @@ while($row = db_fetch_array($res))
 		'rank' => $rank++,
 		'id' => $row['id'],
 		'name' => $row['name'],
-		'score' => league_score($row['id']));
+		'score' => format_percent(league_score($row['id'])));
 
 db_close();
 
