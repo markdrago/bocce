@@ -25,14 +25,16 @@ function league_score($id)
 {
 	$players = array();
 
-	$result = db_query("select ((max(game.dts) - min(game.dts)) / (3600.0 * 24.0 * 7.0)) as score from game" .
-			__game_from_clause($type). " where " .
-			__game_where_clause($type, $type_value));
-	$row = db_fetch_array($result);
-/*echo 
+	$sql = "select max(game.dts) as max, min(game.dts) as min, count(distinct league_player.player) as players, count(distinct game.id) as games from game, league_player" .
 			__game_from_clause(STAT_LEAGUE). " where " .
-			__game_where_clause(STAT_LEAGUE, $id);*/
-	return $row['score'];
+			"league.id=league_player.league and " .
+			__game_where_clause(STAT_LEAGUE, $id);
+	$result = db_query($sql);
+	$row = db_fetch_array($result);
+	if ($row['games'] == 0)
+		return 0;
+//echo $sql;
+	return $row['games'] / ceil(($row['max'] - $row['min'] + 1) / (3600.0 * 24 * 7)) / $row['players'];
 }
 
 $page->assign('subtitle',"League Statistics");
