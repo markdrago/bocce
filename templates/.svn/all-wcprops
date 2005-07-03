@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 38
-/svn/!svn/ver/51/bocce/trunk/templates
+/svn/!svn/ver/53/bocce/trunk/templates
 END
 personal.tpl
 K 25
@@ -15,17 +15,17 @@ svn:wc:ra_dav:version-url
 V 60
 /svn/!svn/ver/20/bocce/trunk/templates/addscore-progress.tpl
 END
-startgame.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/47/bocce/trunk/templates/startgame.tpl
-END
 allscores.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/20/bocce/trunk/templates/allscores.tpl
+END
+startgame.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/47/bocce/trunk/templates/startgame.tpl
 END
 header.tpl
 K 25
@@ -67,7 +67,7 @@ index.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/!svn/ver/20/bocce/trunk/templates/index.tpl
+/svn/!svn/ver/53/bocce/trunk/templates/index.tpl
 END
 flipping.tpl
 K 25
@@ -81,17 +81,17 @@ svn:wc:ra_dav:version-url
 V 61
 /svn/!svn/ver/20/bocce/trunk/templates/flipcoin-ballcolor.tpl
 END
-onegame.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 50
-/svn/!svn/ver/20/bocce/trunk/templates/onegame.tpl
-END
 addscore-final.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 57
 /svn/!svn/ver/20/bocce/trunk/templates/addscore-final.tpl
+END
+onegame.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/20/bocce/trunk/templates/onegame.tpl
 END
 flipcoin-gofirst.tpl
 K 25

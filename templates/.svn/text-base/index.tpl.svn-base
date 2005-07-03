@@ -1,7 +1,7 @@
 {include file="header.tpl" title=$title}
 
 <div style="text-align: center">
-<p>This is meant to be an exercise in web development with php and sqlite.  This is also a great excuse to go extrememly overboard with statistics for bocce, but it should be trivial adding support for other database engines.</p>
+<p>This is meant to be an exercise in web development with php and sqlite, but it should be trivial adding support for other database engines.  This is also a great excuse to go extrememly overboard with statistics for bocce.</p>
 <img src="images/pope.gif" alt="The pope playing bocce" />
 </div>
 
