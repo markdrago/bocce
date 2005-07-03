@@ -25,9 +25,11 @@ require("statslib.php");
 if (isset($_GET['league'])) {
 	$type = STAT_LEAGUE;
 	$type_value = $_GET['league'];
+	$page->assign('subtitlehint', "League #" . $_GET['league']);
 } elseif (isset($_GET['season'])) {
 	$type = STAT_SEASON;
 	$type_value = $_GET['season'];
+	$page->assign('subtitlehint', "Season #" . $_GET['league']);
 } else {
 	$type = STAT_GLOBAL;
 	$type_value = 0;
