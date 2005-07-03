@@ -35,6 +35,10 @@ foreach (all_players($type, $type_value) as $player) {
 	if ($player == $id)
 		continue;
 
+	if (!(player_total_wins_versus($type, $type_value, $id, $player) + 
+		player_total_losses_versus($type, $type_value, $id, $player)))
+		continue;
+
 	$players[] = Array(
 		'id' => $player,
 		'name' => player_name($player),
