@@ -74,9 +74,17 @@ foreach (all_balls($type, $type_value) as $ball) {
 		'deuces_pg' => format_percent(player_overall_deuces_per_game_with_ball($type, $type_value, $id, $ball)));
 }
 
+$page->assign('balls', $balls);
+
+$leagues = Array();
+$res = db_query("select league.id, league.name FROM league, league_player WHERE league.id = league_player.league AND league_player.player = $id;");
+while($row = db_fetch_array($res))
+	$leagues[] = Array(
+		'id' => $row['id'],
+		'name' => $row['name']);
 db_close();
 
-$page->assign('balls', $balls);
+$page->assign('leagues', $leagues);
 
 $page->display('personal.tpl');
 

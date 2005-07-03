@@ -1,8 +1,10 @@
 {include file="header.tpl" title=$title}
 
-<div style="padding-top: 5px; padding-bottom: 15px; font-size: small;">
-<a href="statistics.php">Main Statistics</a>
-</div>
+<div style="padding-top: 5px; font-size: small;"><a href="statistics.php">Main Statistics</a></div>
+{section name=l loop=$leagues}
+<div style="font-size: small;"><a href="statistics.php?league={$leagues[l].id}">League: {$leagues[l].name}</a></div>
+{/section}
+<br />
 <table width="100%" class="stats">
 <tr>
 <th>Name</th>
