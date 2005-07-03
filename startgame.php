@@ -26,91 +26,89 @@ $titlehint = "";
 $notice = "";
 
 if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
-  unset($_SESSION);
-  session_destroy();
-  $uname = "";
-}
-elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
-  db_open();
+	unset($_SESSION);
+	session_destroy();
+	$uname = "";
+} elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
+	db_open();
 
-  //try and login player
-  $player = "player1";
-  if (isset($_SESSION["player1"])) {
-    $player = "player2";
-  }
+	//try and login player
+	$player = "player1";
+	if (isset($_SESSION["player1"])) {
+		$player = "player2";
+	}
 
-  $uname = $_POST["uname"];
-  $pass = $_POST["pass"];
+	$uname = $_POST["uname"];
+	$pass = $_POST["pass"];
 
-  //check that username and password were entered
-  if ($notice == "") {
-    $requiredarray = array("You must enter a user name."=>$uname,
-			   "You must enter a password."=>$pass);
+	//check that username and password were entered
+	if ($notice == "") {
+		$requiredarray = array("You must enter a user name."=>$uname,
+				       "You must enter a password."=>$pass);
 
-    $notice = checkrequired($requiredarray);
-  }
+		$notice = checkrequired($requiredarray);
+	}
 
-  //check that username and password are of an acceptable length
-  if ($notice == "") {
-    $lengtharray =array("Your user name must be between " .
+	//check that username and password are of an acceptable length
+	if ($notice == "") {
+		$lengtharray =array("Your user name must be between " .
 			"3 and 100 characters in length."=>array($uname,3,100),
 			"Your password must be between " .
 			"6 and 100 characters in length."=>array($pass,6,100));
 
-    $notice = checklength($lengtharray);
-  }
+		$notice = checklength($lengtharray);
+	}
 
-  if (isset($_SESSION["player1"]) and ($notice == "")) {
-    $firstID = $_SESSION["player1"];
+	if (isset($_SESSION["player1"]) and ($notice == "")) {
+		$firstID = $_SESSION["player1"];
 
-    $query = "select username from player where id=$firstID";
-    $result = db_query($query);
-    $row = db_fetch_array($result);
+		$query = "select username from player where id=$firstID";
+		$result = db_query($query);
+		$row = db_fetch_array($result);
 
-    //make sure the user names are different
-    $notice = checkdifferent($row["username"], $uname, "This user '$uname' has already logged in.");
-    if ($notice != "") {
-      $uname = "";
-    }
-  }
+		//make sure the user names are different
+		$notice = checkdifferent($row["username"], $uname, "This user '$uname' has already logged in.");
+		if ($notice != "") {
+			$uname = "";
+		}
+	}
 
-  if ($notice == "") {
-    $sha1pass = sha1($pass);
-    $query = "select id from player where username='$uname' and pass='$sha1pass'";
-    $result = db_query($query);
+	if ($notice == "") {
+		$sha1pass = sha1($pass);
+		$query = "select id from player where username='$uname' and pass='$sha1pass'";
+		$result = db_query($query);
 
-    if ($row = db_fetch_array($result)) {
-      $_SESSION[$player] = $row['id'];
-      $titlehint = "($uname's opponent)";
+		if ($row = db_fetch_array($result)) {
+			$_SESSION[$player] = $row['id'];
+			$titlehint = "($uname's opponent)";
 
-      //clear out username so it doesn't show up in login box
-      $uname = "";
-    } else {
-      $notice = "The user name and password that you entered are not correct.<br />Either the user name doesn't exist or you mistyped the password.";
-    }
-  }
+			//clear out username so it doesn't show up in login box
+			$uname = "";
+		} else {
+			$notice = "The user name and password that you entered are not correct.<br />Either the user name doesn't exist or you mistyped the password.";
+		}
+	}
 
-  db_close();
+	db_close();
 
-  if (isset($_SESSION["player1"]) and isset($_SESSION["player2"])) {
-    redirect("flipping.php");
-    return 0;
-  }
-}
-else {
-  unset($_SESSION);
-  session_destroy();
-  session_start();
+	if (isset($_SESSION["player1"]) and isset($_SESSION["player2"])) {
+		redirect("flipping.php");
+		return 0;
+	}
+} else {
+	unset($_SESSION);
+	session_destroy();
+	session_start();
 }
 
 $playernum = "First";
 if (isset($_SESSION["player1"])) {
-  $playernum = "Second";
+	$playernum = "Second";
 }
 
 //This should be removed when we're handling seasons better
 if (isset($_POST["season"])) {
-  $_SESSION["season"] = $_POST["season"];
+	$_SESSION["season"] = $_POST["season"];
 }
 
 $page->assign('notice', $notice);
@@ -118,6 +116,14 @@ $page->assign('subtitle', "Login $playernum Player");
 $page->assign('subtitlehint', $titlehint);
 $page->assign('uname', $uname);
 $page->assign('playernum', $playernum);
+
+db_open();
+$ses = Array();
+$res = db_query("select id from season order by id;");
+while($row = db_fetch_array($res))
+	$ses[] = $row['id'];
+db_close();
+$page->assign('seasons', $ses);
 
 $page->display('startgame.tpl');
 

@@ -17,7 +17,12 @@
 {if $playernum == "First"}
     <div class="label">
       <div>Season #:</div>
-      <input type="text" maxlength="25" size="25" name="season" />
+      <select name="season">
+	<option value="0">0 (exhibition)</option>
+{section name=s loop=$seasons}
+	<option value="{$seasons[s]}">{$seasons[s]}</option>
+{/section}
+      </select>
     </div>
 {/if}
     <div class="submit">
