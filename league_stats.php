@@ -45,6 +45,11 @@ function league_score($id)
 	return 0;
 }
 
+function scorecomp($row1, $row2)
+{
+	return ($row1['score'] < $row2['score']);
+}
+
 $page->assign('subtitle',"League Statistics");
 
 $leagues = Array();
@@ -55,12 +60,17 @@ db_open();
 $res = db_query("SELECT id, name FROM league ORDER BY name;");
 while($row = db_fetch_array($res))
 	$leagues[] = Array(
-		'rank' => $rank++,
+		'rank' => 0,
 		'id' => $row['id'],
 		'name' => $row['name'],
 		'score' => format_percent(league_score($row['id'])));
 
 db_close();
+
+usort($leagues, 'scorecomp');
+
+for($x = 0; $x < count($leagues); $x++)
+	$leagues[$x]['rank'] = $x+1;
 
 $page->assign('leagues',$leagues);
 $page->display('league_stats.tpl');
