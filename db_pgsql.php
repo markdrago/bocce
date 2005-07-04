@@ -87,15 +87,6 @@ function db_num_rows($result)
 	return pg_num_rows($result);
 }
 
-function db_last_insert_rowid()
-{
-	global $link;
-
-	$result = pg_query("SELECT CURRVAL('idseq') AS seq;");
-	$result = pg_fetch_array($result);
-	return $result[0];
-}
-
 function checkForDB()
 {
 }

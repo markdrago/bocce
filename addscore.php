@@ -207,9 +207,14 @@ if (!$confirmed) {
 	}
 
 	$season = $_SESSION["season"];
-	$query = "insert into game (loser, winner, coinflip_winner, loser_points, winner_points, winner_ball1, winner_ball2, loser_ball1, loser_ball2, dts, season) values($loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', ".time().", $season)";
-	$result = db_query($query);
-	$game_id = db_last_insert_rowid();
+	$dts = time();
+	$query = "insert into game (loser, winner, coinflip_winner, loser_points, winner_points, winner_ball1, winner_ball2, loser_ball1, loser_ball2, dts, season) values($loser,$winner,$coinflip_winner,$loser_score,$winner_score,'$winner_ball1','$winner_ball2','$loser_ball1','$loser_ball2', $dts, $season)";
+	db_query($query);
+	
+	/* get this game id */
+	$result = db_query("select id from game where dts=$dts and loser=$loser and winner=$winner and coinflip_winner=$coinflip_winner and loser_points=$loser_score and winner_points=$winner_score and winner_ball1=$winner_ball1 and winner_ball2=$winner_ball2 and loser_ball1=$loser_ball1 and loser_ball2=$loser_ball2 and season=$season;");
+	$game_id = db_fetch_array($result);
+	$game_id = $game_id['id'];
     
 	//maybe cut this down to one long transaction
 	for ($round = 0; $round < count($winner_history); $round++) {

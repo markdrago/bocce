@@ -81,13 +81,6 @@ function db_num_rows($result)
 	return sqlite_num_rows($result);
 }
 
-function db_last_insert_rowid()
-{
-	global $db;
-
-	return sqlite_last_insert_rowid($db);
-}
-
 function checkForDB() {
   global $database_file;
   global $schema_file;

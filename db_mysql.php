@@ -84,13 +84,6 @@ function db_num_rows($result)
 	return mysql_num_rows($result);
 }
 
-function db_last_insert_rowid()
-{
-	global $link;
-
-	return mysql_insert_id($link);
-}
-
 function checkForDB()
 {
 }
