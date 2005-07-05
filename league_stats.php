@@ -38,7 +38,7 @@ function league_score($id)
 		case 0:
 			return 0;
 		default:
-			return 100*(sqrt(log($row['games'], 2.71)) + log($row['games']/$row['players'], 2.71))*(1- ((time() - $row['max'])/(3600.0*24))/100.0);
+			return 100*(sqrt(log($row['games'], 2.71)) + log(($row['games']+2)/$row['players'], 2.71))*(1- ((time() - $row['max'])/(3600.0*24))/100.0);
 	}
 
 	/* if for whatever reason... */
@@ -53,7 +53,6 @@ function scorecomp($row1, $row2)
 $page->assign('subtitle',"League Statistics");
 
 $leagues = Array();
-$rank = 1;
 
 db_open();
 
@@ -69,8 +68,8 @@ db_close();
 
 usort($leagues, 'scorecomp');
 
-for($x = 0; $x < count($leagues); $x++)
-	$leagues[$x]['rank'] = $x+1;
+for($rank = 0; $rank < count($leagues); $rank++)
+	$leagues[$rank]['rank'] = $rank+1;
 
 $page->assign('leagues',$leagues);
 $page->display('league_stats.tpl');
