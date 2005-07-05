@@ -19,6 +19,11 @@
 
 require("start.php");
 
+if (isset($_GET["season"]))
+	$_SESSION["season"] = $_GET["season"];
+else
+	$_SESSION["season"] = 0;
+
 $page->assign('subtitle', "Flipping the coin");
 
 $page->display('flipping.tpl');

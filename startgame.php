@@ -92,7 +92,7 @@ if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
 	db_close();
 
 	if (isset($_SESSION["player1"]) and isset($_SESSION["player2"])) {
-		redirect("flipping.php");
+		redirect("sel_season.php");
 		return 0;
 	}
 } else {
@@ -106,24 +106,10 @@ if (isset($_SESSION["player1"])) {
 	$playernum = "Second";
 }
 
-//This should be removed when we're handling seasons better
-if (isset($_POST["season"])) {
-	$_SESSION["season"] = $_POST["season"];
-}
-
 $page->assign('notice', $notice);
 $page->assign('subtitle', "Login $playernum Player");
 $page->assign('subtitlehint', $titlehint);
 $page->assign('uname', $uname);
-$page->assign('playernum', $playernum);
-
-db_open();
-$ses = Array();
-$res = db_query("select id from season order by id;");
-while($row = db_fetch_array($res))
-	$ses[] = $row['id'];
-db_close();
-$page->assign('seasons', $ses);
 
 $page->display('startgame.tpl');
 

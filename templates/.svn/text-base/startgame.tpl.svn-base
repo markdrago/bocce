@@ -14,17 +14,6 @@
       <div>Password:</div>
       <input type="password" maxlength="100" size="25" name="pass" />
     </div>
-{if $playernum == "First"}
-    <div class="label">
-      <div>Season #:</div>
-      <select name="season">
-	<option value="0">0 (exhibition)</option>
-{section name=s loop=$seasons}
-	<option value="{$seasons[s]}">{$seasons[s]}</option>
-{/section}
-      </select>
-    </div>
-{/if}
     <div class="submit">
       <input name="submit" type="submit" value="Login" />
       <input name="submit" type="submit" value="Cancel" />

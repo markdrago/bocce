@@ -1,14 +1,14 @@
 8
 
 dir
-58
+59
 http://www.markdrago.com/svn/bocce/trunk/templates
 http://www.markdrago.com/svn
 
 
 
-2005-07-03T13:45:46.932948Z
-53
+2005-07-05T22:24:39.360269Z
+59
 jeffpc
 
 
@@ -50,6 +50,18 @@ file
 20
 mdrago
 
+startgame.tpl
+file
+
+
+
+
+2007-04-28T18:11:33.000000Z
+2b01e3fe331ddd32b29b5b464d281373
+2005-07-05T22:24:39.360269Z
+59
+jeffpc
+
 allscores.tpl
 file
 
@@ -61,18 +73,6 @@ file
 2005-06-15T22:47:43.795159Z
 20
 mdrago
-
-startgame.tpl
-file
-
-
-
-
-2007-04-28T18:11:09.000000Z
-9b39be5757ccd1d2e04b71450664aa1c
-2005-07-03T01:07:00.109198Z
-47
-jeffpc
 
 header.tpl
 file
@@ -97,6 +97,18 @@ file
 2005-06-15T22:47:43.795159Z
 20
 mdrago
+
+sel_season.tpl
+file
+
+
+
+
+2007-04-28T18:11:33.000000Z
+75e6f62b9c9b6423ec82a810274882d3
+2005-07-05T22:24:39.360269Z
+59
+jeffpc
 
 footer.tpl
 file
@@ -182,18 +194,6 @@ file
 20
 mdrago
 
-addscore-final.tpl
-file
-
-
-
-
-2007-04-28T18:10:13.000000Z
-0c5e37b5ba802b7b439df39b0f7afdd8
-2005-06-15T22:47:43.795159Z
-20
-mdrago
-
 onegame.tpl
 file
 
@@ -202,6 +202,18 @@ file
 
 2007-04-28T18:10:13.000000Z
 029f85f03448a742fd8acfc85fd7a375
+2005-06-15T22:47:43.795159Z
+20
+mdrago
+
+addscore-final.tpl
+file
+
+
+
+
+2007-04-28T18:10:13.000000Z
+0c5e37b5ba802b7b439df39b0f7afdd8
 2005-06-15T22:47:43.795159Z
 20
 mdrago
