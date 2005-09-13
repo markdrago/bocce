@@ -1,15 +1,15 @@
 8
 
 dir
-59
+60
 http://www.markdrago.com/svn/bocce/trunk/templates
 http://www.markdrago.com/svn
 
 
 
-2005-07-05T22:24:39.360269Z
-59
-jeffpc
+2005-09-13T19:49:37.937625Z
+60
+mdrago
 
 
 svn:special svn:externals svn:needs-lock
@@ -50,18 +50,6 @@ file
 20
 mdrago
 
-startgame.tpl
-file
-
-
-
-
-2007-04-28T18:11:33.000000Z
-2b01e3fe331ddd32b29b5b464d281373
-2005-07-05T22:24:39.360269Z
-59
-jeffpc
-
 allscores.tpl
 file
 
@@ -73,6 +61,18 @@ file
 2005-06-15T22:47:43.795159Z
 20
 mdrago
+
+startgame.tpl
+file
+
+
+
+
+2007-04-28T18:11:33.000000Z
+2b01e3fe331ddd32b29b5b464d281373
+2005-07-05T22:24:39.360269Z
+59
+jeffpc
 
 header.tpl
 file
@@ -164,11 +164,11 @@ file
 
 
 
-2007-04-28T18:11:21.000000Z
-1122983f1bdf708b2703fd051fa507e5
-2005-07-03T13:45:46.932948Z
-53
-jeffpc
+2007-04-28T18:11:35.000000Z
+ce9fd98ff54a4431cbd742dcba4b2003
+2005-09-13T19:49:37.937625Z
+60
+mdrago
 
 flipping.tpl
 file
