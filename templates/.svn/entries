@@ -1,14 +1,14 @@
 8
 
 dir
-66
+67
 http://www.markdrago.com/svn/bocce/trunk/templates
 http://www.markdrago.com/svn
 
 
 
-2006-04-05T18:41:24.835357Z
-65
+2006-04-05T23:44:36.186854Z
+67
 mdrago
 
 
@@ -44,10 +44,10 @@ file
 
 
 
-2007-04-28T18:11:41.000000Z
-0bf538f1a28bd90fed8f60c91e3030c8
-2006-04-05T18:41:24.835357Z
-65
+2007-04-28T18:11:45.000000Z
+b1cc8a30d60eb1905d0b333c2cefefd7
+2006-04-05T23:44:36.186854Z
+67
 mdrago
 
 addscore-progress.tpl
@@ -58,18 +58,6 @@ file
 
 2007-04-28T18:10:13.000000Z
 18f30d89c68ba369c6e9b18f1c189812
-2005-06-15T22:47:43.795159Z
-20
-mdrago
-
-allscores.tpl
-file
-
-
-
-
-2007-04-28T18:10:13.000000Z
-6f0d4e44623dea0e2498b119c80a2911
 2005-06-15T22:47:43.795159Z
 20
 mdrago
@@ -85,6 +73,18 @@ file
 2005-07-05T22:24:39.360269Z
 59
 jeffpc
+
+allscores.tpl
+file
+
+
+
+
+2007-04-28T18:10:13.000000Z
+6f0d4e44623dea0e2498b119c80a2911
+2005-06-15T22:47:43.795159Z
+20
+mdrago
 
 header.tpl
 file

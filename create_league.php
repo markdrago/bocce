@@ -18,6 +18,7 @@
  */
 
 require("start.php");
+require("league_tools.php");
 
 side_panel($page, "LOGGED_IN");
 
@@ -26,9 +27,11 @@ $notice = "";
 $player_id = $_SESSION["player_id"];
 
 $league_name = "";
+$league_invites = "";
 
 if (isset($_POST["submit"])) {
   $league_name  = $_POST["league_name"];
+  $league_invites = $_POST["league_invites"];
 
   if ($notice == "") {
     $requiredarray = array("You must enter a name " .
@@ -78,14 +81,17 @@ if (isset($_POST["submit"])) {
     $query = "insert into league_player (league, player, dts) values " .
       "('$league_id', '$player_id', '$current_time')";
     db_query($query);
-    
     db_close();
+
+    #add the invited players to the league_player_join_request table
+    league_invite_players($league_id, $league_invites);
 
     $notice = "The league '$league_name' has been created";
   }
 }
 
 $page->assign('league_name', $league_name);
+$page->assign('league_invites', $league_invites);
 
 $page->assign('notice', $notice);
 $page->assign('subtitle', "Create a League");

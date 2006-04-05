@@ -174,6 +174,25 @@ function ball_color($ball) {
   return clean_value($row[0]);
 }
 
+#generate a random string
+function generate_random_string() {
+  $length = 40;
+
+  $charset  = "abcdefghijklmnopqrstuvwxyz";
+  $charset .= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  $charset .= "0123456789";
+
+  $rand_string = "";
+
+  for ($i = 0; $i < $length; $i++) {
+    $index = rand(0, strlen($charset) - 1);
+    
+    $rand_string .= substr($charset, $index, 1);
+  }
+
+  return $rand_string;
+}
+
 #setup the contents of the sidepanel given the type we want to display
 function side_panel($page, $type) {
   $panel_links = array();
