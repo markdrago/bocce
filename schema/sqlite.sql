@@ -41,6 +41,17 @@ CREATE TABLE league_player (
 	dts integer
 );
 
+CREATE TABLE league_player_join_request (
+	id integer PRIMARY KEY,
+	league integer,
+	manager_requested integer,
+	player_exists integer,
+	player_id integer,
+	email VARCHAR(100),
+	random_key VARCHAR(100),
+	dts integer
+);
+
 CREATE TABLE player(
 	id INTEGER PRIMARY KEY,
 	nickname VARCHAR(100),

@@ -61,6 +61,21 @@ CREATE TABLE league_player (
 	dts int default 0
 );
 
+DROP SEQUENCE league_player_join_request_seq;
+CREATE SEQUENCE league_player_join_request_seq INCREMENT BY 1 START WITH 1;
+
+DROP TABLE league_player_join_request;
+CREATE TABLE league_player_join_request (
+	id int(11) NOT NULL default nextval('league_player_join_request') PRIMARY KEY,
+	league int default 0,
+	manager_requested int default 0,
+	player_exists int default 0,
+	player_id int default 0,
+	email varchar(100),
+	random_key varchar(100),
+	dts int default 0
+);
+
 DROP SEQUENCE player_seq;
 CREATE SEQUENCE player_seq INCREMENT BY 1 START WITH 1;
 

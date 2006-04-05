@@ -54,6 +54,19 @@ CREATE TABLE league_player (
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS league_player_join_request;
+CREATE TABLE league_player_join_request (
+	id int(11) NOT NULL auto_increment,
+	league int(11) NOT NULL default '0',
+	manager_requested int(11) NOT NULL default '0',
+	player_exists int(11) NOT NULL default '0',
+	player_id int(11) NOT NULL default '0',
+	email varchar(100) default NULL,
+	random_key varchar(100) default NULL,
+	dts int(11) NOT NULL default '0',
+	PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 DROP TABLE IF EXISTS player;
 CREATE TABLE player (
 	id int(11) NOT NULL auto_increment,
