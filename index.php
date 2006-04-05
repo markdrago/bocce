@@ -20,6 +20,8 @@
 
 require("start.php");
 
+side_panel($page, "NOT_LOGGED_IN");
+
 $page->display('index.tpl');
 
 ?>

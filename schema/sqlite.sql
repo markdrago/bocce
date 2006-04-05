@@ -37,17 +37,16 @@ CREATE TABLE league (
 CREATE TABLE league_player (
 	id integer PRIMARY KEY,
 	league integer,
-	player integer
+	player integer,
+	dts integer
 );
 
 CREATE TABLE player(
 	id INTEGER PRIMARY KEY,
-	username VARCHAR(100),
 	nickname VARCHAR(100),
-	firstname VARCHAR(100),
-	lastname VARCHAR(100),
 	email VARCHAR(100),
-	pass CHAR(40)
+	pass CHAR(40),
+	dts integer
 );
 
 CREATE TABLE point(

@@ -1,15 +1,15 @@
 8
 
 dir
-60
+65
 http://www.markdrago.com/svn/bocce/trunk/schema
 http://www.markdrago.com/svn
 
 
 
-2005-07-04T11:21:12.526253Z
-56
-jeffpc
+2006-04-05T18:41:24.835357Z
+65
+mdrago
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2007-04-28T18:10:55.000000Z
-b0b657fa55ebe8ffd87fa7ebadcdf46f
-2005-07-02T20:20:48.326580Z
-40
-jeffpc
+2007-04-28T18:11:41.000000Z
+195fbb8e526e04c7bb162d379a0f2a47
+2006-04-05T18:41:24.835357Z
+65
+mdrago
 
 mysql.sql
 file
@@ -44,11 +44,11 @@ file
 
 
 
-2007-04-28T18:10:55.000000Z
-5306120782272289f8b4f4675d156725
-2005-07-02T20:20:48.326580Z
-40
-jeffpc
+2007-04-28T18:11:41.000000Z
+5958bbd662a8737edac9e4ee4dfeaf41
+2006-04-05T18:41:24.835357Z
+65
+mdrago
 
 pgsql.sql
 file
@@ -56,11 +56,11 @@ file
 
 
 
-2007-04-28T18:11:27.000000Z
-5a11eb74ad2a067a4e22c1090cabc0b8
-2005-07-04T11:21:12.526253Z
-56
-jeffpc
+2007-04-28T18:11:41.000000Z
+a2221ee892cd954de17dd0cb359adc78
+2006-04-05T18:41:24.835357Z
+65
+mdrago
 
 sample-ball.sql
 file

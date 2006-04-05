@@ -1,6 +1,6 @@
 <?
 /*
- * Copyright (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
+ * Copyright (C) 2006 Mark Drago
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,32 +17,20 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require_once("config.php");
+require("start.php");
 
-/*
- * Start up the session
- */
-session_start();
+#clear the session
+$_SESSION = array();
 
-/*
- * Set up Smarty
- */
-require_once($smarty_dir . "Smarty.class.php");
+#remove the user's cookie
+if (isset($_COOKIE[session_name()])) {
+   setcookie(session_name(), '', time()-42000, '/');
+}
 
-$page = new Smarty;
-$page->template_dir	= $template_dir;
-$page->compile_dir	= $compile_dir;
-$page->config_dir	= $config_dir;
-$page->cache_dir	= $cache_dir;
+#destroy the session
+session_destroy();
 
-/*
- * Set up db
- */
-require_once("db.php");
-
-/*
- * Start up boccelib
- */
-require("boccelib.php");
+#redirect them to the main page
+redirect("index.php");
 
 ?>

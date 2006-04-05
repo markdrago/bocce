@@ -174,4 +174,27 @@ function ball_color($ball) {
   return clean_value($row[0]);
 }
 
+#setup the contents of the sidepanel given the type we want to display
+function side_panel($page, $type) {
+  $panel_links = array();
+
+  switch($type) {
+
+  case "LOGGED_IN":
+    $panel_links["Manage Leagues"] = "manage_leagues.php";
+    $panel_links["Preferences"] = "userprefs.php";
+    $panel_links["Logout"] = "logout.php";
+    break;
+
+  default:
+  case "NOT_LOGGED_IN":
+    $panel_links["Login"] = "login.php";
+    $panel_links["Create an Account"] = "createaccount.php";
+    $panel_links["League Statistics"] = "league_stats.php";
+    break;
+  }
+
+  $page->assign('side_panel_links', $panel_links);
+}
+
 ?>

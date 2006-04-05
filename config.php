@@ -1,8 +1,9 @@
 <?
-$jpgraph_dir = "../jpgraph-1.17beta2";
+#Location of jpgraph
+$jpgraph_dir = "/usr/share/jpgraph/";
 
 # Location of smarty class
-define(SMARTY_DIR,'/usr/share/php/smarty/libs/');
+$smarty_dir = '/usr/share/Smarty/';
 
 # Smarty directories
 $template_dir	= 'templates';
@@ -15,7 +16,7 @@ $cache_dir	= 'cache';
 #	mysql
 #	pgsql
 #	sqlite
-$dbengine = "pgsql";
+$dbengine = "mysql";
 
 # Database file for sqlite (used only if $dbengine is set to sqlite)
 $database_file = "bocce.db";
@@ -23,8 +24,8 @@ $database_file = "bocce.db";
 # Database hostname, username and password (used only if $dbengine is set
 # to mysql or pgsql)
 $database_host = "localhost";
-$database_db   = "officebocce";
-$database_user = "web";
-$database_pass = "web";
+$database_db   = "bocce";
+$database_user = "bocce";
+$database_pass = "bocce";
 
 ?>

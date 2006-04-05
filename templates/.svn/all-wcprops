@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 38
-/svn/!svn/ver/60/bocce/trunk/templates
+/svn/!svn/ver/65/bocce/trunk/templates
 END
 personal.tpl
 K 25
@@ -9,23 +9,29 @@ svn:wc:ra_dav:version-url
 V 51
 /svn/!svn/ver/51/bocce/trunk/templates/personal.tpl
 END
+create_league.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/65/bocce/trunk/templates/create_league.tpl
+END
 addscore-progress.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 60
 /svn/!svn/ver/20/bocce/trunk/templates/addscore-progress.tpl
 END
-allscores.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/20/bocce/trunk/templates/allscores.tpl
-END
 startgame.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/59/bocce/trunk/templates/startgame.tpl
+END
+allscores.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/20/bocce/trunk/templates/allscores.tpl
 END
 header.tpl
 K 25
@@ -45,11 +51,17 @@ svn:wc:ra_dav:version-url
 V 53
 /svn/!svn/ver/59/bocce/trunk/templates/sel_season.tpl
 END
+manage_leagues.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/65/bocce/trunk/templates/manage_leagues.tpl
+END
 footer.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 49
-/svn/!svn/ver/20/bocce/trunk/templates/footer.tpl
+/svn/!svn/ver/65/bocce/trunk/templates/footer.tpl
 END
 flipcoin-results.tpl
 K 25
@@ -61,7 +73,7 @@ sidepanel.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/42/bocce/trunk/templates/sidepanel.tpl
+/svn/!svn/ver/65/bocce/trunk/templates/sidepanel.tpl
 END
 addplayer.tpl
 K 25
@@ -73,13 +85,19 @@ index.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/!svn/ver/60/bocce/trunk/templates/index.tpl
+/svn/!svn/ver/65/bocce/trunk/templates/index.tpl
 END
 flipping.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 51
 /svn/!svn/ver/20/bocce/trunk/templates/flipping.tpl
+END
+login.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/65/bocce/trunk/templates/login.tpl
 END
 flipcoin-ballcolor.tpl
 K 25
@@ -105,6 +123,12 @@ svn:wc:ra_dav:version-url
 V 59
 /svn/!svn/ver/20/bocce/trunk/templates/flipcoin-gofirst.tpl
 END
+userprefs.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/65/bocce/trunk/templates/userprefs.tpl
+END
 choseballs.tpl
 K 25
 svn:wc:ra_dav:version-url
@@ -122,4 +146,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 55
 /svn/!svn/ver/42/bocce/trunk/templates/league_stats.tpl
+END
+createaccount.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/65/bocce/trunk/templates/createaccount.tpl
 END

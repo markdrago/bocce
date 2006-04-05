@@ -1,14 +1,14 @@
 8
 
 dir
-60
+65
 http://www.markdrago.com/svn/bocce/trunk/templates
 http://www.markdrago.com/svn
 
 
 
-2005-09-13T19:49:37.937625Z
-60
+2006-04-05T18:41:24.835357Z
+65
 mdrago
 
 
@@ -38,6 +38,18 @@ file
 51
 jeffpc
 
+create_league.tpl
+file
+
+
+
+
+2007-04-28T18:11:41.000000Z
+0bf538f1a28bd90fed8f60c91e3030c8
+2006-04-05T18:41:24.835357Z
+65
+mdrago
+
 addscore-progress.tpl
 file
 
@@ -46,18 +58,6 @@ file
 
 2007-04-28T18:10:13.000000Z
 18f30d89c68ba369c6e9b18f1c189812
-2005-06-15T22:47:43.795159Z
-20
-mdrago
-
-allscores.tpl
-file
-
-
-
-
-2007-04-28T18:10:13.000000Z
-6f0d4e44623dea0e2498b119c80a2911
 2005-06-15T22:47:43.795159Z
 20
 mdrago
@@ -73,6 +73,18 @@ file
 2005-07-05T22:24:39.360269Z
 59
 jeffpc
+
+allscores.tpl
+file
+
+
+
+
+2007-04-28T18:10:13.000000Z
+6f0d4e44623dea0e2498b119c80a2911
+2005-06-15T22:47:43.795159Z
+20
+mdrago
 
 header.tpl
 file
@@ -110,16 +122,28 @@ file
 59
 jeffpc
 
+manage_leagues.tpl
+file
+
+
+
+
+2007-04-28T18:11:41.000000Z
+cda28db135d4933533aa10317f97ebee
+2006-04-05T18:41:24.835357Z
+65
+mdrago
+
 footer.tpl
 file
 
 
 
 
-2007-04-28T18:10:13.000000Z
-f5c3274cdbeac79c782d67bec994945b
-2005-06-15T22:47:43.795159Z
-20
+2007-04-28T18:11:41.000000Z
+8701faed3f09b35e9350980f419a6fa0
+2006-04-05T18:41:24.835357Z
+65
 mdrago
 
 flipcoin-results.tpl
@@ -140,11 +164,11 @@ file
 
 
 
-2007-04-28T18:10:59.000000Z
-8752dd08f5ebab5c8390eb8e4bb2ddb6
-2005-07-02T21:34:40.628840Z
-42
-jeffpc
+2007-04-28T18:11:41.000000Z
+856261429277c0fd71a226cb6d9ac0d6
+2006-04-05T18:41:24.835357Z
+65
+mdrago
 
 addplayer.tpl
 file
@@ -164,10 +188,10 @@ file
 
 
 
-2007-04-28T18:11:35.000000Z
-ce9fd98ff54a4431cbd742dcba4b2003
-2005-09-13T19:49:37.937625Z
-60
+2007-04-28T18:11:41.000000Z
+3a797e3be4558d38c34036c92e87b396
+2006-04-05T18:41:24.835357Z
+65
 mdrago
 
 flipping.tpl
@@ -180,6 +204,18 @@ file
 eac233303905aaa3946bbccf71a872fa
 2005-06-15T22:47:43.795159Z
 20
+mdrago
+
+login.tpl
+file
+
+
+
+
+2007-04-28T18:11:41.000000Z
+d9f7ce366d3000fea29750803abec9fc
+2006-04-05T18:41:24.835357Z
+65
 mdrago
 
 flipcoin-ballcolor.tpl
@@ -230,6 +266,18 @@ file
 20
 mdrago
 
+userprefs.tpl
+file
+
+
+
+
+2007-04-28T18:11:41.000000Z
+924467d83fc85bef1186ba2a96e85405
+2006-04-05T18:41:24.835357Z
+65
+mdrago
+
 choseballs.tpl
 file
 
@@ -265,4 +313,16 @@ file
 2005-07-02T21:34:40.628840Z
 42
 jeffpc
+
+createaccount.tpl
+file
+
+
+
+
+2007-04-28T18:11:41.000000Z
+019af5e1652cd10aacaa0a3f0ab56d25
+2006-04-05T18:41:24.835357Z
+65
+mdrago
 

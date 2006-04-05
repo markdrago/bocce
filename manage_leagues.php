@@ -1,6 +1,6 @@
 <?
 /*
- * Copyright (C) 2005 Josef "Jeff" Sipek <jeffpc@optonline.net>
+ * Copyright (C) 2006 Mark Drago
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -17,32 +17,13 @@
  *Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require_once("config.php");
+require("start.php");
 
-/*
- * Start up the session
- */
-session_start();
+side_panel($page, "LOGGED_IN");
 
-/*
- * Set up Smarty
- */
-require_once($smarty_dir . "Smarty.class.php");
+$notice = "";
 
-$page = new Smarty;
-$page->template_dir	= $template_dir;
-$page->compile_dir	= $compile_dir;
-$page->config_dir	= $config_dir;
-$page->cache_dir	= $cache_dir;
+$page->assign('notice', $notice);
+$page->assign('subtitle', "Manage Leagues");
 
-/*
- * Set up db
- */
-require_once("db.php");
-
-/*
- * Start up boccelib
- */
-require("boccelib.php");
-
-?>
+$page->display('manage_leagues.tpl');

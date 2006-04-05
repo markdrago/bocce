@@ -57,7 +57,8 @@ DROP TABLE league_player;
 CREATE TABLE league_player (
 	id int NOT NULL default nextval('league_player_seq') PRIMARY KEY,
 	league int,
-	player int
+	player int,
+	dts int default 0
 );
 
 DROP SEQUENCE player_seq;
@@ -66,12 +67,10 @@ CREATE SEQUENCE player_seq INCREMENT BY 1 START WITH 1;
 DROP TABLE player;
 CREATE TABLE player (
 	id int NOT NULL default nextval('player_seq') PRIMARY KEY,
-	username varchar(100),
 	nickname varchar(100),
-	firstname varchar(100),
-	lastname varchar(100),
 	email varchar(100),
-	pass char(40)
+	pass char(40),
+	dts int default 0
 );
 
 DROP SEQUENCE point_seq;

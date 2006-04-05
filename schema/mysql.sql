@@ -1,3 +1,6 @@
+DROP DATABASE IF EXISTS bocce;
+CREATE DATABASE bocce;
+USE bocce;
 DROP TABLE IF EXISTS ball;
 CREATE TABLE ball (
 	id int(11) NOT NULL auto_increment,
@@ -47,18 +50,17 @@ CREATE TABLE league_player (
 	id int(11) NOT NULL auto_increment,
 	league int(11) NOT NULL default '0',
 	player int(11) NOT NULL default '0',
+	dts int(11) NOT NULL default '0',
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS player;
 CREATE TABLE player (
 	id int(11) NOT NULL auto_increment,
-	username varchar(100) default NULL,
 	nickname varchar(100) default NULL,
-	firstname varchar(100) default NULL,
-	lastname varchar(100) default NULL,
 	email varchar(100) default NULL,
 	pass varchar(40) default NULL,
+	dts int(11) NOT NULL default '0',
 	PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
