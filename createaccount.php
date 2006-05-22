@@ -75,8 +75,8 @@ if (isset($_POST["submit"])) {
     db_open();
     $sha1pass = sha1($pass);
     $time = time();
-    $query = "insert into player (email, pass, nickname, dts) values " .
-      "('$email','$sha1pass', '$nick', $time)";
+
+    $query = "insert into player (email, pass, nickname, dts) values ('$email','$sha1pass', '$nick', $time)";
     db_query($query);
 
     #get player id of the player that we just created

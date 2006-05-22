@@ -113,31 +113,22 @@ function redirect($page) {
 function getNames($id1, $id2) {
   db_open();
 
-  $query = "select firstname, lastname from player where id=$id1";
+  $query = "select nickname,email from player where id='$id1'";
   $result = db_query($query);
   $row = db_fetch_array($result);
-  $firstname1 = $row["firstname"];
-  $lastname1 = $row["lastname"];
+  $name1 = $row["nickname"];
+  $email1 = $row['email'];
   
-  $query = "select firstname, lastname from player where id=$id2";
+  $query = "select nickname,email from player where id='$id2'";
   $result = db_query($query);
   $row = db_fetch_array($result);
-  $firstname2 = $row["firstname"];
-  $lastname2 = $row["lastname"];
+  $name2 = $row["nickname"];
+  $email2 = $row['email'];
 
-  if ($firstname1 != $firstname2) {
-    $name1 = $firstname1;
-    $name2 = $firstname2;
-  } else {
-    $initial1 = substr($lastname1,0,1);
-    $initial2 = substr($lastname2,0,1);
-    if ($initial1 != $initial2) {
-      $name1 = $firstname1 . " " . $initial1 . ".";
-      $name2 = $firstname1 . " " . $initial2 . ".";
-    } else {
-      $name1 = $firstname1 . " " . $lastname1;
-      $name2 = $firstname2 . " " . $lastname2;
-    }
+  if ( $name1 == $name2 ) {
+	// replace with email address
+	$name1 = $email1;
+	$name2 = $email2;
   }
   
   db_close();
@@ -147,9 +138,9 @@ function getNames($id1, $id2) {
 
 #get player's name
 function player_name($id) {
-  $result = db_query("select firstname from player where id=$id");
+  $result = db_query("select nickname from player where id='$id'");
   $row = db_fetch_array($result);
-  return clean_value($row["firstname"]);
+  return clean_value($row["nickname"]);
 }
 
 #return the name for the ball type given its integer representation
@@ -169,7 +160,7 @@ function ball_type_name($type) {
 
 #get the string representation of the ball color
 function ball_color($ball) {
-  $result = db_query("select color from ball where id=$ball");
+  $result = db_query("select color from ball where id='$ball'");
   $row = db_fetch_array($result);
   return clean_value($row[0]);
 }
@@ -199,7 +190,12 @@ function side_panel($page, $type) {
 
   switch($type) {
 
+  case "PLAYING_GAME":
+    $panel_links["Cancel Game"] = "index.php";
+    break;
+
   case "LOGGED_IN":
+    $panel_links["Start a Game"] = "startgame.php";
     $panel_links["Manage Leagues"] = "manage_leagues.php";
     $panel_links["Preferences"] = "userprefs.php";
     $panel_links["Logout"] = "logout.php";
@@ -209,6 +205,7 @@ function side_panel($page, $type) {
   case "NOT_LOGGED_IN":
     $panel_links["Login"] = "login.php";
     $panel_links["Create an Account"] = "createaccount.php";
+    $panel_links["Start a Game"] = "startgame.php";
     $panel_links["League Statistics"] = "league_stats.php";
     break;
   }

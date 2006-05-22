@@ -21,14 +21,16 @@
 
 require('start.php');
 
-$uname = "";
+$email = "";
 $titlehint = "";
 $notice = "";
+
+side_panel($page, "PLAYING_GAME");
 
 if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
 	unset($_SESSION);
 	session_destroy();
-	$uname = "";
+	$email = "";
 } elseif (isset($_POST["submit"]) and ($_POST["submit"] == "Login")) {
 	db_open();
 
@@ -38,23 +40,21 @@ if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
 		$player = "player2";
 	}
 
-	$uname = $_POST["uname"];
+	$email = $_POST["email"];
 	$pass = $_POST["pass"];
 
-	//check that username and password were entered
+	//check that username/email and password were entered
 	if ($notice == "") {
-		$requiredarray = array("You must enter a user name."=>$uname,
+		$requiredarray = array("You must enter an email address."=>$email,
 				       "You must enter a password."=>$pass);
 
 		$notice = checkrequired($requiredarray);
 	}
 
-	//check that username and password are of an acceptable length
+	//check that password is an acceptable length
+	// TODO: check email for valid syntax?
 	if ($notice == "") {
-		$lengtharray =array("Your user name must be between " .
-			"3 and 100 characters in length."=>array($uname,3,100),
-			"Your password must be between " .
-			"6 and 100 characters in length."=>array($pass,6,100));
+		$lengtharray = array("Your password must be between 6 and 100 characters in length."=>array($pass,6,100));
 
 		$notice = checklength($lengtharray);
 	}
@@ -62,30 +62,30 @@ if (isset($_POST["submit"]) and ($_POST["submit"] == "Cancel")) {
 	if (isset($_SESSION["player1"]) and ($notice == "")) {
 		$firstID = $_SESSION["player1"];
 
-		$query = "select username from player where id=$firstID";
+		$query = "select email from player where id=$firstID";
 		$result = db_query($query);
 		$row = db_fetch_array($result);
 
 		//make sure the user names are different
-		$notice = checkdifferent($row["username"], $uname, "This user '$uname' has already logged in.");
+		$notice = checkdifferent($row["email"], $email, "The user '$email' has already logged in.");
 		if ($notice != "") {
-			$uname = "";
+			$email = "";
 		}
 	}
 
 	if ($notice == "") {
 		$sha1pass = sha1($pass);
-		$query = "select id from player where username='$uname' and pass='$sha1pass'";
+		$query = "select id from player where email='$email' and pass='$sha1pass'";
 		$result = db_query($query);
 
 		if ($row = db_fetch_array($result)) {
 			$_SESSION[$player] = $row['id'];
-			$titlehint = "($uname's opponent)";
+			$titlehint = "($email's opponent)";
 
 			//clear out username so it doesn't show up in login box
-			$uname = "";
+			$email = "";
 		} else {
-			$notice = "The user name and password that you entered are not correct.<br />Either the user name doesn't exist or you mistyped the password.";
+			$notice = "The email address and password that you entered are not correct.<br />Either that account doesn't exist or you mistyped the password.";
 		}
 	}
 
@@ -109,7 +109,7 @@ if (isset($_SESSION["player1"])) {
 $page->assign('notice', $notice);
 $page->assign('subtitle', "Login $playernum Player");
 $page->assign('subtitlehint', $titlehint);
-$page->assign('uname', $uname);
+$page->assign('email', $email);
 
 $page->display('startgame.tpl');
 

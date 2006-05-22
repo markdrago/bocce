@@ -1,14 +1,14 @@
 8
 
 dir
-67
+72
 http://www.markdrago.com/svn/bocce/trunk/schema
 http://www.markdrago.com/svn
 
 
 
-2006-04-05T18:57:40.774153Z
-66
+2006-05-22T23:48:48.301107Z
+72
 mdrago
 
 
@@ -32,10 +32,10 @@ file
 
 
 
-2007-04-28T18:11:43.000000Z
-41ba539c0d149f318aafe129b1ae505c
-2006-04-05T18:57:40.774153Z
-66
+2007-04-28T18:11:47.000000Z
+c4b757af96f0d07abae6d3f01227e937
+2006-05-22T23:48:48.301107Z
+72
 mdrago
 
 mysql.sql

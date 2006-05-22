@@ -24,7 +24,8 @@ CREATE TABLE game(
 	winner_ball2 CHAR(100),
 	loser_ball1 CHAR(100),
 	loser_ball2 CHAR(100),
-	dts INTEGER
+	dts INTEGER,
+	season INTEGER NOT NULL DEFAULT '0'
 );
 
 CREATE TABLE league (

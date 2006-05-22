@@ -116,7 +116,7 @@ function coinFlipResults() {
 	$_SESSION["acting_player"] = $_SESSION[$coinflip_winner];
 	$_SESSION["coinflip_winner"] = $_SESSION[$coinflip_winner];
 
-	$page->assign('subtitle', player_name($_SESSION["coinflip_winner"]) . " Won the Coin Toss!");
+	$page->assign('subtitle', "<i>" . player_name($_SESSION["coinflip_winner"]) . "</i> Won the Coin Toss!");
   
 	select_balls("I want to choose my balls:");
   
@@ -148,7 +148,7 @@ function nonActingPlayer() {
 }
 
 function get_balls($type) {
-	$query = "select id, color from ball where num=$type order by color";
+	$query = "select id, color from ball where num='$type' order by color";
 	$result = db_query($query);
 
 	$balls = array();

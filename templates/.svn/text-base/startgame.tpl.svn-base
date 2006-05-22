@@ -7,8 +7,8 @@
 <form action="" method="post">
   <div class="labels">
     <div class="label">
-      <div>User Name:</div>
-      <input type="text" maxlength="100" size="25" name="uname" value="{$uname}" />
+      <div>Email Address:</div>
+      <input type="text" maxlength="100" size="25" name="email" value="{$email}" />
     </div>
     <div class="label">
       <div>Password:</div>

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 38
-/svn/!svn/ver/67/bocce/trunk/templates
+/svn/!svn/ver/72/bocce/trunk/templates
 END
 personal.tpl
 K 25
@@ -21,17 +21,17 @@ svn:wc:ra_dav:version-url
 V 60
 /svn/!svn/ver/20/bocce/trunk/templates/addscore-progress.tpl
 END
+startgame.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/72/bocce/trunk/templates/startgame.tpl
+END
 allscores.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/20/bocce/trunk/templates/allscores.tpl
-END
-startgame.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/59/bocce/trunk/templates/startgame.tpl
 END
 header.tpl
 K 25
