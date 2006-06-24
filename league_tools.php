@@ -19,6 +19,45 @@
 
 require_once("boccelib.php");
 
+function leagues_with_player($player_id)
+{
+  $leagues = array();
+  $query = "select league.id, league.name from league, league_player where " .
+    "league_player.player = $player_id and " .
+    "league_player.league = league.id";
+  $result = db_query($query);
+
+  while (($row = db_fetch_array($result)) != NULL) {
+    $id = $row[0];
+    $name = $row[1];
+    
+    #append this league to the leagues array
+    $league = array("id"=>$id,"name"=>$name);
+    $leagues[] = $league;
+  }
+
+  return $leagues;
+}
+
+function leagues_with_manager($player_id)
+{
+  $leagues = array();
+  $query = "select league.id, league.name from league where " .
+    "league.manager = $player_id";
+  $result = db_query($query);
+
+  while (($row = db_fetch_array($result)) != NULL) {
+    $id = $row[0];
+    $name = $row[1];
+    
+    #append this league to the leagues array
+    $league = array("id"=>$id,"name"=>$name);
+    $leagues[] = $league;
+  }
+
+  return $leagues;
+}
+
 function league_invite_players($league_id, $league_invites) {
 
   if ($league_invites == "") {
@@ -26,8 +65,6 @@ function league_invite_players($league_id, $league_invites) {
   }
 
   $email_addrs = explode("\n", $league_invites);
-
-  db_open();
 
   foreach ($email_addrs as $email) {
     #stuff that will be included in the join_request table
@@ -66,7 +103,6 @@ function league_invite_players($league_id, $league_invites) {
 
   }
 
-  db_close();
 }
 
 ?>

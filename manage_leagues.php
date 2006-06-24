@@ -18,10 +18,40 @@
  */
 
 require("start.php");
-
+require("league_tools.php");
 side_panel($page, "LOGGED_IN");
 
 $notice = "";
+
+$player_id = $_SESSION["player_id"];
+
+db_open();
+
+#get a list of leagues that this player manages
+$leagues_managed = leagues_with_manager($player_id);
+if (count($leagues_managed) > 0) {
+  $page->assign('leagues_managed', $leagues_managed);
+}
+
+#get a list of leagues that this player is in
+$leagues = leagues_with_player($player_id);
+if (count($leagues) > 0) {
+  #remove managed leagues from regular leagues
+  foreach ($leagues_managed as $manage_key => $managed_league) {
+    foreach ($leagues as $player_key => $player_league) {
+      if ($managed_league["id"] == $player_league["id"]) {
+	unset($leagues[$player_key]);
+      }
+    }
+  }
+  
+  #if there are still regular leagues left, then add it to the page
+  if (count($leagues) > 0) {
+    $page->assign('leagues', $leagues);
+  }
+}
+
+db_close();
 
 $page->assign('notice', $notice);
 $page->assign('subtitle', "Manage Leagues");

@@ -28,6 +28,7 @@ $player_id = $_SESSION["player_id"];
 
 $league_name = "";
 $league_invites = "";
+$database_is_open = false;
 
 if (isset($_POST["submit"])) {
   $league_name  = $_POST["league_name"];
@@ -48,6 +49,7 @@ if (isset($_POST["submit"])) {
   }
 
   if ($notice == "") {
+    $database_is_open = true;
     db_open();
     
     $query = "select count(*) from league where name='$league_name'";
@@ -57,13 +59,10 @@ if (isset($_POST["submit"])) {
     if ($count > 0) {
       $notice = "A league with this name already exists";
     }
-    db_close();
   }
 
   #if we got here, create the league
   if ($notice == "") {
-    db_open();
-
     $current_time = time();
 
     $query = "insert into league (name, manager, dts) values " .
@@ -81,12 +80,15 @@ if (isset($_POST["submit"])) {
     $query = "insert into league_player (league, player, dts) values " .
       "('$league_id', '$player_id', '$current_time')";
     db_query($query);
-    db_close();
 
     #add the invited players to the league_player_join_request table
     league_invite_players($league_id, $league_invites);
 
     $notice = "The league '$league_name' has been created";
+  }
+
+  if ($database_is_open == true) {
+      db_close();
   }
 }
 

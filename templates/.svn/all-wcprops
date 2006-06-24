@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 38
-/svn/!svn/ver/75/bocce/trunk/templates
+/svn/!svn/ver/76/bocce/trunk/templates
 END
 personal.tpl
 K 25
@@ -21,17 +21,17 @@ svn:wc:ra_dav:version-url
 V 60
 /svn/!svn/ver/20/bocce/trunk/templates/addscore-progress.tpl
 END
-allscores.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/20/bocce/trunk/templates/allscores.tpl
-END
 startgame.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/72/bocce/trunk/templates/startgame.tpl
+END
+allscores.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/20/bocce/trunk/templates/allscores.tpl
 END
 header.tpl
 K 25
@@ -55,7 +55,7 @@ manage_leagues.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 57
-/svn/!svn/ver/65/bocce/trunk/templates/manage_leagues.tpl
+/svn/!svn/ver/76/bocce/trunk/templates/manage_leagues.tpl
 END
 footer.tpl
 K 25
@@ -69,17 +69,17 @@ svn:wc:ra_dav:version-url
 V 59
 /svn/!svn/ver/20/bocce/trunk/templates/flipcoin-results.tpl
 END
-sidepanel.tpl
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/65/bocce/trunk/templates/sidepanel.tpl
-END
 player_home.tpl
 K 25
 svn:wc:ra_dav:version-url
 V 54
 /svn/!svn/ver/75/bocce/trunk/templates/player_home.tpl
+END
+sidepanel.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/65/bocce/trunk/templates/sidepanel.tpl
 END
 addplayer.tpl
 K 25

@@ -19,6 +19,7 @@
 
 require ('start.php');
 require ('statslib.php');
+require ('league_tools.php');
 
 $notice = "";
 
@@ -37,26 +38,20 @@ $join_date = date("F jS, Y", $row[1]);
 
 
 #get data about the leagues the player is in
-$leagues = array();
-$query = "select league.id, league.name from league, league_player where " .
-  "league_player.player = $player_id and " .
-  "league_player.league = league.id";
-$result = db_query($query);
-$got_leagues = false;
-while (($row = db_fetch_array($result)) != NULL) {
-  $id = $row[0];
-  $name = $row[1];
+$leagues = leagues_with_player($player_id);
 
-  #get the player's win percentage in this league
-  $win_percentage = player_overall_win_percentage($player_id, STAT_LEAGUE,$id);
-  $win_percentage = format_percent($win_percentage);
+if (count($leagues) > 0) {
+  foreach($leagues as $key => $league) {
+    #get the player's win percentage in this league
+    $win_percentage = player_overall_win_percentage($player_id,
+						    STAT_LEAGUE,
+						    $league["id"]);
+    $win_percentage = format_percent($win_percentage);
 
-  #append this league to the leagues array
-  $league = array("id"=>$id, "name"=>$name, "win_percentage"=>$win_percentage);
-  $leagues[] = $league;
+    $leagues[$key]["win_percentage"] = $win_percentage;
+  }
 
-  #indicate that we have at least one league
-  $got_leagues = true;
+  $page->assign('leagues', $leagues);
 }
 
 #check to see if the player has been invited to join any leagues
@@ -70,10 +65,6 @@ db_close();
 
 $page->assign('subtitle', $nick);
 $page->assign('join_date', $join_date);
-
-if ($got_leagues == true) {
-  $page->assign('leagues', $leagues);
-}
 
 $page->display('player_home.tpl');
 

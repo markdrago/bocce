@@ -1,14 +1,14 @@
 8
 
 dir
-75
+76
 http://www.markdrago.com/svn/bocce/trunk/templates
 http://www.markdrago.com/svn
 
 
 
-2006-06-24T00:21:06.625490Z
-75
+2006-06-24T18:24:09.524210Z
+76
 mdrago
 
 
@@ -62,18 +62,6 @@ file
 20
 mdrago
 
-startgame.tpl
-file
-
-
-
-
-2007-04-28T18:11:47.000000Z
-3b753b0899790e27fcc136f60fa58081
-2006-05-22T23:48:48.301107Z
-72
-mdrago
-
 allscores.tpl
 file
 
@@ -84,6 +72,18 @@ file
 6f0d4e44623dea0e2498b119c80a2911
 2005-06-15T22:47:43.795159Z
 20
+mdrago
+
+startgame.tpl
+file
+
+
+
+
+2007-04-28T18:11:47.000000Z
+3b753b0899790e27fcc136f60fa58081
+2006-05-22T23:48:48.301107Z
+72
 mdrago
 
 header.tpl
@@ -128,10 +128,10 @@ file
 
 
 
-2007-04-28T18:11:41.000000Z
-cda28db135d4933533aa10317f97ebee
-2006-04-05T18:41:24.835357Z
-65
+2007-04-28T18:11:55.000000Z
+9065d1de2410ed8fdfba1ac8d4e7c3b1
+2006-06-24T18:24:09.524210Z
+76
 mdrago
 
 footer.tpl
@@ -158,18 +158,6 @@ file
 20
 mdrago
 
-sidepanel.tpl
-file
-
-
-
-
-2007-04-28T18:11:41.000000Z
-856261429277c0fd71a226cb6d9ac0d6
-2006-04-05T18:41:24.835357Z
-65
-mdrago
-
 player_home.tpl
 file
 
@@ -180,6 +168,18 @@ file
 2c012fbd6910aa365dfdc8d55b5aff37
 2006-06-24T00:21:06.625490Z
 75
+mdrago
+
+sidepanel.tpl
+file
+
+
+
+
+2007-04-28T18:11:41.000000Z
+856261429277c0fd71a226cb6d9ac0d6
+2006-04-05T18:41:24.835357Z
+65
 mdrago
 
 addplayer.tpl
