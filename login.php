@@ -48,8 +48,8 @@ if (isset($_POST["submit"])) {
       $email = "";
       $pass = "";
 
-      #redirect to userprefs for now
-      redirect("userprefs.php");
+      #redirect to the player's home page
+      redirect("player_home.php");
 
     } else {
       $notice = "The user name and password that you entered are incorrect." .

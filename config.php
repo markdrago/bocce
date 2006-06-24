@@ -3,7 +3,7 @@
 $jpgraph_dir = "/usr/share/jpgraph/";
 
 # Location of smarty class
-$smarty_dir = '/usr/share/Smarty/';
+$smarty_dir = '/usr/share/php/smarty/libs/';
 
 # Smarty directories
 $template_dir	= 'templates';
@@ -25,7 +25,7 @@ $database_file = "bocce.db";
 # to mysql or pgsql)
 $database_host = "localhost";
 $database_db   = "bocce";
-$database_user = "bocce";
-$database_pass = "bocce";
+$database_user = "root";
+$database_pass = "";
 
 ?>

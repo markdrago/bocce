@@ -27,6 +27,11 @@
 //      'egrep ^function statslib.php' works pretty nicely
 
 
+#definitions to destinguish types of stats
+define('STAT_GLOBAL', 0);
+define('STAT_LEAGUE', 1);
+define('STAT_SEASON', 2);
+
 #return an array of all players ids
 function all_players($type, $type_value) {
 	$players = array();

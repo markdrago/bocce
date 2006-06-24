@@ -195,6 +195,7 @@ function side_panel($page, $type) {
     break;
 
   case "LOGGED_IN":
+    $panel_links["Home"] = "player_home.php";
     $panel_links["Start a Game"] = "startgame.php";
     $panel_links["Manage Leagues"] = "manage_leagues.php";
     $panel_links["Preferences"] = "userprefs.php";
@@ -204,7 +205,7 @@ function side_panel($page, $type) {
   default:
   case "NOT_LOGGED_IN":
     $panel_links["Login"] = "login.php";
-    $panel_links["Create an Account"] = "createaccount.php";
+    $panel_links["Create Account"] = "createaccount.php";
     $panel_links["Start a Game"] = "startgame.php";
     $panel_links["League Statistics"] = "league_stats.php";
     break;

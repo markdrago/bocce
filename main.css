@@ -4,18 +4,18 @@ body {
 }
 
 /* just the main output area */
-#wrapper {
+div#wrapper {
 }
 
 /* the header */
-#header {
+div#header {
 	background-color: #6495ED;
 	border: 1px solid #000000;
 	margin: 0px;
 }
 
 /* the title, part of the header */
-#title {
+span#title {
 	color: #191970;
 	font-size: xx-large;
 	font-weight: bold;
@@ -25,7 +25,7 @@ body {
 }
 
 /* sidepanel */
-#sidepanel {
+div#sidepanel {
 	width: 180px;
 	border: 1px solid #000000;
 	background-color: #6495ED;
@@ -43,7 +43,7 @@ body {
 }*/
 
 /* sidepanel list style */
-#sp-buttons ul {
+div#sp-buttons ul {
 	list-style: none;
 	margin: 0px;
 	padding: 0px;
@@ -51,18 +51,18 @@ body {
 }
 
 /* sidepanel list item */
-#sp-buttons li {
+div#sp-buttons li {
 	border-bottom: 1px solid #90BADE;
 	margin: 0px;
 }
 
 /* sidepanel last list item */
-#sp-buttons li.last {
+div#sp-buttons li.last {
 	border-bottom: none;
 }
 
 /* nice sidepanel links */
-#sp-buttons a {
+div#sp-buttons a {
 	display: block;
 	padding: 5px 15px 5px 15px;
 	color: #191970;
@@ -70,34 +70,34 @@ body {
 }
 
 /* javascript is dead! */
-#sp-buttons a:hover {
+div#sp-buttons a:hover {
 	background-color: #00008B;
 	color: #ffffff;
 }
 
 /* the content pane */
-#content {
+div#content {
 	margin-left: 200px;
 	margin-top: 10px;
 	width: auto;
 }
 
 /* paragraph style */
-#content p {
+div#content p {
 	margin: 1em 3em 1em 3em;
 }
 
 /* subtitle */
-#subtitle {
+div#subtitle {
 }
 
 /* subtitle - the text */
-#subtitle h1 {
+div#subtitle h1 {
 	margin: 0px;
 	//margin-bottom: 10pt;
 }
 
-#subtitlehint {
+div#subtitlehint {
 	padding-left: 10px;
 	font-size: small;
 	font-weight: normal;
@@ -117,7 +117,7 @@ table.score td {
 	border: 0px;
 }
 
-#labels {
+div#labels {
 	margin-top: 5px;
 }
 
@@ -130,7 +130,7 @@ div.submit {
 	padding-left: 10.5em;
 }
 
-#notice {
+div#notice {
 	margin-top: 10px;
 	color: red;
 	text-align: center;
@@ -178,10 +178,40 @@ th, td {
 	padding: 5px;
 }
 
-#copyright {
+div#copyright {
 	border: none;
 	text-align: center;
 	font-size: 10pt;
 	color: #AAAAAA;
 	margin-top: 1em;
+}
+
+
+/* created for player_home */
+div#league_label,
+div#request_label {
+  margin-left: 1.5em;
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+div#leagues,
+div#request {
+  margin-left: 2em;
+  margin-bottom: 1em;
+}
+
+div#leagues table,
+div#leagues table td,
+div#leagues table th {
+  font-size: small;
+  padding: .25em;
+}
+
+div#member_since {
+  margin-left: 1.5em;
+}
+
+span.label {
+  font-weight: bold;
 }
