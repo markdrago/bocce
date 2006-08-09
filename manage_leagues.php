@@ -57,3 +57,5 @@ $page->assign('notice', $notice);
 $page->assign('subtitle', "Manage Leagues");
 
 $page->display('manage_leagues.tpl');
+
+?>
