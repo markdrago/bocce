@@ -84,6 +84,19 @@ function db_num_rows($result)
 	return mysql_num_rows($result);
 }
 
+function db_begin()
+{
+}
+
+function db_commit()
+{
+}
+
+function db_rollback()
+{
+	echo "<b>Rollback in MySQL not currently supported!</b>";
+}
+
 function checkForDB()
 {
 }
