@@ -1,6 +1,6 @@
 <?
 /*
- * Copyright (C) 2005 Josef "Jeff" Sipek <jeffpc@josefsipek.net>
+ * Copyright (C) 2005, 2006 Josef "Jeff" Sipek <jeffpc@josefsipek.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -28,6 +28,9 @@ function db_open()
 	global $database_file;
 	global $db;
 	global $open_count;
+	global $db_stats;
+
+	$db_stats["open"]++;
 	
 	$open_count++;
 	if ($open_count!=1)
@@ -40,6 +43,9 @@ function db_close()
 {
 	global $db;
 	global $open_count;
+	global $db_stats;
+
+	$db_stats["close"]++;
 	
 	$open_count--;
 	if ($open_count>0)
@@ -53,6 +59,9 @@ function db_query($sql)
 {
 	global $db;
 	global $open_count;
+	global $db_stats;
+
+	$db_stats["query"]++;
 	
 	$result = sqlite_query($db,$sql);
 	if ($result===false) {
@@ -83,25 +92,41 @@ function db_num_rows($result)
 
 function db_begin()
 {
+	global $db_stats;
+
+	$db_stats["begin"]++;
+
 	db_query("BEGIN;");
 }
 
 function db_commit()
 {
+	global $db_stats;
+
+	$db_stats["commit"]++;
+
 	db_query("COMMIT;");
 }
 
 function db_rollback()
 {
+	global $db_stats;
+
+	$db_stats["rollback"]++;
+
 	db_query("ROLLBACK;");
 }
 
 function checkForDB() {
-  global $database_file;
-  global $schema_file;
-  if (!file_exists($database_file)) {
-    system("sqlite $database_file < $schema_file");
-  }
+	global $database_file;
+	global $schema_file;
+	global $db_stats;
+
+	$db_stats["checkfordb"]++;
+
+	if (!file_exists($database_file)) {
+		system("sqlite $database_file < $schema_file");
+	}
 }
 
 ?>

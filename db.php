@@ -1,6 +1,6 @@
 <?
 /*
- * Copyright (C) 2005 Josef "Jeff" Sipek <jeffpc@josefsipek.net>
+ * Copyright (C) 2005, 2006 Josef "Jeff" Sipek <jeffpc@josefsipek.net>
  *
  *This program is free software; you can redistribute it and/or modify
  *it under the terms of the GNU General Public License as published by
@@ -19,6 +19,18 @@
 
 require_once "consts.php";
 
+$db_stats = array("open" => 0, "close" => 0,
+		  "query" => 0,
+		  "begin" => 0, "commit" => 0, "rollback" => 0,
+		  "checkfordb" => 0);
+
 require_once "db_$dbengine.php";
+
+function db_dump_stats()
+{
+	global $db_stats;
+
+	echo $db_stats;
+}
 
 ?>
