@@ -87,6 +87,21 @@ function db_num_rows($result)
 	return pg_num_rows($result);
 }
 
+function db_begin()
+{
+	db_query("BEGIN;");
+}
+
+function db_commit()
+{
+	db_query("COMMIT;");
+}
+
+function db_rollback()
+{
+	db_query("ROLLBACK;");
+}
+
 function checkForDB()
 {
 }
